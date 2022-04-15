@@ -1,0 +1,36 @@
+Text to Morse Code Converter
+-Look over code
+-Error management
+-UI
+-More interactive
+-Proper word wrap
+-Art
+
+Tic Tac Toe
+-Look over code
+-Error management
+-UI
+-Art
+
+Image Watermarking App
+-Look over code
+-Error management
+-Assure image quality
+-Better layout
+-Art
+
+Typing Speed Test
+-Look over code
+-Adjust scoring code
+-Error management
+-Look over layout
+-Art
+
+TODO List
+-Look over code
+-Website to UI
+-Database to hold tasks
+-Error management
+-Art
+
+
