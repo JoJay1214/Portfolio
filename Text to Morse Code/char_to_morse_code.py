@@ -4,7 +4,7 @@ file:   char_to_morse_code.py
 author: Joshua Jacobs
 date:   3/7/2022
 brief:  Create a CharToMorseCodeTranslator object and use it to translate strings into
-        Morse Code. Supports the characters A-Z, a-z, and 0-9.
+        Morse Code. Handles symbol characters, but does not translate them.
 
 references:
 - Morse Code
@@ -73,7 +73,7 @@ class CharToMorseCodeTranslator:
     __WORD_SPACE = " " * 7  # Spacing between words in Morse Code
 
     """
-    METHODS
+    PUBLIC METHODS
     """
 
     def translate(self, str_to_trans: str):
@@ -82,15 +82,22 @@ class CharToMorseCodeTranslator:
         :param str_to_trans: The string to be translated.
         :return: The string in Morse Code.
         """
-        str_upper_and_split = str_to_trans.upper().split(" ")  # Uppercase everything, Separate any words
+        # Cast to upper for conversion and remove symbols
+        str_no_symbols = self.__remove_symbols(str_to_trans.upper())
+
+        words = str_no_symbols.split()  # Separate words
         morse_code_strs = []  # Holds words translated into Morse Code
 
-        for word in str_upper_and_split:
+        for word in words:
             # Append word in Morse Code
             morse_code_strs.append(self.__word_to_morse_code(word))
 
         # Join all words by proper Morse Code word spacing
         return self.__WORD_SPACE.join(morse_code_strs)
+
+    """
+    PRIVATE METHODS
+    """
 
     def __word_to_morse_code(self, word):
         """
@@ -109,3 +116,17 @@ class CharToMorseCodeTranslator:
             word_morse_code += self.__ALPHA_TO_MORSE_CODE[letter]
 
         return word_morse_code
+
+    def __remove_symbols(self, str_with_sym: str):
+        """
+        Removes any characters that are not found in the ALPHA_TO_MORSE dictionary
+        :param str_with_sym: Original string, possibly contains symbols
+        :return: The string stripped of any symbols
+        """
+        str_no_sym = str_with_sym
+
+        for char in str_with_sym:
+            if (char not in self.__ALPHA_TO_MORSE_CODE.keys()) and (not char == " "):
+                str_no_sym = str_no_sym.replace(char, "")
+
+        return str_no_sym
