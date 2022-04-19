@@ -1,12 +1,5 @@
 Text to Morse Code Converter
--Look over code
--Error management
-  +Fixed up main
-  +Handle symbols bug fix
-  +Handle any amount of whitespace bug fix
--UI
--More interactive
--Proper word wrap
+-Play sound?
 -Look over code one last time
 -Art
 
