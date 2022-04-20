@@ -6,9 +6,9 @@ date:   4/17/2022
 brief:  TKinter based User Interface to connect a CharToMorseCodeTranslator to.
 
 """
-import tkinter
-from tkinter import Tk, Label, Text, Scrollbar, Frame, Entry, WORD, END, NONE
-from char_to_morse_code import CharToMorseCodeTranslator
+from tkinter import Tk, Label, Text, Scrollbar, Frame, Button, WORD, END, NONE
+from char_to_morse_code import CharToMorseCodeTranslator, DIT, DAH
+from winsound import Beep
 
 
 class MorseCodeUI:
@@ -16,19 +16,25 @@ class MorseCodeUI:
     __TITLE_MC_FONT = ("Arial", 18, "bold")
     __ENTRY_FONT = ("Arial", 16)
     __MORSE_CODE_FONT = ("Arial", 16, "bold")
+    __BUTTON_FONT = ("Arial", 18, "bold")
 
-    __MS_TIL_TRANSLATE = 100
+    __MS_TIL_TRANSLATE = 200
+
+    __BEEP_FREQ = 500
+    __DIT_BEEP_LENGTH_MS = 100
 
     def __init__(self, translator: CharToMorseCodeTranslator):
         # Translator
         self.__translator = translator
+        self.__timer = None
 
         # Window
         self.__window = Tk()
         self.__window.title("Text to Morse Code")
         self.__window.config(
             padx=50,
-            pady=20
+            pady=20,
+            bg="#CCCCCC"
         )
 
         # Title
@@ -116,12 +122,41 @@ class MorseCodeUI:
             xscrollcommand=morse_code_scrollbar.set
         )
 
+        # Play Button
+        self.__play_button = Button(
+            text="Play",
+            command=self.__toggle_play_stop,
+            font=self.__BUTTON_FONT,
+            width=10
+        )
+        self.__play_button.grid(
+            column=0,
+            row=4
+        )
+
         # Run Window
-        self.__window.after(self.__MS_TIL_TRANSLATE, self.translate_text_in_box)
+        self.__window.after(self.__MS_TIL_TRANSLATE, self.__translate_text_in_box)
         self.__window.mainloop()
 
-    def translate_text_in_box(self):
+    def __toggle_play_stop(self):
+        if not self.__timer:
+            self.__play_morse_code(0)
+        else:
+            self.__window.after_cancel(self.__timer)
+            self.__timer = None
+
+    def __translate_text_in_box(self):
         translated_text = self.__translator.translate(self.__text_entry.get("1.0", END))
         self.__morse_code_output_text.delete("1.0", END)
         self.__morse_code_output_text.insert("1.0", translated_text)
-        self.__window.after(self.__MS_TIL_TRANSLATE, self.translate_text_in_box)
+        self.__window.after(self.__MS_TIL_TRANSLATE, self.__translate_text_in_box)
+
+    def __play_morse_code(self, interval: int):
+        morse_code_text = self.__morse_code_output_text.get("1.0", END)
+
+        if interval < len(morse_code_text):
+            if morse_code_text[interval] == DIT:
+                Beep(self.__BEEP_FREQ, self.__DIT_BEEP_LENGTH_MS)
+            elif morse_code_text[interval] == DAH:
+                Beep(self.__BEEP_FREQ, self.__DIT_BEEP_LENGTH_MS * 3)
+            self.__timer = self.__window.after(self.__DIT_BEEP_LENGTH_MS, self.__play_morse_code, interval + 1)

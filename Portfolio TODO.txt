@@ -1,5 +1,6 @@
 Text to Morse Code Converter
--Play sound?
+-System sound or played sound
+-Highlight/scroll on read
 -Look over code one last time
 -Art
 
