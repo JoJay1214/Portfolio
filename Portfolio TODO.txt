@@ -2,7 +2,6 @@ Text to Morse Code Converter
 -System sound or played sound
 -Highlight/scroll on read
 -Look over code one last time
--Art
 
 Tic Tac Toe
 -Look over code
