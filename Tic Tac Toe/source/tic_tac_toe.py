@@ -20,7 +20,14 @@ class TicTacToe:
         ]
         self.__markers = ['X', 'O']
         self.__players = []
+        self.__current_player = 0
         self.__is_playing = True
+
+    def get_board(self) -> list:
+        return self.__board
+
+    def get_current_player_marker(self) -> str:
+        return self.__players[self.__current_player]
 
     def play(self):
         self.assign_markers()
