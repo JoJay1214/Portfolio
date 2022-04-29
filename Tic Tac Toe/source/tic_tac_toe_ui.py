@@ -12,18 +12,24 @@ class TicTacToeUI:
     """
     CONSTANTS
     """
-    __WINDOW_BG_COLOR = "#CCCCCC"
+    __RESET_TIME = 3000
+
     __FRAME_BG_COLOR = "#000000"
 
     __TITLE_FONT = ("Arial", 64, "bold")
     __BUTTON_FONT = ("Arial", 40, "bold")
     __GAME_TEXT_FONT = ("Arial", 40, "bold")
 
+    __WINDOW_PAD = 20
     __BUTTON_PAD = 5
 
+    __WIN_START_POS = (350, 50)
+
+    """
+    CONSTRUCTOR
+    """
     def __init__(self, game: TicTacToe):
         self.__game = game
-        self.__game.assign_markers()
 
         self.__window = self.__config_window()
         self.__button_board = self.__config_button_board()
@@ -31,6 +37,9 @@ class TicTacToeUI:
 
         self.__window.mainloop()
 
+    """
+    PRIVATE METHODS
+    """
     def __update_button_board(self):
         board = self.__game.get_board()
 
@@ -40,18 +49,51 @@ class TicTacToeUI:
                     text=board[row][col],
                 )
 
-    def __fill_space_on_board(self, space: Button):
-        space.config(
-            text=f"{self.__game.get_current_player_marker()}",
-            state="disabled",
+    def __click_game_space(self, row, col):
+        if self.__game.is_playing():
+            self.__fill_space_on_board(row, col)
+
+    def __fill_space_on_board(self, row, col):
+        if self.__game.place_marker(self.__game.get_current_player_marker(), row, col):
+            self.__update_button_board()
+            self.__check_board()
+
+    def __check_board(self):
+        if self.__game.check_for_winner(self.__game.get_current_player_marker()):
+            self.__end_game(f"{self.__game.get_current_player_marker()}'s Win!")
+        else:
+            if self.__game.is_board_filled():
+                self.__end_game("DRAW!")
+            else:
+                self.__game.change_player()
+                self.__game_text.config(
+                    text=f"{self.__game.get_current_player_marker()}'s Turn",
+                )
+
+    def __end_game(self, end_txt: str):
+        self.__game_text.config(
+            text=end_txt,
+        )
+        self.__window.after(self.__RESET_TIME, self.__reset_game)
+
+    def __reset_game(self):
+        self.__game.reset_game()
+        self.__update_button_board()
+        self.__game_text.config(
+            text=f"{self.__game.get_current_player_marker()}'s Turn",
         )
 
+    """
+    UI Configuration
+    """
     def __config_window(self) -> Tk:
         window = Tk()
         window.title("Tic Tac Toe")
         window.config(
-            bg=self.__WINDOW_BG_COLOR,
+            padx=self.__WINDOW_PAD,
+            pady=self.__WINDOW_PAD,
         )
+        window.geometry(f"+{self.__WIN_START_POS[0]}+{self.__WIN_START_POS[1]}")
 
         title_label = Label(
             text="Tic Tac Toe",
@@ -89,7 +131,7 @@ class TicTacToeUI:
                     width=3,
                 )
                 button.config(
-                    command=lambda btn_arg=button: self.__fill_space_on_board(btn_arg),
+                    command=lambda r=row, c=col: self.__click_game_space(r, c),
                 )
                 button.grid(
                     column=col,
