@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/image-watermarking-desktop-app.iml" filepath="$PROJECT_DIR$/.idea/image-watermarking-desktop-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Image Watermarking App.iml" filepath="$PROJECT_DIR$/.idea/Image Watermarking App.iml" />
     </modules>
   </component>
 </project>
