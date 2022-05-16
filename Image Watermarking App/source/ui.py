@@ -40,10 +40,12 @@ class ImageWatermarkingUI:
 
         self.__orig_img_canvas = None  # canvas that displays original image
         self.__wm_img_canvas = None    # canvas that displays the watermarked image
-        self.__orig_img_item = None    # original image
-        self.__wm_img_item = None      # watermarked image
-        self.__orig_img = None
-        self.__wm_img = None
+        self.__orig_img_item = None
+        self.__wm_img_item = None
+
+        self.__orig_img = None        # original Image
+        self.__img_resized = None     # resized ImageTk for canvas
+        self.__img_wm_resized = None  # resized watermarked ImageTk for canvas
 
         self.__watermark_entry = None  # watermark text entry
         self.__browse_entry = None     # file path text entry
@@ -77,28 +79,32 @@ class ImageWatermarkingUI:
             self.__browse_entry.delete(0, END)
             self.__browse_entry.insert(0, filepath)
             self.__browse_entry.config(state="disabled")
+
+            self.__orig_img = self.__watermark.get_image(self.__browse_entry.get())
             self.__display_images()
 
     def __display_images(self):
-        self.__watermark.load_image(self.__browse_entry.get())
-
-        img = self.__watermark.get_image()
-        wm_img = self.__watermark.watermark_image(img, self.__watermark_entry.get())
+        img = self.__orig_img
 
         resized_img = self.__watermark.resize_image(img, self.__CANVAS_WIDTH, self.__CANVAS_HEIGHT)
+
+        wm_img = self.__watermark.watermark_image(img, self.__watermark_entry.get())
         resized_wm_img = self.__watermark.resize_image(wm_img, self.__CANVAS_WIDTH, self.__CANVAS_HEIGHT)
 
-        self.__orig_img = ImageTk.PhotoImage(resized_img)
-        self.__wm_img = ImageTk.PhotoImage(resized_wm_img)
+        self.__img_resized = ImageTk.PhotoImage(resized_img)
+        self.__img_wm_resized = ImageTk.PhotoImage(resized_wm_img)
 
+        self.__update_canvas_items()
+
+    def __update_canvas_items(self):
         if self.__orig_img_item and self.__wm_img_item:
             self.__orig_img_canvas.itemconfig(
                 self.__orig_img_item,
-                image=self.__orig_img,
+                image=self.__img_resized,
             )
             self.__wm_img_canvas.itemconfig(
                 self.__wm_img_item,
-                image=self.__wm_img,
+                image=self.__img_wm_resized,
             )
 
         else:
@@ -106,13 +112,13 @@ class ImageWatermarkingUI:
                 self.__CANVAS_WIDTH / 2,
                 self.__CANVAS_HEIGHT / 2,
                 anchor="center",
-                image=self.__orig_img,
+                image=self.__img_resized,
             )
             self.__wm_img_item = self.__wm_img_canvas.create_image(
                 self.__CANVAS_WIDTH / 2,
                 self.__CANVAS_HEIGHT / 2,
                 anchor="center",
-                image=self.__wm_img,
+                image=self.__img_wm_resized,
             )
 
     """
@@ -214,7 +220,10 @@ class ImageWatermarkingUI:
         """
         self.__submit_button = Button(
             text="Save Watermarked Copy",
-            command=lambda: self.__watermark.save_image(self.__watermark.watermark_image(self.__watermark.get_image(), self.__watermark_entry.get()))
+            command=lambda: self.__watermark.save_image(
+                self.__watermark.watermark_image(self.__orig_img, self.__watermark_entry.get()),
+                self.__browse_entry.get()
+            )
         )
 
         self.__submit_button.grid(
