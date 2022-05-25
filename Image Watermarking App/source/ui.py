@@ -6,7 +6,7 @@ date:   3/11/2022
 brief:  TKinter GUI to give interactivity between the user and the Watermark program.
 
 """
-from tkinter import Tk, Canvas, Label, Button, Entry, filedialog, END
+from tkinter import Tk, Canvas, Label, Button, Entry, Scale, filedialog, END, HORIZONTAL
 from PIL import ImageTk
 from source.watermark import Watermark
 
@@ -66,12 +66,15 @@ class ImageWatermarkingUI:
         self.__browse_entry = None     # file path text entry
         self.__watermark_entry = None  # watermark text entry
 
+        self.__font_scale = None       # Scale to adjust watermark font size
+
         # Create UI
         self.__config_window()
         self.__create_image_canvases()
         self.__create_browse_file_section()
         self.__create_text_watermark_section()
         self.__create_save_btn_section()
+        self.__create_watermark_settings_section()
 
         self.__window.mainloop()
 
@@ -108,15 +111,20 @@ class ImageWatermarkingUI:
         self.__browse_entry.insert(0, filepath)
         self.__browse_entry.config(state="disabled")
 
-    def __update_canvas_images(self):
+    def __update_canvas_images(self, _=None):
         """
         Update the resized images on the canvases to shadow the current image
+        :param _: Placeholder for any TK Events that may occur
         """
 
         if self.__orig_img:
             resized_img = self.__watermark.resize_image(self.__orig_img, self.__CANVAS_WIDTH, self.__CANVAS_HEIGHT)
 
-            wm_img = self.__watermark.watermark_image(self.__orig_img, self.__watermark_entry.get())
+            wm_img = self.__watermark.watermark_image(
+                image=self.__orig_img,
+                watermark=self.__watermark_entry.get(),
+                font_size=self.__font_scale.get()
+            )
             resized_wm_img = self.__watermark.resize_image(wm_img, self.__CANVAS_WIDTH, self.__CANVAS_HEIGHT)
 
             self.__img_resized = ImageTk.PhotoImage(resized_img)
@@ -168,7 +176,11 @@ class ImageWatermarkingUI:
             if filepath:
                 self.__update_canvas_images()
                 self.__watermark.save_image(
-                    self.__watermark.watermark_image(self.__orig_img, self.__watermark_entry.get()),
+                    self.__watermark.watermark_image(
+                        image=self.__orig_img,
+                        watermark=self.__watermark_entry.get(),
+                        font_size=self.__font_scale.get(),
+                    ),
                     filepath
                 )
 
@@ -231,18 +243,17 @@ class ImageWatermarkingUI:
         )
 
         browse_label.grid(
-            column=1,
+            column=0,
             row=1,
-            sticky="E",
+            sticky="W",
         )
         self.__browse_entry.grid(
-            column=2,
+            column=1,
             row=1,
-            columnspan=2,
             sticky="EW",
         )
         __browse_button.grid(
-            column=4,
+            column=2,
             row=1,
             sticky="EW",
         )
@@ -263,18 +274,17 @@ class ImageWatermarkingUI:
         )
 
         watermark_label.grid(
-            column=1,
+            column=0,
             row=2,
-            sticky="E",
+            sticky="W",
         )
         self.__watermark_entry.grid(
-            column=2,
+            column=1,
             row=2,
-            columnspan=2,
             sticky="EW",
         )
         watermark_button.grid(
-            column=4,
+            column=2,
             row=2,
             sticky="EW",
         )
@@ -293,4 +303,21 @@ class ImageWatermarkingUI:
             column=2,
             row=3,
             columnspan=2,
+        )
+
+    def __create_watermark_settings_section(self):
+        self.__font_scale = Scale(
+            from_=1,
+            to=200,
+            orient=HORIZONTAL,
+            command=self.__update_canvas_images,
+        )
+
+        self.__font_scale.set(50)
+
+        self.__font_scale.grid(
+            row=1,
+            column=3,
+            columnspan=3,
+            sticky="EW"
         )
