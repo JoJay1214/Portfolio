@@ -44,12 +44,13 @@ class Watermark:
         return None
 
     @staticmethod
-    def watermark_image(image: Image, watermark: str, font_size: int) -> Image:
+    def watermark_image(image: Image, watermark: str, font_size: int, color: tuple) -> Image:
         """
         Get a copy of an image with a watermark on it
         :param image: The image to watermark
         :param watermark: The text to watermark the image
         :param font_size: The size of the watermark text font
+        :param color: The color of the watermark font
         :return: The watermarked image
         """
         alpha_txt = Image.new('RGBA', image.size, (255, 255, 255, 0))
@@ -57,7 +58,7 @@ class Watermark:
         font = ImageFont.truetype(Watermark.__FONT, font_size)
         draw = ImageDraw.Draw(alpha_txt)
 
-        draw.text(Watermark.__POS, watermark, Watermark.__COLOR, font=font)
+        draw.text(Watermark.__POS, watermark, color, font=font)
         watermarked_image = Image.alpha_composite(image.copy().convert('RGBA'), alpha_txt)
 
         return watermarked_image

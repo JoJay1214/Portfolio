@@ -66,7 +66,8 @@ class ImageWatermarkingUI:
         self.__browse_entry = None     # file path text entry
         self.__watermark_entry = None  # watermark text entry
 
-        self.__font_scale = None       # Scale to adjust watermark font size
+        self.__font_scale = None       # scale to adjust watermark font size
+        self.__alpha_scale = None      # scale to adjust watermark transparency
 
         # Create UI
         self.__config_window()
@@ -123,7 +124,8 @@ class ImageWatermarkingUI:
             wm_img = self.__watermark.watermark_image(
                 image=self.__orig_img,
                 watermark=self.__watermark_entry.get(),
-                font_size=self.__font_scale.get()
+                font_size=self.__font_scale.get(),
+                color=(255, 255, 255, self.__alpha_scale.get()),
             )
             resized_wm_img = self.__watermark.resize_image(wm_img, self.__CANVAS_WIDTH, self.__CANVAS_HEIGHT)
 
@@ -180,6 +182,7 @@ class ImageWatermarkingUI:
                         image=self.__orig_img,
                         watermark=self.__watermark_entry.get(),
                         font_size=self.__font_scale.get(),
+                        color=(255, 255, 255, self.__alpha_scale.get()),
                     ),
                     filepath
                 )
@@ -303,6 +306,7 @@ class ImageWatermarkingUI:
             column=2,
             row=3,
             columnspan=2,
+
         )
 
     def __create_watermark_settings_section(self):
@@ -312,12 +316,25 @@ class ImageWatermarkingUI:
             orient=HORIZONTAL,
             command=self.__update_canvas_images,
         )
+        self.__alpha_scale = Scale(
+            from_=0,
+            to=255,
+            orient=HORIZONTAL,
+            command=self.__update_canvas_images,
+        )
 
         self.__font_scale.set(50)
+        self.__alpha_scale.set(127)
 
         self.__font_scale.grid(
             row=1,
             column=3,
             columnspan=3,
             sticky="EW"
+        )
+        self.__alpha_scale.grid(
+            row=2,
+            column=3,
+            columnspan=3,
+            sticky="EW",
         )
