@@ -66,8 +66,10 @@ class ImageWatermarkingUI:
         self.__browse_entry = None     # file path text entry
         self.__watermark_entry = None  # watermark text entry
 
-        self.__font_scale = None       # scale to adjust watermark font size
-        self.__alpha_scale = None      # scale to adjust watermark transparency
+        self.__font_size_scale = None  # slider to adjust watermark font size
+        self.__alpha_scale = None      # slider to adjust watermark transparency
+        self.__x_pos_scale = None      # slider to adjust watermark horizontal position
+        self.__y_pos_scale = None      # slider to adjust watermark vertical position
 
         # Create UI
         self.__config_window()
@@ -76,6 +78,7 @@ class ImageWatermarkingUI:
         self.__create_text_watermark_section()
         self.__create_save_btn_section()
         self.__create_watermark_settings_section()
+        self.__create_watermark_position_section()
 
         self.__window.mainloop()
 
@@ -100,6 +103,7 @@ class ImageWatermarkingUI:
 
             self.__orig_img = self.__watermark.get_image(self.__browse_entry.get())
             self.__update_canvas_images()
+            self.__update_position_scales()
 
     def __update_browse_entry(self, filepath: str):
         """
@@ -124,8 +128,9 @@ class ImageWatermarkingUI:
             wm_img = self.__watermark.watermark_image(
                 image=self.__orig_img,
                 watermark=self.__watermark_entry.get(),
-                font_size=self.__font_scale.get(),
+                font_size=self.__font_size_scale.get(),
                 color=(255, 255, 255, self.__alpha_scale.get()),
+                pos=(self.__x_pos_scale.get(), self.__y_pos_scale.get()),
             )
             resized_wm_img = self.__watermark.resize_image(wm_img, self.__CANVAS_WIDTH, self.__CANVAS_HEIGHT)
 
@@ -133,6 +138,18 @@ class ImageWatermarkingUI:
             self.__img_wm_resized = ImageTk.PhotoImage(resized_wm_img)
 
             self.__update_canvas_items()
+
+    def __update_position_scales(self):
+        if self.__orig_img:
+            self.__x_pos_scale.set(0)
+            self.__y_pos_scale.set(0)
+
+            self.__x_pos_scale.config(
+                to=self.__orig_img.width,
+            )
+            self.__y_pos_scale.config(
+                to=self.__orig_img.height,
+            )
 
     def __update_canvas_items(self):
         """
@@ -181,8 +198,9 @@ class ImageWatermarkingUI:
                     self.__watermark.watermark_image(
                         image=self.__orig_img,
                         watermark=self.__watermark_entry.get(),
-                        font_size=self.__font_scale.get(),
+                        font_size=self.__font_size_scale.get(),
                         color=(255, 255, 255, self.__alpha_scale.get()),
+                        pos=(self.__x_pos_scale.get(), self.__y_pos_scale.get()),
                     ),
                     filepath
                 )
@@ -304,13 +322,13 @@ class ImageWatermarkingUI:
 
         __save_button.grid(
             column=2,
-            row=3,
+            row=5,
             columnspan=2,
 
         )
 
     def __create_watermark_settings_section(self):
-        self.__font_scale = Scale(
+        self.__font_size_scale = Scale(
             from_=1,
             to=200,
             orient=HORIZONTAL,
@@ -323,10 +341,10 @@ class ImageWatermarkingUI:
             command=self.__update_canvas_images,
         )
 
-        self.__font_scale.set(50)
+        self.__font_size_scale.set(50)
         self.__alpha_scale.set(127)
 
-        self.__font_scale.grid(
+        self.__font_size_scale.grid(
             row=1,
             column=3,
             columnspan=3,
@@ -334,6 +352,36 @@ class ImageWatermarkingUI:
         )
         self.__alpha_scale.grid(
             row=2,
+            column=3,
+            columnspan=3,
+            sticky="EW",
+        )
+
+    def __create_watermark_position_section(self):
+        self.__x_pos_scale = Scale(
+            from_=0,
+            to=0,
+            orient=HORIZONTAL,
+            command=self.__update_canvas_images,
+        )
+        self.__y_pos_scale = Scale(
+            from_=0,
+            to=0,
+            orient=HORIZONTAL,
+            command=self.__update_canvas_images,
+        )
+
+        self.__x_pos_scale.set(0)
+        self.__y_pos_scale.set(0)
+
+        self.__x_pos_scale.grid(
+            row=3,
+            column=3,
+            columnspan=3,
+            sticky="EW"
+        )
+        self.__y_pos_scale.grid(
+            row=4,
             column=3,
             columnspan=3,
             sticky="EW",
