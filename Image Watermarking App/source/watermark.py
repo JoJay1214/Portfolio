@@ -19,13 +19,14 @@ class Watermark:
     CONSTANTS
     """
     __FONT = "arial.ttf"
-    __FONT_SIZE = 50
-    __POS = (5, 5)
-    __COLOR = (255, 255, 255, 127)
+    __DEFAULT_FONT_SIZE = 50
+    __DEFAULT_FONT_COLOR = (255, 255, 255, 255)
+    __DEFAULT_TEXT_POS = (0, 0)
 
     """
     METHODS
     """
+
     @staticmethod
     def get_image(path) -> Image:
         """
@@ -45,7 +46,8 @@ class Watermark:
 
     @staticmethod
     def watermark_image(
-            image: Image, watermark: str, font_size: int, color: tuple, pos: tuple
+            image: Image, watermark: str,
+            font_size: __DEFAULT_FONT_SIZE, color: __DEFAULT_FONT_COLOR, pos: __DEFAULT_TEXT_POS
     ) -> Image:
         """
         Get a copy of an image with a watermark on it
@@ -56,11 +58,15 @@ class Watermark:
         :param pos: The XY position of the watermark text
         :return: The watermarked image
         """
+
+        # create blank image for alpha text
         alpha_txt = Image.new('RGBA', image.size, (255, 255, 255, 0))
 
+        # setup tools needed to draw text on image
         font = ImageFont.truetype(Watermark.__FONT, font_size)
         draw = ImageDraw.Draw(alpha_txt)
 
+        # draw text on blank image, then composite that onto copy of image to watermark
         draw.text(pos, watermark, color, font=font)
         watermarked_image = Image.alpha_composite(image.copy().convert('RGBA'), alpha_txt)
 

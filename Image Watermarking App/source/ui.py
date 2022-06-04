@@ -21,7 +21,7 @@ class ImageWatermarkingUI:
     """
 
     # Widget Settings
-    __CANVAS_WIDTH = 600   # width of the canvases the images sit on
+    __CANVAS_WIDTH = 600  # width of the canvases the images sit on
     __CANVAS_HEIGHT = 338  # height of the canvases the images sit on
 
     # File Dialog Settings
@@ -50,36 +50,29 @@ class ImageWatermarkingUI:
         """
 
         # Variables
-        self.__watermark = watermark   # watermark functionality
-        self.__orig_img = None         # original Image
+        self.__watermark = watermark  # watermark functionality
+        self.__orig_img = None  # original Image
 
-        self.__window = Tk()           # app window
+        self.__window = Tk()  # app window
 
         self.__orig_img_canvas = None  # canvas that displays original image
-        self.__orig_img_item = None    # canvas item that holds resized original image
-        self.__img_resized = None      # resized ImageTk for canvas
+        self.__orig_img_item = None  # canvas item that holds resized original image
+        self.__img_resized = None  # resized ImageTk for canvas
 
-        self.__wm_img_canvas = None    # canvas that displays the watermarked image
-        self.__wm_img_item = None      # canvas item that holds resized watermarked image
-        self.__img_wm_resized = None   # resized watermarked ImageTk for canvas
+        self.__wm_img_canvas = None  # canvas that displays the watermarked image
+        self.__wm_img_item = None  # canvas item that holds resized watermarked image
+        self.__img_wm_resized = None  # resized watermarked ImageTk for canvas
 
-        self.__browse_entry = None     # file path text entry
+        self.__browse_entry = None  # file path text entry
         self.__watermark_entry = None  # watermark text entry
 
         self.__font_size_scale = None  # slider to adjust watermark font size
-        self.__alpha_scale = None      # slider to adjust watermark transparency
-        self.__x_pos_scale = None      # slider to adjust watermark horizontal position
-        self.__y_pos_scale = None      # slider to adjust watermark vertical position
+        self.__alpha_scale = None  # slider to adjust watermark transparency
+        self.__x_pos_scale = None  # slider to adjust watermark horizontal position
+        self.__y_pos_scale = None  # slider to adjust watermark vertical position
 
-        # Create UI
-        self.__config_window()
-        self.__create_image_canvases()
-        self.__create_browse_file_section()
-        self.__create_text_watermark_section()
-        self.__create_save_btn_section()
-        self.__create_watermark_settings_section()
-        self.__create_watermark_position_section()
-
+        # Create UI and run app
+        self.__create_and_configure_ui()
         self.__window.mainloop()
 
     """
@@ -92,6 +85,7 @@ class ImageWatermarkingUI:
         updates the canvas images
         """
 
+        # open file browser
         filepath = filedialog.askopenfilename(
             initialdir="./",
             title="Open Image",
@@ -99,11 +93,12 @@ class ImageWatermarkingUI:
         )
 
         if filepath:
-            self.__update_browse_entry(filepath)
+            self.__update_browse_entry(filepath)  # fill filepath entry
 
+            # get ref to image
             self.__orig_img = self.__watermark.get_image(self.__browse_entry.get())
-            self.__update_canvas_images()
-            self.__update_position_scales()
+            self.__update_canvas_images()  # display image on canvases
+            self.__update_position_scales()  # update pos sliders' X/Y max
 
     def __update_browse_entry(self, filepath: str):
         """
@@ -123,8 +118,10 @@ class ImageWatermarkingUI:
         """
 
         if self.__orig_img:
+            # get image resized
             resized_img = self.__watermark.resize_image(self.__orig_img, self.__CANVAS_WIDTH, self.__CANVAS_HEIGHT)
 
+            # get image watermarked and resized
             wm_img = self.__watermark.watermark_image(
                 image=self.__orig_img,
                 watermark=self.__watermark_entry.get(),
@@ -134,16 +131,23 @@ class ImageWatermarkingUI:
             )
             resized_wm_img = self.__watermark.resize_image(wm_img, self.__CANVAS_WIDTH, self.__CANVAS_HEIGHT)
 
+            # store photo images so garbage collector doesn't trash them
             self.__img_resized = ImageTk.PhotoImage(resized_img)
             self.__img_wm_resized = ImageTk.PhotoImage(resized_wm_img)
 
             self.__update_canvas_items()
 
     def __update_position_scales(self):
+        """
+        Update the watermark text position scales' X/Y max to reflect the width and height of the current image
+        """
+
         if self.__orig_img:
+            # reset pos to (0, 0)
             self.__x_pos_scale.set(0)
             self.__y_pos_scale.set(0)
 
+            # set scales' max to image width and height, respectively
             self.__x_pos_scale.config(
                 to=self.__orig_img.width,
             )
@@ -157,6 +161,7 @@ class ImageWatermarkingUI:
         """
 
         if self.__orig_img_item and self.__wm_img_item:
+            # configure canvas items if they exist
             self.__orig_img_canvas.itemconfig(
                 self.__orig_img_item,
                 image=self.__img_resized,
@@ -167,6 +172,7 @@ class ImageWatermarkingUI:
             )
 
         else:
+            # create canvas items if they do not yet exist
             self.__orig_img_item = self.__orig_img_canvas.create_image(
                 self.__CANVAS_WIDTH / 2,
                 self.__CANVAS_HEIGHT / 2,
@@ -186,6 +192,7 @@ class ImageWatermarkingUI:
         """
 
         if self.__orig_img:
+            # open save file browser
             filepath = filedialog.asksaveasfilename(
                 initialdir="./",
                 title="Select File",
@@ -193,7 +200,9 @@ class ImageWatermarkingUI:
             )
 
             if filepath:
-                self.__update_canvas_images()
+                self.__update_canvas_images()  # update canvas to reflect any final changes to watermark text
+
+                # save a watermarked copy of the image to the filepath gotten from the save filedialog
                 self.__watermark.save_image(
                     self.__watermark.watermark_image(
                         image=self.__orig_img,
@@ -208,181 +217,201 @@ class ImageWatermarkingUI:
     """
     UI CONFIG
     """
-
-    def __config_window(self):
+    def __create_and_configure_ui(self):
         """
-        Create and configure TK GUI window
-        """
-
-        self.__window.title("Image Watermarking")
-        self.__window.config(
-            padx=self.__WIN_PAD_X,
-            pady=self.__WIN_PAD_Y,
-        )
-
-    def __create_image_canvases(self):
-        """
-        Create and configure the TK canvases that will hold the images to display
+        Organizational function to hold and execute the functions that build the UI
         """
 
-        self.__orig_img_canvas = Canvas(
-            width=self.__CANVAS_WIDTH,
-            height=self.__CANVAS_HEIGHT,
-            bg=self.__COLOR_BLACK
-        )
-        self.__wm_img_canvas = Canvas(
-            width=self.__CANVAS_WIDTH,
-            height=self.__CANVAS_HEIGHT,
-            bg=self.__COLOR_BLACK
-        )
+        def __config_window():
+            """
+            Create and configure TK GUI window
+            """
 
-        self.__orig_img_canvas.grid(
-            column=0,
-            row=0,
-            columnspan=3
-        )
-        self.__wm_img_canvas.grid(
-            column=3,
-            row=0,
-            columnspan=3
-        )
+            self.__window.title("Image Watermarking")
+            self.__window.config(
+                padx=self.__WIN_PAD_X,
+                pady=self.__WIN_PAD_Y,
+            )
 
-    def __create_browse_file_section(self):
-        """
-        Create and configure the TK Entry, Button, and Label used to browse for a file
-        """
+        def __create_image_canvases():
+            """
+            Create and configure the TK canvases that will hold the images to display
+            """
 
-        browse_label = Label(
-            text="Image for Watermark:"
-        )
-        self.__browse_entry = Entry(
-            state="disabled"
-        )
-        __browse_button = Button(
-            text="Browse",
-            command=self.__browse_for_file
-        )
+            self.__orig_img_canvas = Canvas(
+                width=self.__CANVAS_WIDTH,
+                height=self.__CANVAS_HEIGHT,
+                bg=self.__COLOR_BLACK
+            )
+            self.__wm_img_canvas = Canvas(
+                width=self.__CANVAS_WIDTH,
+                height=self.__CANVAS_HEIGHT,
+                bg=self.__COLOR_BLACK
+            )
 
-        browse_label.grid(
-            column=0,
-            row=1,
-            sticky="W",
-        )
-        self.__browse_entry.grid(
-            column=1,
-            row=1,
-            sticky="EW",
-        )
-        __browse_button.grid(
-            column=2,
-            row=1,
-            sticky="EW",
-        )
+            self.__orig_img_canvas.grid(
+                column=0,
+                row=0,
+                columnspan=3
+            )
+            self.__wm_img_canvas.grid(
+                column=3,
+                row=0,
+                columnspan=3
+            )
 
-    def __create_text_watermark_section(self):
-        """
-        Create and configure the TK label, entry, and button for inputting and updating the watermark
-        """
+        def __create_browse_file_section():
+            """
+            Create and configure the TK Entry, Button, and Label used to browse for a file
+            """
 
-        watermark_label = Label(
-            text="Text Watermark:",
-        )
-        self.__watermark_entry = Entry(
-        )
-        watermark_button = Button(
-            text="Update Watermark",
-            command=self.__update_canvas_images
-        )
+            browse_label = Label(
+                text="Image for Watermark:"
+            )
+            self.__browse_entry = Entry(
+                state="disabled"
+            )
+            __browse_button = Button(
+                text="Browse",
+                command=self.__browse_for_file
+            )
 
-        watermark_label.grid(
-            column=0,
-            row=2,
-            sticky="W",
-        )
-        self.__watermark_entry.grid(
-            column=1,
-            row=2,
-            sticky="EW",
-        )
-        watermark_button.grid(
-            column=2,
-            row=2,
-            sticky="EW",
-        )
+            browse_label.grid(
+                column=0,
+                row=1,
+                sticky="W",
+            )
+            self.__browse_entry.grid(
+                column=1,
+                row=1,
+                sticky="EW",
+            )
+            __browse_button.grid(
+                column=2,
+                row=1,
+                sticky="EW",
+            )
 
-    def __create_save_btn_section(self):
-        """
-        Create and configure TK Button for saving watermarked image
-        """
+        def __create_text_watermark_section():
+            """
+            Create and configure the TK label, entry, and button for inputting and updating the watermark
+            """
 
-        __save_button = Button(
-            text="Save Watermarked Copy",
-            command=self.__save_watermarked_image,
-        )
+            watermark_label = Label(
+                text="Text Watermark:",
+            )
+            self.__watermark_entry = Entry(
+            )
+            watermark_button = Button(
+                text="Update Watermark",
+                command=self.__update_canvas_images
+            )
 
-        __save_button.grid(
-            column=2,
-            row=5,
-            columnspan=2,
+            watermark_label.grid(
+                column=0,
+                row=2,
+                sticky="W",
+            )
+            self.__watermark_entry.grid(
+                column=1,
+                row=2,
+                sticky="EW",
+            )
+            watermark_button.grid(
+                column=2,
+                row=2,
+                sticky="EW",
+            )
 
-        )
+        def __create_save_btn_section():
+            """
+            Create and configure TK Button for saving watermarked image
+            """
 
-    def __create_watermark_settings_section(self):
-        self.__font_size_scale = Scale(
-            from_=1,
-            to=200,
-            orient=HORIZONTAL,
-            command=self.__update_canvas_images,
-        )
-        self.__alpha_scale = Scale(
-            from_=0,
-            to=255,
-            orient=HORIZONTAL,
-            command=self.__update_canvas_images,
-        )
+            __save_button = Button(
+                text="Save Watermarked Copy",
+                command=self.__save_watermarked_image,
+            )
 
-        self.__font_size_scale.set(50)
-        self.__alpha_scale.set(127)
+            __save_button.grid(
+                column=2,
+                row=5,
+                columnspan=2,
 
-        self.__font_size_scale.grid(
-            row=1,
-            column=3,
-            columnspan=3,
-            sticky="EW"
-        )
-        self.__alpha_scale.grid(
-            row=2,
-            column=3,
-            columnspan=3,
-            sticky="EW",
-        )
+            )
 
-    def __create_watermark_position_section(self):
-        self.__x_pos_scale = Scale(
-            from_=0,
-            to=0,
-            orient=HORIZONTAL,
-            command=self.__update_canvas_images,
-        )
-        self.__y_pos_scale = Scale(
-            from_=0,
-            to=0,
-            orient=HORIZONTAL,
-            command=self.__update_canvas_images,
-        )
+        def __create_watermark_settings_section():
+            """
+            Create and configure TK Scales for adjusting watermark font settings
+            """
 
-        self.__x_pos_scale.set(0)
-        self.__y_pos_scale.set(0)
+            self.__font_size_scale = Scale(
+                from_=1,
+                to=200,
+                orient=HORIZONTAL,
+                command=self.__update_canvas_images,
+            )
+            self.__alpha_scale = Scale(
+                from_=0,
+                to=255,
+                orient=HORIZONTAL,
+                command=self.__update_canvas_images,
+            )
 
-        self.__x_pos_scale.grid(
-            row=3,
-            column=3,
-            columnspan=3,
-            sticky="EW"
-        )
-        self.__y_pos_scale.grid(
-            row=4,
-            column=3,
-            columnspan=3,
-            sticky="EW",
-        )
+            self.__font_size_scale.set(50)
+            self.__alpha_scale.set(127)
+
+            self.__font_size_scale.grid(
+                row=1,
+                column=3,
+                columnspan=3,
+                sticky="EW"
+            )
+            self.__alpha_scale.grid(
+                row=2,
+                column=3,
+                columnspan=3,
+                sticky="EW",
+            )
+
+        def __create_watermark_position_section():
+            """
+            Create and configure TK Scales for adjusting watermark text position
+            """
+
+            self.__x_pos_scale = Scale(
+                from_=0,
+                to=0,
+                orient=HORIZONTAL,
+                command=self.__update_canvas_images,
+            )
+            self.__y_pos_scale = Scale(
+                from_=0,
+                to=0,
+                orient=HORIZONTAL,
+                command=self.__update_canvas_images,
+            )
+
+            self.__x_pos_scale.set(0)
+            self.__y_pos_scale.set(0)
+
+            self.__x_pos_scale.grid(
+                row=3,
+                column=3,
+                columnspan=3,
+                sticky="EW"
+            )
+            self.__y_pos_scale.grid(
+                row=4,
+                column=3,
+                columnspan=3,
+                sticky="EW",
+            )
+
+        __config_window()
+        __create_image_canvases()
+        __create_browse_file_section()
+        __create_text_watermark_section()
+        __create_save_btn_section()
+        __create_watermark_settings_section()
+        __create_watermark_position_section()
