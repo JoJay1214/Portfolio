@@ -6,7 +6,7 @@ date:   3/11/2022
 brief:  TKinter GUI to give interactivity between the user and the Watermark program.
 
 """
-from tkinter import Tk, Canvas, Label, Button, Entry, Scale, filedialog, END, HORIZONTAL
+from tkinter import Tk, Canvas, Frame, Label, Button, Entry, Scale, filedialog, END, HORIZONTAL
 from PIL import ImageTk
 from source.watermark import Watermark
 
@@ -21,6 +21,8 @@ class ImageWatermarkingUI:
     """
 
     # Widget Settings
+    __WIN_START_POS = (0, 0)
+
     __CANVAS_WIDTH = 600  # width of the canvases the images sit on
     __CANVAS_HEIGHT = 338  # height of the canvases the images sit on
 
@@ -34,6 +36,8 @@ class ImageWatermarkingUI:
 
     # Color
     __COLOR_BLACK = "#000000"
+    __COLOR_GREY = "#CCCCCC"
+    __COLOR_DARK_GREY = "#AAAAAA"
 
     # Padding
     __WIN_PAD_X = 20
@@ -229,9 +233,11 @@ class ImageWatermarkingUI:
 
             self.__window.title("Image Watermarking")
             self.__window.config(
+                bg=self.__COLOR_GREY,
                 padx=self.__WIN_PAD_X,
                 pady=self.__WIN_PAD_Y,
             )
+            self.__window.geometry(f"+{self.__WIN_START_POS[0]}+{self.__WIN_START_POS[1]}")
 
         def __create_image_canvases():
             """
@@ -241,18 +247,21 @@ class ImageWatermarkingUI:
             self.__orig_img_canvas = Canvas(
                 width=self.__CANVAS_WIDTH,
                 height=self.__CANVAS_HEIGHT,
-                bg=self.__COLOR_BLACK
+                bg=self.__COLOR_BLACK,
+                highlightbackground=self.__COLOR_GREY,
             )
             self.__wm_img_canvas = Canvas(
                 width=self.__CANVAS_WIDTH,
                 height=self.__CANVAS_HEIGHT,
-                bg=self.__COLOR_BLACK
+                bg=self.__COLOR_BLACK,
+                highlightbackground=self.__COLOR_GREY,
             )
 
             self.__orig_img_canvas.grid(
                 column=0,
                 row=0,
-                columnspan=3
+                columnspan=3,
+                padx=(0, 20),
             )
             self.__wm_img_canvas.grid(
                 column=3,
@@ -265,31 +274,49 @@ class ImageWatermarkingUI:
             Create and configure the TK Entry, Button, and Label used to browse for a file
             """
 
+            browse_file_frame = Frame(bg=self.__COLOR_GREY)
+            browse_file_frame.grid_columnconfigure(1, weight=1)
+
             browse_label = Label(
-                text="Image for Watermark:"
+                browse_file_frame,
+                text="Image for Watermark:",
+                bg=self.__COLOR_GREY,
             )
             self.__browse_entry = Entry(
+                browse_file_frame,
                 state="disabled"
             )
             __browse_button = Button(
+                browse_file_frame,
                 text="Browse",
-                command=self.__browse_for_file
+                command=self.__browse_for_file,
+                width=20,
+                bg=self.__COLOR_GREY,
+            )
+
+            browse_file_frame.grid(
+                column=0,
+                row=1,
+                columnspan=3,
+                sticky="EW",
+                padx=(0, 20),
             )
 
             browse_label.grid(
                 column=0,
-                row=1,
+                row=0,
                 sticky="W",
+                padx=(0, 10),
             )
             self.__browse_entry.grid(
                 column=1,
-                row=1,
+                row=0,
                 sticky="EW",
             )
             __browse_button.grid(
                 column=2,
-                row=1,
-                sticky="EW",
+                row=0,
+                padx=(10, 0),
             )
 
         def __create_text_watermark_section():
@@ -297,30 +324,49 @@ class ImageWatermarkingUI:
             Create and configure the TK label, entry, and button for inputting and updating the watermark
             """
 
+            watermark_text_frame = Frame(bg=self.__COLOR_GREY)
+            watermark_text_frame.grid_columnconfigure(1, weight=1)
+
             watermark_label = Label(
+                watermark_text_frame,
                 text="Text Watermark:",
+                bg=self.__COLOR_GREY,
             )
             self.__watermark_entry = Entry(
+                watermark_text_frame,
             )
             watermark_button = Button(
+                watermark_text_frame,
                 text="Update Watermark",
-                command=self.__update_canvas_images
+                command=self.__update_canvas_images,
+                width=20,
+                bg=self.__COLOR_GREY,
+            )
+
+            watermark_text_frame.grid(
+                column=0,
+                row=2,
+                columnspan=3,
+                sticky="EW",
+                padx=(0, 20),
             )
 
             watermark_label.grid(
                 column=0,
-                row=2,
+                row=0,
                 sticky="W",
+                padx=(0, 38),
             )
             self.__watermark_entry.grid(
                 column=1,
-                row=2,
+                row=0,
                 sticky="EW",
             )
             watermark_button.grid(
                 column=2,
-                row=2,
-                sticky="EW",
+                row=0,
+                sticky="E",
+                padx=(10, 0),
             )
 
         def __create_save_btn_section():
@@ -331,80 +377,170 @@ class ImageWatermarkingUI:
             __save_button = Button(
                 text="Save Watermarked Copy",
                 command=self.__save_watermarked_image,
+                bg=self.__COLOR_GREY,
             )
 
             __save_button.grid(
-                column=2,
-                row=5,
-                columnspan=2,
-
+                column=1,
+                row=4,
+                columnspan=1,
             )
 
         def __create_watermark_settings_section():
             """
-            Create and configure TK Scales for adjusting watermark font settings
+            Create and configure TK Scales and Labels for adjusting watermark font settings
             """
 
+            # create widgets
+            watermark_settings_frame = Frame(bg=self.__COLOR_GREY)
+            watermark_settings_frame.grid_columnconfigure(1, weight=1)
+
+            font_size_label = Label(
+                watermark_settings_frame,
+                text="Font Size:",
+                bg=self.__COLOR_GREY,
+            )
             self.__font_size_scale = Scale(
+                watermark_settings_frame,
                 from_=1,
                 to=200,
                 orient=HORIZONTAL,
                 command=self.__update_canvas_images,
+                bg=self.__COLOR_GREY,
+                highlightbackground=self.__COLOR_GREY,
+                troughcolor=self.__COLOR_DARK_GREY,
+            )
+
+            font_alpha_label = Label(
+                watermark_settings_frame,
+                text="Alpha:",
+                bg=self.__COLOR_GREY,
             )
             self.__alpha_scale = Scale(
+                watermark_settings_frame,
                 from_=0,
                 to=255,
                 orient=HORIZONTAL,
                 command=self.__update_canvas_images,
+                bg=self.__COLOR_GREY,
+                highlightbackground=self.__COLOR_GREY,
+                troughcolor=self.__COLOR_DARK_GREY,
             )
 
+            # set scale defaults
             self.__font_size_scale.set(50)
-            self.__alpha_scale.set(127)
+            self.__alpha_scale.set(255)
 
-            self.__font_size_scale.grid(
-                row=1,
+            # place widgets
+            watermark_settings_frame.grid(
                 column=3,
+                row=1,
                 columnspan=3,
+                sticky="EW",
+            )
+
+            font_size_label.grid(
+                column=0,
+                row=0,
+                sticky="SW",
+                padx=(0, 10),
+            )
+            self.__font_size_scale.grid(
+                column=1,
+                row=0,
+                columnspan=2,
                 sticky="EW"
             )
+
+            font_alpha_label.grid(
+                column=0,
+                row=1,
+                sticky="SW",
+                padx=(0, 10),
+            )
             self.__alpha_scale.grid(
-                row=2,
-                column=3,
-                columnspan=3,
+                column=1,
+                row=1,
+                columnspan=2,
                 sticky="EW",
             )
 
         def __create_watermark_position_section():
             """
-            Create and configure TK Scales for adjusting watermark text position
+            Create and configure TK Scales and Labels for adjusting watermark text position
             """
 
-            self.__x_pos_scale = Scale(
-                from_=0,
-                to=0,
-                orient=HORIZONTAL,
-                command=self.__update_canvas_images,
+            # create widgets
+            watermark_position_frame = Frame(bg=self.__COLOR_GREY)
+            watermark_position_frame.grid_columnconfigure(1, weight=1)
+
+            x_pos_label = Label(
+                watermark_position_frame,
+                text="Horizontal Position:",
+                bg=self.__COLOR_GREY,
             )
-            self.__y_pos_scale = Scale(
+            self.__x_pos_scale = Scale(
+                watermark_position_frame,
                 from_=0,
                 to=0,
                 orient=HORIZONTAL,
                 command=self.__update_canvas_images,
+                bg=self.__COLOR_GREY,
+                highlightbackground=self.__COLOR_GREY,
+                troughcolor=self.__COLOR_DARK_GREY,
             )
 
+            y_pos_label = Label(
+                watermark_position_frame,
+                text="Vertical Position:",
+                bg=self.__COLOR_GREY,
+            )
+            self.__y_pos_scale = Scale(
+                watermark_position_frame,
+                from_=0,
+                to=0,
+                orient=HORIZONTAL,
+                command=self.__update_canvas_images,
+                bg=self.__COLOR_GREY,
+                highlightbackground=self.__COLOR_GREY,
+                troughcolor=self.__COLOR_DARK_GREY,
+            )
+
+            # set scale defaults
             self.__x_pos_scale.set(0)
             self.__y_pos_scale.set(0)
 
-            self.__x_pos_scale.grid(
-                row=3,
+            # place widgets
+            watermark_position_frame.grid(
                 column=3,
+                row=2,
                 columnspan=3,
+                sticky="EW",
+            )
+
+            x_pos_label.grid(
+                column=0,
+                row=0,
+                sticky="SW",
+                padx=(0, 10),
+            )
+            self.__x_pos_scale.grid(
+                column=1,
+                row=0,
+                columnspan=2,
                 sticky="EW"
             )
+
+            y_pos_label.grid(
+                column=0,
+                row=1,
+                sticky="SW",
+                padx=(0, 10),
+            )
             self.__y_pos_scale.grid(
-                row=4,
-                column=3,
-                columnspan=3,
+                column=1,
+                row=1,
+                columnspan=2,
                 sticky="EW",
             )
 
