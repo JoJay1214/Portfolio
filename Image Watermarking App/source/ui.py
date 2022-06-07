@@ -61,10 +61,12 @@ class ImageWatermarkingUI:
 
         self.__orig_img_canvas = None  # canvas that displays original image
         self.__orig_img_item = None  # canvas item that holds resized original image
+
         self.__img_resized = None  # resized ImageTk for canvas
 
         self.__wm_img_canvas = None  # canvas that displays the watermarked image
         self.__wm_img_item = None  # canvas item that holds resized watermarked image
+
         self.__img_wm_resized = None  # resized watermarked ImageTk for canvas
 
         self.__browse_entry = None  # file path text entry
