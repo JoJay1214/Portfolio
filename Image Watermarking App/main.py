@@ -10,7 +10,9 @@ brief:  Desktop application that allows a user to browse for an image file, then
 from source.watermark import Watermark
 from source.ui import ImageWatermarkingUI
 import tkinter as tk
+
 from source.image_watermarking_application import ImageWatermarkingApplication
+import source.app_settings as sett
 
 
 def main():
@@ -22,6 +24,12 @@ def main():
     root = tk.Tk()
 
     root.title("Image Watermarking")
+    root.config(
+        bg=sett.PRIMARY_APP_COLOR,
+        padx=sett.WIN_PAD_X,
+        pady=sett.WIN_PAD_Y,
+    )
+    root.geometry(f"+{sett.WIN_START_POS[0]}+{sett.WIN_START_POS[1]}")
 
     ImageWatermarkingApplication(root).pack(side="top", fill="both", expand=True)
     root.mainloop()
