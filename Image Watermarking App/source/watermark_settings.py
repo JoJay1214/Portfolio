@@ -23,28 +23,26 @@ class WatermarkSettings(tk.Frame):
         self.grid_columnconfigure(1, weight=1)
 
         # create widgets
-        self.__font_size_scale = tk.Scale(
+        self.font_size_scale = tk.Scale(
             self,
             from_=1,
             to=200,
             orient=tk.HORIZONTAL,
-            # command=self.__update_canvas_images,
             bg=sett.PRIMARY_APP_COLOR,
             highlightbackground=sett.PRIMARY_APP_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
-        self.__alpha_scale = tk.Scale(
+        self.alpha_scale = tk.Scale(
             self,
             from_=0,
             to=255,
             orient=tk.HORIZONTAL,
-            # command=self.__update_canvas_images,
             bg=sett.PRIMARY_APP_COLOR,
             highlightbackground=sett.PRIMARY_APP_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
 
-        __font_size_label = tk.Label(
+        font_size_label = tk.Label(
             self,
             text="Font Size:",
             bg=sett.PRIMARY_APP_COLOR,
@@ -56,17 +54,17 @@ class WatermarkSettings(tk.Frame):
         )
 
         # set scale defaults
-        self.__font_size_scale.set(50)
-        self.__alpha_scale.set(255)
+        self.font_size_scale.set(50)
+        self.alpha_scale.set(255)
 
         # place widgets
-        __font_size_label.grid(
+        font_size_label.grid(
             column=0,
             row=0,
             sticky="SW",
             padx=(0, 10),
         )
-        self.__font_size_scale.grid(
+        self.font_size_scale.grid(
             column=1,
             row=0,
             columnspan=2,
@@ -79,7 +77,7 @@ class WatermarkSettings(tk.Frame):
             sticky="SW",
             padx=(0, 10),
         )
-        self.__alpha_scale.grid(
+        self.alpha_scale.grid(
             column=1,
             row=1,
             columnspan=2,

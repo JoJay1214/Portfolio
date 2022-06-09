@@ -26,56 +26,56 @@ class TextWatermarkSection(tk.Frame):
         self.grid_columnconfigure(1, weight=1)
 
         # create widgets
-        self.__watermark_entry = tk.Entry(
+        self.watermark_entry = tk.Entry(
             self,
         )
-        self.__watermark_settings = WatermarkSettings(
-            self,
-            bg=sett.PRIMARY_APP_COLOR,
-        )
-        self.__watermark_positioning = WatermarkPositioning(
-            self,
-            bg=sett.PRIMARY_APP_COLOR,
-        )
-
-        __watermark_label = tk.Label(
-            self,
-            text="Text Watermark:",
-            bg=sett.PRIMARY_APP_COLOR,
-        )
-        __watermark_button = tk.Button(
+        self.watermark_button = tk.Button(
             self,
             text="Update Watermark",
-            # command=self.__update_canvas_images,
             width=20,
             bg=sett.PRIMARY_APP_COLOR,
         )
 
+        self.watermark_settings = WatermarkSettings(
+            self,
+            bg=sett.PRIMARY_APP_COLOR,
+        )
+        self.watermark_positioning = WatermarkPositioning(
+            self,
+            bg=sett.PRIMARY_APP_COLOR,
+        )
+
+        watermark_label = tk.Label(
+            self,
+            text="Text Watermark:",
+            bg=sett.PRIMARY_APP_COLOR,
+        )
+
         # place widgets
-        __watermark_label.grid(
+        watermark_label.grid(
             column=0,
             row=0,
             sticky="W",
             padx=(0, 38),
         )
-        self.__watermark_entry.grid(
+        self.watermark_entry.grid(
             column=1,
             row=0,
             sticky="EW",
         )
-        __watermark_button.grid(
+        self.watermark_button.grid(
             column=2,
             row=0,
             sticky="E",
             padx=(10, 0),
         )
-        self.__watermark_settings.grid(
+        self.watermark_settings.grid(
             column=0,
             row=1,
             columnspan=3,
             sticky="EW"
         )
-        self.__watermark_positioning.grid(
+        self.watermark_positioning.grid(
             column=0,
             row=2,
             columnspan=3,

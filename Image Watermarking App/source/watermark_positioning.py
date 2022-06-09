@@ -23,63 +23,80 @@ class WatermarkPositioning(tk.Frame):
         self.grid_columnconfigure(1, weight=1)
 
         # create widgets
-        self.__x_pos_scale = tk.Scale(
+        self.x_pos_scale = tk.Scale(
             self,
             from_=0,
             to=0,
             orient=tk.HORIZONTAL,
-            # command=self.__update_canvas_images,
             bg=sett.PRIMARY_APP_COLOR,
             highlightbackground=sett.PRIMARY_APP_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
-        self.__y_pos_scale = tk.Scale(
+        self.y_pos_scale = tk.Scale(
             self,
             from_=0,
             to=0,
             orient=tk.HORIZONTAL,
-            # command=self.__update_canvas_images,
             bg=sett.PRIMARY_APP_COLOR,
             highlightbackground=sett.PRIMARY_APP_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
 
-        __x_pos_label = tk.Label(
+        x_pos_label = tk.Label(
             self,
             text="Horizontal Position:",
             bg=sett.PRIMARY_APP_COLOR,
         )
-        __y_pos_label = tk.Label(
+        y_pos_label = tk.Label(
             self,
             text="Vertical Position:",
             bg=sett.PRIMARY_APP_COLOR,
         )
 
         # set scale defaults
-        self.__x_pos_scale.set(0)
-        self.__y_pos_scale.set(0)
+        self.x_pos_scale.set(0)
+        self.y_pos_scale.set(0)
 
         # place widgets
-        self.__x_pos_scale.grid(
+        self.x_pos_scale.grid(
             column=1,
             row=0,
             sticky="EW"
         )
-        self.__y_pos_scale.grid(
+        self.y_pos_scale.grid(
             column=1,
             row=1,
             sticky="EW",
         )
 
-        __x_pos_label.grid(
+        x_pos_label.grid(
             column=0,
             row=0,
             sticky="SW",
             padx=(0, 10),
         )
-        __y_pos_label.grid(
+        y_pos_label.grid(
             column=0,
             row=1,
             sticky="SW",
             padx=(0, 10),
         )
+
+    # noinspection PyTypeChecker
+    def update_position_scales(self, img: tk.Image):
+        """
+        Update the watermark text position scales' X/Y max to reflect the width and height of the current image
+        """
+
+        if img:
+            # reset pos to (0, 0)
+            self.x_pos_scale.set(0)
+            self.y_pos_scale.set(0)
+
+            # set scales' max to image width and height, respectively
+            self.x_pos_scale.config(
+                to=img.width,
+            )
+            self.y_pos_scale.config(
+                to=img.height,
+            )
