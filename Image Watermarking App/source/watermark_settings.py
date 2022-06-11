@@ -42,6 +42,11 @@ class WatermarkSettings(tk.Frame):
             troughcolor=sett.TROUGH_COLOR,
         )
 
+        section_title_label = tk.Label(
+            self,
+            text="Text Settings",
+            bg=sett.PRIMARY_APP_COLOR,
+        )
         font_size_label = tk.Label(
             self,
             text="Font Size:",
@@ -58,28 +63,31 @@ class WatermarkSettings(tk.Frame):
         self.alpha_scale.set(255)
 
         # place widgets
-        font_size_label.grid(
+        section_title_label.grid(
             column=0,
             row=0,
+            columnspan=2,
+            sticky="NW",
+        )
+
+        font_size_label.grid(
+            column=0,
+            row=1,
             sticky="SW",
-            padx=(0, 10),
         )
         self.font_size_scale.grid(
             column=1,
-            row=0,
-            columnspan=2,
+            row=1,
             sticky="EW"
         )
 
         font_alpha_label.grid(
             column=0,
-            row=1,
+            row=2,
             sticky="SW",
-            padx=(0, 10),
         )
         self.alpha_scale.grid(
             column=1,
-            row=1,
-            columnspan=2,
+            row=2,
             sticky="EW",
         )

@@ -42,6 +42,11 @@ class WatermarkPositioning(tk.Frame):
             troughcolor=sett.TROUGH_COLOR,
         )
 
+        section_title_label = tk.Label(
+            self,
+            text="Text Position",
+            bg=sett.PRIMARY_APP_COLOR,
+        )
         x_pos_label = tk.Label(
             self,
             text="Horizontal Position:",
@@ -58,28 +63,31 @@ class WatermarkPositioning(tk.Frame):
         self.y_pos_scale.set(0)
 
         # place widgets
-        self.x_pos_scale.grid(
-            column=1,
-            row=0,
-            sticky="EW"
-        )
-        self.y_pos_scale.grid(
-            column=1,
-            row=1,
-            sticky="EW",
-        )
-
-        x_pos_label.grid(
+        section_title_label.grid(
             column=0,
             row=0,
+            columnspan=2,
+            sticky="NW",
+        )
+        x_pos_label.grid(
+            column=0,
+            row=1,
             sticky="SW",
-            padx=(0, 10),
+        )
+        self.x_pos_scale.grid(
+            column=1,
+            row=1,
+            sticky="EW"
         )
         y_pos_label.grid(
             column=0,
-            row=1,
+            row=2,
             sticky="SW",
-            padx=(0, 10),
+        )
+        self.y_pos_scale.grid(
+            column=1,
+            row=2,
+            sticky="EW",
         )
 
     # noinspection PyTypeChecker
