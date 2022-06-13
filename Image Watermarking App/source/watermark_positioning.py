@@ -28,8 +28,8 @@ class WatermarkPositioning(tk.Frame):
             from_=0,
             to=0,
             orient=tk.HORIZONTAL,
-            bg=sett.PRIMARY_APP_COLOR,
-            highlightbackground=sett.PRIMARY_APP_COLOR,
+            bg=sett.SUBSECTION_BG_COLOR,
+            highlightbackground=sett.SUBSECTION_BG_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
         self.y_pos_scale = tk.Scale(
@@ -37,25 +37,26 @@ class WatermarkPositioning(tk.Frame):
             from_=0,
             to=0,
             orient=tk.HORIZONTAL,
-            bg=sett.PRIMARY_APP_COLOR,
-            highlightbackground=sett.PRIMARY_APP_COLOR,
+            bg=sett.SUBSECTION_BG_COLOR,
+            highlightbackground=sett.SUBSECTION_BG_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
 
         section_title_label = tk.Label(
             self,
             text="Text Position",
-            bg=sett.PRIMARY_APP_COLOR,
+            bg=sett.SUBSECTION_BG_COLOR,
         )
+
         x_pos_label = tk.Label(
             self,
             text="Horizontal Position:",
-            bg=sett.PRIMARY_APP_COLOR,
+            bg=sett.SUBSECTION_BG_COLOR,
         )
         y_pos_label = tk.Label(
             self,
             text="Vertical Position:",
-            bg=sett.PRIMARY_APP_COLOR,
+            bg=sett.SUBSECTION_BG_COLOR,
         )
 
         # set scale defaults
@@ -68,6 +69,8 @@ class WatermarkPositioning(tk.Frame):
             row=0,
             columnspan=2,
             sticky="NW",
+            padx=sett.SEC_TITLE_PAD_X,
+            pady=sett.SEC_TITLE_PAD_Y,
         )
         x_pos_label.grid(
             column=0,

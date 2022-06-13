@@ -42,12 +42,12 @@ class FileManageSection(tk.Frame):
         section_title_label = tk.Label(
             self,
             text="File",
-            bg=sett.PRIMARY_APP_COLOR
+            bg=sett.SECTION_BG_COLOR
         )
         browse_label = tk.Label(
             self,
             text="Image for Watermark:",
-            bg=sett.PRIMARY_APP_COLOR,
+            bg=sett.SECTION_BG_COLOR,
         )
 
         # place widgets
@@ -55,6 +55,8 @@ class FileManageSection(tk.Frame):
             column=0,
             row=0,
             sticky="NW",
+            padx=sett.SEC_TITLE_PAD_X,
+            pady=sett.SEC_TITLE_PAD_Y,
         )
 
         browse_label.grid(

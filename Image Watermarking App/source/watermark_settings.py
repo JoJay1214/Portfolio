@@ -28,8 +28,8 @@ class WatermarkSettings(tk.Frame):
             from_=1,
             to=200,
             orient=tk.HORIZONTAL,
-            bg=sett.PRIMARY_APP_COLOR,
-            highlightbackground=sett.PRIMARY_APP_COLOR,
+            bg=sett.SUBSECTION_BG_COLOR,
+            highlightbackground=sett.SUBSECTION_BG_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
         self.alpha_scale = tk.Scale(
@@ -37,25 +37,25 @@ class WatermarkSettings(tk.Frame):
             from_=0,
             to=255,
             orient=tk.HORIZONTAL,
-            bg=sett.PRIMARY_APP_COLOR,
-            highlightbackground=sett.PRIMARY_APP_COLOR,
+            bg=sett.SUBSECTION_BG_COLOR,
+            highlightbackground=sett.SUBSECTION_BG_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
 
         section_title_label = tk.Label(
             self,
             text="Text Settings",
-            bg=sett.PRIMARY_APP_COLOR,
+            bg=sett.SUBSECTION_BG_COLOR,
         )
         font_size_label = tk.Label(
             self,
             text="Font Size:",
-            bg=sett.PRIMARY_APP_COLOR,
+            bg=sett.SUBSECTION_BG_COLOR,
         )
         font_alpha_label = tk.Label(
             self,
             text="Alpha:",
-            bg=sett.PRIMARY_APP_COLOR,
+            bg=sett.SUBSECTION_BG_COLOR,
         )
 
         # set scale defaults
@@ -68,6 +68,8 @@ class WatermarkSettings(tk.Frame):
             row=0,
             columnspan=2,
             sticky="NW",
+            padx=sett.SEC_TITLE_PAD_X,
+            pady=sett.SEC_TITLE_PAD_Y,
         )
 
         font_size_label.grid(

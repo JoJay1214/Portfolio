@@ -16,7 +16,9 @@ import source.app_settings as sett
 def main():
     """
     Create a TKinter window and configure it. Then, configure the Image Watermarking app.
-    # """
+    """
+
+    # main window
     root = tk.Tk()
 
     root.title("Image Watermarking")
@@ -27,7 +29,17 @@ def main():
     )
     root.geometry(f"+{sett.WIN_START_POS[0]}+{sett.WIN_START_POS[1]}")
 
-    ImageWatermarkingApplication(root).pack(side="top", fill="both", expand=True)
+    # image watermarking app
+    image_wm_app = ImageWatermarkingApplication(
+        root,
+        bg=sett.PRIMARY_APP_COLOR,
+    )
+    image_wm_app.pack(
+        side="top",
+        fill="both",
+        expand=True,
+    )
+
     root.mainloop()
 
 

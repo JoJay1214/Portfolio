@@ -38,23 +38,27 @@ class TextWatermarkSection(tk.Frame):
 
         self.watermark_settings = WatermarkSettings(
             self,
-            bg=sett.PRIMARY_APP_COLOR,
+            bg=sett.SUBSECTION_BG_COLOR,
+            highlightthickness=sett.SECTION_HIGH_THICKNESS,
+            highlightbackground=sett.SUBSECTION_HIGH_BG_COLOR,
         )
         self.watermark_positioning = WatermarkPositioning(
             self,
-            bg=sett.PRIMARY_APP_COLOR,
+            bg=sett.SUBSECTION_BG_COLOR,
+            highlightthickness=sett.SECTION_HIGH_THICKNESS,
+            highlightbackground=sett.SUBSECTION_HIGH_BG_COLOR,
         )
 
         section_title_label = tk.Label(
             self,
             text="Watermark",
-            bg=sett.PRIMARY_APP_COLOR,
+            bg=sett.SECTION_BG_COLOR,
         )
 
-        watermark_label = tk.Label(
+        watermark_text_label = tk.Label(
             self,
             text="Text:",
-            bg=sett.PRIMARY_APP_COLOR,
+            bg=sett.SECTION_BG_COLOR,
         )
 
         # place widgets
@@ -63,8 +67,10 @@ class TextWatermarkSection(tk.Frame):
             row=0,
             columnspan=3,
             sticky="NW",
+            padx=sett.SEC_TITLE_PAD_X,
+            pady=sett.SEC_TITLE_PAD_Y,
         )
-        watermark_label.grid(
+        watermark_text_label.grid(
             column=0,
             row=1,
             sticky="W",

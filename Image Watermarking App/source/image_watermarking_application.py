@@ -30,11 +30,15 @@ class ImageWatermarkingApplication(tk.Frame):
         # create sections
         self.file_manage_section = FileManageSection(
             self,
-            bg=sett.PRIMARY_APP_COLOR,
+            bg=sett.SECTION_BG_COLOR,
+            highlightthickness=sett.SECTION_HIGH_THICKNESS,
+            highlightbackground=sett.SECTION_HIGH_BG_COLOR,
         )
         self.text_watermark_section = TextWatermarkSection(
             self,
-            bg=sett.PRIMARY_APP_COLOR,
+            bg=sett.SECTION_BG_COLOR,
+            highlightthickness=sett.SECTION_HIGH_THICKNESS,
+            highlightbackground=sett.SECTION_HIGH_BG_COLOR,
         )
         self.image_canvases = ImageCanvases(
             self,
