@@ -29,7 +29,6 @@ class ImageWatermarkingApplication(tk.Frame):
         self.orig_img = None
 
         self.grid_columnconfigure(0, weight=1)
-        self.grid_columnconfigure(3, weight=1)
 
         # create sections
         self.file_manage_section = FileManageSection(
