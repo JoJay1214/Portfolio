@@ -28,8 +28,8 @@ class WatermarkPositioning(tk.Frame):
             from_=0,
             to=0,
             orient=tk.HORIZONTAL,
-            bg=sett.SUBSECTION_BG_COLOR,
-            highlightbackground=sett.SUBSECTION_BG_COLOR,
+            bg=sett.SUBSEC_BG_COLOR,
+            highlightbackground=sett.SUBSEC_BG_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
         self.y_pos_scale = tk.Scale(
@@ -37,26 +37,26 @@ class WatermarkPositioning(tk.Frame):
             from_=0,
             to=0,
             orient=tk.HORIZONTAL,
-            bg=sett.SUBSECTION_BG_COLOR,
-            highlightbackground=sett.SUBSECTION_BG_COLOR,
+            bg=sett.SUBSEC_BG_COLOR,
+            highlightbackground=sett.SUBSEC_BG_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
 
         section_title_label = tk.Label(
             self,
             text="Text Position",
-            bg=sett.SUBSECTION_BG_COLOR,
+            bg=sett.SUBSEC_BG_COLOR,
         )
 
         x_pos_label = tk.Label(
             self,
             text="Horizontal Position:",
-            bg=sett.SUBSECTION_BG_COLOR,
+            bg=sett.SUBSEC_BG_COLOR,
         )
         y_pos_label = tk.Label(
             self,
             text="Vertical Position:",
-            bg=sett.SUBSECTION_BG_COLOR,
+            bg=sett.SUBSEC_BG_COLOR,
         )
 
         # set scale defaults
@@ -72,25 +72,31 @@ class WatermarkPositioning(tk.Frame):
             padx=sett.SEC_TITLE_PAD_X,
             pady=sett.SEC_TITLE_PAD_Y,
         )
+
         x_pos_label.grid(
             column=0,
             row=1,
             sticky="SW",
+            padx=(sett.SEC_CONTENT_PAD, 0),
         )
         self.x_pos_scale.grid(
             column=1,
             row=1,
-            sticky="EW"
+            sticky="EW",
+            padx=(0, sett.SEC_CONTENT_PAD),
         )
+
         y_pos_label.grid(
             column=0,
             row=2,
             sticky="SW",
+            padx=(sett.SEC_CONTENT_PAD, 0),
         )
         self.y_pos_scale.grid(
             column=1,
             row=2,
             sticky="EW",
+            padx=(0, sett.SEC_CONTENT_PAD),
         )
 
     # noinspection PyTypeChecker

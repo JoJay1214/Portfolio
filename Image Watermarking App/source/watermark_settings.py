@@ -28,8 +28,8 @@ class WatermarkSettings(tk.Frame):
             from_=1,
             to=200,
             orient=tk.HORIZONTAL,
-            bg=sett.SUBSECTION_BG_COLOR,
-            highlightbackground=sett.SUBSECTION_BG_COLOR,
+            bg=sett.SUBSEC_BG_COLOR,
+            highlightbackground=sett.SUBSEC_BG_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
         self.alpha_scale = tk.Scale(
@@ -37,25 +37,25 @@ class WatermarkSettings(tk.Frame):
             from_=0,
             to=255,
             orient=tk.HORIZONTAL,
-            bg=sett.SUBSECTION_BG_COLOR,
-            highlightbackground=sett.SUBSECTION_BG_COLOR,
+            bg=sett.SUBSEC_BG_COLOR,
+            highlightbackground=sett.SUBSEC_BG_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
 
         section_title_label = tk.Label(
             self,
             text="Text Settings",
-            bg=sett.SUBSECTION_BG_COLOR,
+            bg=sett.SUBSEC_BG_COLOR,
         )
         font_size_label = tk.Label(
             self,
             text="Font Size:",
-            bg=sett.SUBSECTION_BG_COLOR,
+            bg=sett.SUBSEC_BG_COLOR,
         )
         font_alpha_label = tk.Label(
             self,
             text="Alpha:",
-            bg=sett.SUBSECTION_BG_COLOR,
+            bg=sett.SUBSEC_BG_COLOR,
         )
 
         # set scale defaults
@@ -76,20 +76,24 @@ class WatermarkSettings(tk.Frame):
             column=0,
             row=1,
             sticky="SW",
+            padx=(sett.SEC_CONTENT_PAD, 0),
         )
         self.font_size_scale.grid(
             column=1,
             row=1,
-            sticky="EW"
+            sticky="EW",
+            padx=(0, sett.SEC_CONTENT_PAD),
         )
 
         font_alpha_label.grid(
             column=0,
             row=2,
             sticky="SW",
+            padx=(sett.SEC_CONTENT_PAD, 0),
         )
         self.alpha_scale.grid(
             column=1,
             row=2,
             sticky="EW",
+            padx=(0, sett.SEC_CONTENT_PAD),
         )

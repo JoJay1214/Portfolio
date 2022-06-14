@@ -27,17 +27,19 @@ def main():
         padx=sett.WIN_PAD_X,
         pady=sett.WIN_PAD_Y,
     )
-    root.geometry(f"+{sett.WIN_START_POS[0]}+{sett.WIN_START_POS[1]}")
+    root.grid_columnconfigure(0, weight=1)
+    root.geometry(f"1280x720+{sett.WIN_START_POS[0]}+{sett.WIN_START_POS[1]}")
 
     # image watermarking app
     image_wm_app = ImageWatermarkingApplication(
         root,
         bg=sett.PRIMARY_APP_COLOR,
     )
-    image_wm_app.pack(
-        side="top",
-        fill="both",
-        expand=True,
+
+    image_wm_app.grid(
+        column=0,
+        row=0,
+        sticky="NESW"
     )
 
     root.mainloop()

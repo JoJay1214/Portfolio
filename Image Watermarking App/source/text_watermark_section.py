@@ -38,27 +38,27 @@ class TextWatermarkSection(tk.Frame):
 
         self.watermark_settings = WatermarkSettings(
             self,
-            bg=sett.SUBSECTION_BG_COLOR,
-            highlightthickness=sett.SECTION_HIGH_THICKNESS,
-            highlightbackground=sett.SUBSECTION_HIGH_BG_COLOR,
+            bg=sett.SUBSEC_BG_COLOR,
+            highlightthickness=sett.SEC_HL_THICKNESS,
+            highlightbackground=sett.SUBSEC_HL_COLOR,
         )
         self.watermark_positioning = WatermarkPositioning(
             self,
-            bg=sett.SUBSECTION_BG_COLOR,
-            highlightthickness=sett.SECTION_HIGH_THICKNESS,
-            highlightbackground=sett.SUBSECTION_HIGH_BG_COLOR,
+            bg=sett.SUBSEC_BG_COLOR,
+            highlightthickness=sett.SEC_HL_THICKNESS,
+            highlightbackground=sett.SUBSEC_HL_COLOR,
         )
 
         section_title_label = tk.Label(
             self,
             text="Watermark",
-            bg=sett.SECTION_BG_COLOR,
+            bg=sett.SEC_BG_COLOR,
         )
 
         watermark_text_label = tk.Label(
             self,
             text="Text:",
-            bg=sett.SECTION_BG_COLOR,
+            bg=sett.SEC_BG_COLOR,
         )
 
         # place widgets
@@ -70,10 +70,12 @@ class TextWatermarkSection(tk.Frame):
             padx=sett.SEC_TITLE_PAD_X,
             pady=sett.SEC_TITLE_PAD_Y,
         )
+
         watermark_text_label.grid(
             column=0,
             row=1,
             sticky="W",
+            padx=(sett.SEC_CONTENT_PAD, 0),
         )
         self.watermark_entry.grid(
             column=1,
@@ -84,16 +86,22 @@ class TextWatermarkSection(tk.Frame):
             column=2,
             row=1,
             sticky="E",
+            padx=(0, sett.SEC_CONTENT_PAD),
         )
+
         self.watermark_settings.grid(
             column=0,
             row=2,
             columnspan=3,
-            sticky="EW"
+            sticky="EW",
+            padx=sett.SEC_OUTER_PAD,
+            pady=sett.SEC_OUTER_PAD,
         )
         self.watermark_positioning.grid(
             column=0,
             row=3,
             columnspan=3,
             sticky="EW",
+            padx=sett.SEC_OUTER_PAD,
+            pady=sett.SEC_OUTER_PAD,
         )

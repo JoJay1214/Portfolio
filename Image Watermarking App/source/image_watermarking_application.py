@@ -7,6 +7,7 @@ brief:  Main TKinter GUI for Image Watermarking App.
 
 """
 import tkinter as tk
+from tkinter import filedialog
 
 from source.file_manage_section import FileManageSection
 from source.image_canvases import ImageCanvases
@@ -27,18 +28,21 @@ class ImageWatermarkingApplication(tk.Frame):
 
         self.orig_img = None
 
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(3, weight=1)
+
         # create sections
         self.file_manage_section = FileManageSection(
             self,
-            bg=sett.SECTION_BG_COLOR,
-            highlightthickness=sett.SECTION_HIGH_THICKNESS,
-            highlightbackground=sett.SECTION_HIGH_BG_COLOR,
+            bg=sett.SEC_BG_COLOR,
+            highlightthickness=sett.SEC_HL_THICKNESS,
+            highlightbackground=sett.SEC_HL_COLOR,
         )
         self.text_watermark_section = TextWatermarkSection(
             self,
-            bg=sett.SECTION_BG_COLOR,
-            highlightthickness=sett.SECTION_HIGH_THICKNESS,
-            highlightbackground=sett.SECTION_HIGH_BG_COLOR,
+            bg=sett.SEC_BG_COLOR,
+            highlightthickness=sett.SEC_HL_THICKNESS,
+            highlightbackground=sett.SEC_HL_COLOR,
         )
         self.image_canvases = ImageCanvases(
             self,
@@ -75,17 +79,21 @@ class ImageWatermarkingApplication(tk.Frame):
         self.file_manage_section.grid(
             column=0,
             row=0,
-            sticky="EW",
+            sticky="NESW",
+            padx=sett.SEC_OUTER_PAD,
+            pady=sett.SEC_OUTER_PAD,
         )
         self.text_watermark_section.grid(
             column=0,
             row=1,
-            sticky="EW",
+            sticky="NESW",
+            padx=sett.SEC_OUTER_PAD,
+            pady=sett.SEC_OUTER_PAD,
         )
         self.image_canvases.grid(
             column=3,
             row=0,
-            rowspan=4,
+            rowspan=2,
         )
 
     def browse_for_file(self):
@@ -95,7 +103,6 @@ class ImageWatermarkingApplication(tk.Frame):
         """
 
         # open file browser, ignore PyCharm highlighting bug
-        # noinspection PyUnresolvedReferences
         filepath = tk.filedialog.askopenfilename(
             initialdir="./",
             title="Open Image",
@@ -143,7 +150,6 @@ class ImageWatermarkingApplication(tk.Frame):
 
         if self.orig_img:
             # open save file browser, ignore PyCharm highlighting bug
-            # noinspection PyUnresolvedReferences
             filepath = tk.filedialog.asksaveasfilename(
                 initialdir="./",
                 title="Select File",
