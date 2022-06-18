@@ -29,6 +29,7 @@ class WatermarkSettings(tk.Frame):
             to=200,
             orient=tk.HORIZONTAL,
             bg=sett.SUBSEC_BG_COLOR,
+            font=sett.SEC_CONTENT_FONT,
             highlightbackground=sett.SUBSEC_BG_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
@@ -38,6 +39,7 @@ class WatermarkSettings(tk.Frame):
             to=255,
             orient=tk.HORIZONTAL,
             bg=sett.SUBSEC_BG_COLOR,
+            font=sett.SEC_CONTENT_FONT,
             highlightbackground=sett.SUBSEC_BG_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
@@ -46,16 +48,19 @@ class WatermarkSettings(tk.Frame):
             self,
             text="Text Settings",
             bg=sett.SUBSEC_BG_COLOR,
+            font=sett.SEC_TITLE_FONT,
         )
         font_size_label = tk.Label(
             self,
             text="Font Size:",
             bg=sett.SUBSEC_BG_COLOR,
+            font=sett.SEC_CONTENT_FONT,
         )
         font_alpha_label = tk.Label(
             self,
             text="Alpha:",
             bg=sett.SUBSEC_BG_COLOR,
+            font=sett.SEC_CONTENT_FONT,
         )
 
         # set scale defaults
@@ -76,24 +81,24 @@ class WatermarkSettings(tk.Frame):
             column=0,
             row=1,
             sticky="SW",
-            padx=(sett.SEC_CONTENT_PAD, 0),
+            padx=(sett.SEC_CONTENT_OUTER_PAD_X, 0),
         )
         self.font_size_scale.grid(
             column=1,
             row=1,
             sticky="EW",
-            padx=(0, sett.SEC_CONTENT_PAD),
+            padx=(sett.SEC_SCALE_PAD_LEFT, sett.SEC_CONTENT_OUTER_PAD_X),
         )
 
         font_alpha_label.grid(
             column=0,
             row=2,
             sticky="SW",
-            padx=(sett.SEC_CONTENT_PAD, 0),
+            padx=(sett.SEC_CONTENT_OUTER_PAD_X, 0),
         )
         self.alpha_scale.grid(
             column=1,
             row=2,
             sticky="EW",
-            padx=(0, sett.SEC_CONTENT_PAD),
+            padx=(sett.SEC_SCALE_PAD_LEFT, sett.SEC_CONTENT_OUTER_PAD_X),
         )

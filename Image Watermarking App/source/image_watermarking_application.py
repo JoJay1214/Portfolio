@@ -29,6 +29,8 @@ class ImageWatermarkingApplication(tk.Frame):
         self.orig_img = None
 
         self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)
 
         # create sections
         self.file_manage_section = FileManageSection(
@@ -93,6 +95,7 @@ class ImageWatermarkingApplication(tk.Frame):
             column=3,
             row=0,
             rowspan=2,
+            sticky="NESW"
         )
 
     def browse_for_file(self):

@@ -25,29 +25,34 @@ class FileManageSection(tk.Frame):
         # create widgets
         self.browse_entry = tk.Entry(
             self,
-            state="disabled"
+            font=sett.SEC_CONTENT_FONT,
+            state="disabled",
         )
         self.browse_button = tk.Button(
             self,
             text="Browse",
             width=20,
             bg=sett.PRIMARY_APP_COLOR,
+            font=sett.SEC_CONTENT_FONT,
         )
         self.save_button = tk.Button(
             self,
             text="Save Watermarked Copy",
             bg=sett.PRIMARY_APP_COLOR,
+            font=sett.SEC_CONTENT_FONT,
         )
 
         section_title_label = tk.Label(
             self,
             text="File",
             bg=sett.SEC_BG_COLOR,
+            font=sett.SEC_TITLE_FONT,
         )
         browse_label = tk.Label(
             self,
             text="Image for Watermark:",
             bg=sett.SEC_BG_COLOR,
+            font=sett.SEC_CONTENT_FONT,
         )
 
         # place widgets
@@ -64,22 +69,24 @@ class FileManageSection(tk.Frame):
             column=0,
             row=1,
             sticky="W",
-            padx=(sett.SEC_CONTENT_PAD, 0),
+            padx=(sett.SEC_CONTENT_OUTER_PAD_X, 0),
         )
         self.browse_entry.grid(
             column=1,
             row=1,
             sticky="EW",
+            padx=sett.SEC_ENTRY_PAD_X,
         )
         self.browse_button.grid(
             column=2,
             row=1,
-            padx=(0, sett.SEC_CONTENT_PAD),
+            padx=(0, sett.SEC_CONTENT_OUTER_PAD_X),
         )
 
         self.save_button.grid(
             column=1,
             row=2,
+            pady=sett.SAVE_BUTTON_PAD_Y,
         )
 
     def update_browse_entry(self, filepath: str):

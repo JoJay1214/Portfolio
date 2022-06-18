@@ -30,16 +30,19 @@ SAVE_FILETYPES = [         # file types shown when browsing to save a file
     ("PNG Files", "*.png"),
 ]
 
-# Padding
-SEC_OUTER_PAD = (15, 15)   # section outer x & y padding
+# Font
+SEC_TITLE_FONT = ("Arial", 16)
+SEC_CONTENT_FONT = ("Arial", 12)
 
-SEC_TITLE_PAD_X = (15, 0)  # section title padding x
-SEC_TITLE_PAD_Y = (15, 10)  # section title padding y
+# Section Padding
+SEC_OUTER_PAD = (15, 10)   # section outer x & y padding
 
-SEC_CONTENT_PAD = 30
+SEC_TITLE_PAD_X = (10, 0)  # section title padding x
+SEC_TITLE_PAD_Y = (10, 10)  # section title padding y
 
-# Section Width
-SEC_TITLE_WIDTH = 500
+SEC_CONTENT_OUTER_PAD_X = 40
+SEC_ENTRY_PAD_X = (10, 20)
+SEC_SCALE_PAD_LEFT = 10
 
 """
 WINDOW
@@ -51,7 +54,13 @@ WIN_PAD_X = 20
 WIN_PAD_Y = 10
 
 """
-WATERMARK SETTINGS
+FILE SECTION
+"""
+
+SAVE_BUTTON_PAD_Y = (10, 0)
+
+"""
+WATERMARK SETTINGS SECTION
 """
 
 TROUGH_COLOR = "#CCCCCC"  # scale trough color
@@ -59,6 +68,7 @@ TROUGH_COLOR = "#CCCCCC"  # scale trough color
 """
 IMAGE CANVASES
 """
+
 CANVAS_WIDTH = 540           # width of the canvases the images sit on
 CANVAS_HEIGHT = 304          # height of the canvases the images sit on
 

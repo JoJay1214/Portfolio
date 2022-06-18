@@ -29,6 +29,7 @@ class WatermarkPositioning(tk.Frame):
             to=0,
             orient=tk.HORIZONTAL,
             bg=sett.SUBSEC_BG_COLOR,
+            font=sett.SEC_CONTENT_FONT,
             highlightbackground=sett.SUBSEC_BG_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
@@ -38,6 +39,7 @@ class WatermarkPositioning(tk.Frame):
             to=0,
             orient=tk.HORIZONTAL,
             bg=sett.SUBSEC_BG_COLOR,
+            font=sett.SEC_CONTENT_FONT,
             highlightbackground=sett.SUBSEC_BG_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
@@ -46,17 +48,20 @@ class WatermarkPositioning(tk.Frame):
             self,
             text="Text Position",
             bg=sett.SUBSEC_BG_COLOR,
+            font=sett.SEC_TITLE_FONT,
         )
 
         x_pos_label = tk.Label(
             self,
             text="Horizontal Position:",
             bg=sett.SUBSEC_BG_COLOR,
+            font=sett.SEC_CONTENT_FONT,
         )
         y_pos_label = tk.Label(
             self,
             text="Vertical Position:",
             bg=sett.SUBSEC_BG_COLOR,
+            font=sett.SEC_CONTENT_FONT,
         )
 
         # set scale defaults
@@ -77,26 +82,26 @@ class WatermarkPositioning(tk.Frame):
             column=0,
             row=1,
             sticky="SW",
-            padx=(sett.SEC_CONTENT_PAD, 0),
+            padx=(sett.SEC_CONTENT_OUTER_PAD_X, 0),
         )
         self.x_pos_scale.grid(
             column=1,
             row=1,
             sticky="EW",
-            padx=(0, sett.SEC_CONTENT_PAD),
+            padx=(sett.SEC_SCALE_PAD_LEFT, sett.SEC_CONTENT_OUTER_PAD_X),
         )
 
         y_pos_label.grid(
             column=0,
             row=2,
             sticky="SW",
-            padx=(sett.SEC_CONTENT_PAD, 0),
+            padx=(sett.SEC_CONTENT_OUTER_PAD_X, 0),
         )
         self.y_pos_scale.grid(
             column=1,
             row=2,
             sticky="EW",
-            padx=(0, sett.SEC_CONTENT_PAD),
+            padx=(sett.SEC_SCALE_PAD_LEFT, sett.SEC_CONTENT_OUTER_PAD_X),
         )
 
     # noinspection PyTypeChecker
