@@ -6,6 +6,8 @@ date:   3/11/2022
 brief:  Can be used to open an image file, watermark it, resize it, and save it.
 
 """
+
+# EXTERNAL LIBRARY IMPORTS
 import PIL
 from PIL import Image, ImageFont, ImageDraw
 

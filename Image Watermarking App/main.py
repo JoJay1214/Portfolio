@@ -7,9 +7,13 @@ brief:  Desktop application that allows a user to browse for an image file, then
         image with a user inputted watermark.
 
 """
+
+# EXTERNAL LIBRARY IMPORTS
 import tkinter as tk
 
+# PROJECT IMPORTS
 from source.image_watermarking_application import ImageWatermarkingApplication
+
 import source.app_settings as sett
 
 
@@ -18,9 +22,25 @@ def main():
     Create a TKinter window and configure it. Then, configure the Image Watermarking app.
     """
 
-    # main window
+    # root window
     root = tk.Tk()
+    __config_root_window(root)
 
+    # image watermarking app
+    image_wm_app = ImageWatermarkingApplication(
+        root,
+        bg=sett.PRIMARY_APP_COLOR,
+    )
+    image_wm_app.grid(
+        column=0,
+        row=0,
+        sticky="NESW"
+    )
+
+    root.mainloop()
+
+
+def __config_root_window(root: tk.Tk):
     root.title("Image Watermarking")
     root.config(
         bg=sett.PRIMARY_APP_COLOR,
@@ -29,20 +49,6 @@ def main():
     )
     root.grid_columnconfigure(0, weight=1)
     root.geometry(f"1280x720+{sett.WIN_START_POS[0]}+{sett.WIN_START_POS[1]}")
-
-    # image watermarking app
-    image_wm_app = ImageWatermarkingApplication(
-        root,
-        bg=sett.PRIMARY_APP_COLOR,
-    )
-
-    image_wm_app.grid(
-        column=0,
-        row=0,
-        sticky="NESW"
-    )
-
-    root.mainloop()
 
 
 if __name__ == "__main__":
