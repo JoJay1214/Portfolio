@@ -74,30 +74,32 @@ class CharToMorseCodeTranslator:
     PUBLIC METHODS
     """
 
-    def translate(self, str_to_trans: str) -> str:
+    @staticmethod
+    def translate(str_to_trans: str) -> str:
         """
         Translates a given string into Morse Code
         :param str_to_trans: The string to be translated.
         :return: The string in Morse Code.
         """
         # Cast to upper for conversion and remove symbols
-        str_no_symbols = self.__remove_symbols(str_to_trans.upper())
+        str_no_symbols = CharToMorseCodeTranslator.__remove_symbols(str_to_trans.upper())
 
         words = str_no_symbols.split()  # Separate words
         morse_code_strs = []            # Holds words translated into Morse Code
 
         for word in words:
             # Append word in Morse Code
-            morse_code_strs.append(self.__word_to_morse_code(word))
+            morse_code_strs.append(CharToMorseCodeTranslator.__word_to_morse_code(word))
 
         # Join all words by proper Morse Code word spacing
-        return self.__WORD_SPACE.join(morse_code_strs)
+        return CharToMorseCodeTranslator.__WORD_SPACE.join(morse_code_strs)
 
     """
     PRIVATE METHODS
     """
 
-    def __word_to_morse_code(self, word: str) -> str:
+    @staticmethod
+    def __word_to_morse_code(word: str) -> str:
         """
         Converts a string with no spaces to Morse Code
         :param word: The string to convert
@@ -106,16 +108,17 @@ class CharToMorseCodeTranslator:
         word_morse_code = ""  # word translated into morse code
 
         # Append first letter
-        word_morse_code += self.__ALPHA_TO_MORSE_CODE[word[0]]
+        word_morse_code += CharToMorseCodeTranslator.__ALPHA_TO_MORSE_CODE[word[0]]
 
         # Append following letters with proper spacing
         for letter in word[1:]:
-            word_morse_code += self.__LETTER_SPACE
-            word_morse_code += self.__ALPHA_TO_MORSE_CODE[letter]
+            word_morse_code += CharToMorseCodeTranslator.__LETTER_SPACE
+            word_morse_code += CharToMorseCodeTranslator.__ALPHA_TO_MORSE_CODE[letter]
 
         return word_morse_code
 
-    def __remove_symbols(self, str_with_sym: str) -> str:
+    @staticmethod
+    def __remove_symbols(str_with_sym: str) -> str:
         """
         Removes any characters that are not found in the ALPHA_TO_MORSE dictionary
         :param str_with_sym: Original string, possibly contains symbols
@@ -124,7 +127,7 @@ class CharToMorseCodeTranslator:
         str_no_sym = str_with_sym  # str with symbols removed
 
         for char in str_with_sym:
-            if (char not in self.__ALPHA_TO_MORSE_CODE.keys()) and (not char == " "):
+            if (char not in CharToMorseCodeTranslator.__ALPHA_TO_MORSE_CODE.keys()) and (not char == " "):
                 str_no_sym = str_no_sym.replace(char, "")
 
         return str_no_sym

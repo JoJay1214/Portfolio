@@ -31,7 +31,7 @@ class ImageWatermarkingApplication(tk.Frame):
 
     def __init__(self, parent: tk.Tk, *args, **kwargs):
         """
-        Constructor for the File Manage section of the Image Watermarking app
+        Constructor for the Image Watermarking app
         :param parent: The parent container
         :param args: Argument list
         :param kwargs: Keyword argument list
