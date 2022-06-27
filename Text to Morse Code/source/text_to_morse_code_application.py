@@ -12,6 +12,8 @@ import tkinter as tk
 
 # PROJECT IMPORTS
 from source.title_frame import TitleFrame
+from source.input_textbox_frame import InputTextboxFrame
+from source.output_textbox_frame import OutputTextboxFrame
 
 
 class TextToMorseCodeApplication(tk.Frame):
@@ -36,14 +38,58 @@ class TextToMorseCodeApplication(tk.Frame):
 
         self.grid_columnconfigure(0, weight=1)
 
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_rowconfigure(2, weight=1)
+
         # PUBLIC VARIABLES
         self.parent = parent  # the parent container
 
         # PRIVATE VARIABLES
+        self.__title_frame = None           # holds the app title section
+        self.__input_textbox_frame = None   # holds the input entry textbox section
+        self.__output_textbox_frame = None  # holds the output textbox section
+
+        # CONFIG SELF
+        self.__create_widgets()
+        self.__place_widgets()
+
+    def __create_widgets(self):
+
+        # TITLE
         self.__title_frame = TitleFrame(
             self,
         )
+
+        # INPUT TEXTBOX
+        self.__input_textbox_frame = InputTextboxFrame(
+            self,
+        )
+
+        # OUTPUT TEXTBOX
+        self.__output_textbox_frame = OutputTextboxFrame(
+            self,
+        )
+
+    def __place_widgets(self):
+
+        # TITLE
         self.__title_frame.grid(
             column=0,
             row=0,
+            sticky="NESW",
+        )
+
+        # INPUT TEXTBOX
+        self.__input_textbox_frame.grid(
+            column=0,
+            row=1,
+            sticky="NESW",
+        )
+
+        # OUTPUT TEXTBOX
+        self.__output_textbox_frame.grid(
+            column=0,
+            row=2,
+            sticky="NESW",
         )

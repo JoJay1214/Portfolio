@@ -1,6 +1,6 @@
 """
 Text to Morse Code App
-file:   file_manage_section.py
+file:   title_frame.py
 author: Joshua Jacobs
 date:   6/23/2022
 brief:  TKinter Frame that holds the widgets used for the Title of the Text to Morse Code app.
@@ -56,6 +56,23 @@ class TitleFrame(tk.Frame):
     PRIVATE METHODS
     """
 
+    def __create_widgets(self):
+
+        # TITLE
+        self.__title_label = tk.Label(
+            self,
+            text="Text to Morse Code",
+            font=sett.TITLE_FONT,
+        )
+
+        # TITLE IN MORSE CODE
+        self.__title_mc_label = tk.Label(
+            self,
+            text=f"{CharToMorseCodeTranslator.translate('Text to')}\n"
+                 f"{CharToMorseCodeTranslator.translate('Morse Code')}",
+            font=sett.TITLE_MC_FONT,
+        )
+
     def __place_widgets(self):
 
         # TITLE
@@ -69,21 +86,5 @@ class TitleFrame(tk.Frame):
         self.__title_mc_label.grid(
             column=0,
             row=1,
-            pady=sett.TITLE_MC_PADY,
             sticky="ESW",
-        )
-
-    def __create_widgets(self):
-
-        # TITLE
-        self.__title_label = tk.Label(
-            text="Text to Morse Code",
-            font=sett.TITLE_FONT,
-        )
-
-        # TITLE IN MORSE CODE
-        self.__title_mc_label = tk.Label(
-            text=f"{CharToMorseCodeTranslator.translate('Text to')}\n"
-                 f"{CharToMorseCodeTranslator.translate('Morse Code')}",
-            font=sett.TITLE_MC_FONT,
         )

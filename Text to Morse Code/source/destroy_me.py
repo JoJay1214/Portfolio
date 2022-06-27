@@ -24,25 +24,11 @@ class MorseCodeUI:
     __MS_TIL_TRANSLATE = 200  # time to wait between translation updates
     __MC_TIME_INTERVAL_MS = 100  # time interval for morse code audio output
 
-    # Colors
-
-    __OUTPUT_TEXT_BG_COLOR = "#000000"
-    __OUTPUT_TEXT_FG_COLOR = "#FFFFFF"
-
     # Fonts
-    __ENTRY_FONT = ("Arial", 16)
     __MORSE_CODE_FONT = ("Arial", 16, "bold")
     __BUTTON_FONT = ("Arial", 18, "bold")
 
     # UI Widget Settings
-
-    __INPUT_TEXT_HEIGHT = 5
-    __INPUT_TEXT_WIDTH = 50
-    __INPUT_STARTING_TEXT = "Text to Morse Code"
-
-    __OUTPUT_FRAME_PADY = 20
-    __OUTPUT_TEXT_HEIGHT = 1
-    __OUTPUT_TEXT_WIDTH = 55
 
     __PLAY_BUTTON_WIDTH = 10
 
@@ -56,7 +42,6 @@ class MorseCodeUI:
         self.__timer = None  # timer to start/stop morse code audio output
 
         # Configure UI
-        self.__input_textbox = self.__config_input_textbox()  # user input Text obj
         self.__morse_code_output_textbox = self.__config_text_output()  # morse code text output Text obj
         self.__play_button = self.__config_play_button()  # morse code play button Button obj
 
@@ -135,42 +120,6 @@ class MorseCodeUI:
     APP UI CONFIG
     """
 
-    def __config_input_textbox(self) -> Text:
-        """
-        Create and configure the Text box for user input
-        :return: The created Text box
-        """
-
-        # Text box
-        text_entry = Text(
-            font=self.__ENTRY_FONT,
-            height=self.__INPUT_TEXT_HEIGHT,
-            width=self.__INPUT_TEXT_WIDTH,
-            wrap=WORD,
-        )
-        text_entry.insert("1.0", self.__INPUT_STARTING_TEXT)
-        text_entry.focus()
-        text_entry.grid(
-            column=0,
-            row=2,
-            sticky="EW",
-        )
-
-        # Scrollbar
-        text_entry_scrollbar = Scrollbar(
-            command=text_entry.yview,
-        )
-        text_entry_scrollbar.grid(
-            column=1,
-            row=2,
-            sticky="NS",
-        )
-        text_entry.config(
-            yscrollcommand=text_entry_scrollbar.set,
-        )
-
-        return text_entry
-
     def __config_text_output(self) -> Text:
         """
         Create and configure the Text box for morse code output
@@ -185,36 +134,7 @@ class MorseCodeUI:
             pady=self.__OUTPUT_FRAME_PADY,
         )
 
-        # Text box
-        morse_code_output_text = Text(
-            output_frame,
-            width=self.__OUTPUT_TEXT_WIDTH,
-            height=self.__OUTPUT_TEXT_HEIGHT,
-            font=self.__MORSE_CODE_FONT,
-            bg=self.__OUTPUT_TEXT_BG_COLOR,
-            fg=self.__OUTPUT_TEXT_FG_COLOR,
-            wrap=NONE,
-        )
-        morse_code_output_text.grid(
-            column=0,
-            row=0,
-            sticky="EW",
-        )
 
-        # Scrollbar
-        morse_code_scrollbar = Scrollbar(
-            output_frame,
-            orient="horizontal",
-            command=morse_code_output_text.xview,
-        )
-        morse_code_scrollbar.grid(
-            column=0,
-            row=1,
-            sticky="EW",
-        )
-        morse_code_output_text.config(
-            xscrollcommand=morse_code_scrollbar.set,
-        )
 
         return morse_code_output_text
 
