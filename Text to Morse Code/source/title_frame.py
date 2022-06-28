@@ -79,12 +79,12 @@ class TitleFrame(tk.Frame):
         self.__title_label.grid(
             column=0,
             row=0,
-            sticky="NEW",
+            sticky="EW",
         )
 
         # TITLE IN MORSE CODE
         self.__title_mc_label.grid(
             column=0,
             row=1,
-            sticky="ESW",
+            sticky="EW",
         )

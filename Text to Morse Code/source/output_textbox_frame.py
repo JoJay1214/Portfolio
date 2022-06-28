@@ -37,11 +37,12 @@ class OutputTextboxFrame(tk.Frame):
         self.grid_columnconfigure(0, weight=1)
 
         self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)
 
         # PUBLIC VARIABLES
         self.parent = parent                # the parent container
 
-        self.morse_code_output_text = None  # textbox to output morse code text
+        self.output_text = None  # textbox to output morse code text
 
         # PRIVATE VARIABLES
         self.__morse_code_scrollbar = None  # horizontal scrollbar to scroll output textbox
@@ -57,7 +58,7 @@ class OutputTextboxFrame(tk.Frame):
     def __create_widgets(self):
 
         # TEXT ENTRY
-        self.morse_code_output_text = tk.Text(
+        self.output_text = tk.Text(
             self,
             height=sett.OUTPUT_TEXT_HEIGHT,
             font=sett.MORSE_CODE_FONT,
@@ -70,16 +71,16 @@ class OutputTextboxFrame(tk.Frame):
         self.__morse_code_scrollbar = tk.Scrollbar(
             self,
             orient="horizontal",
-            command=self.morse_code_output_text.xview,
+            command=self.output_text.xview,
         )
-        self.morse_code_output_text.config(
+        self.output_text.config(
             xscrollcommand=self.__morse_code_scrollbar.set,
         )
 
     def __place_widgets(self):
 
         # TEXT ENTRY
-        self.morse_code_output_text.grid(
+        self.output_text.grid(
             column=0,
             row=0,
             sticky="NESW",

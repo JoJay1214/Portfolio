@@ -17,17 +17,12 @@ from source.text_to_morse_code_application import TextToMorseCodeApplication
 
 import source.app_settings as sett
 
-from source.char_to_morse_code import CharToMorseCodeTranslator
-from source.morse_code_ui import MorseCodeUI
-
 
 def main():
     """
     TKinter app that lets a user enter text into a text box and outputs to the user their text translated into
     Morse Code. As well, can audibly play the message in Morse Code
     """
-    # translator = CharToMorseCodeTranslator()
-    # MorseCodeUI(translator)
 
     # root window
     root = tk.Tk()

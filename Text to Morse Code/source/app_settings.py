@@ -11,13 +11,15 @@ brief:  Contains the constants used to control TKinter options in the app--such 
 """
 MAIN APP
 """
+MS_TIL_TRANSLATE = 200     # time to wait between translation updates
+MC_TIME_INTERVAL_MS = 100  # time interval for morse code audio output
 
 """
 WINDOW
 """
 
 # color
-WINDOW_BG_COLOR = "#CCCCCC"
+WINDOW_BG_COLOR = "#BBBBBB"
 
 # padding
 WINDOW_PADX = 50
@@ -47,3 +49,8 @@ OUTPUT_TEXT_BG_COLOR = "#000000"
 OUTPUT_TEXT_FG_COLOR = "#FFFFFF"
 
 MORSE_CODE_FONT = ("Arial", 16, "bold")
+
+"""
+PLAY BUTTON FRAME
+"""
+BUTTON_FONT = ("Arial", 18, "bold")
