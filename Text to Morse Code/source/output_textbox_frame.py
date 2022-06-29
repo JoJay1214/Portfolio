@@ -40,16 +40,38 @@ class OutputTextboxFrame(tk.Frame):
         self.grid_rowconfigure(1, weight=1)
 
         # PUBLIC VARIABLES
-        self.parent = parent                # the parent container
-
-        self.output_text = None  # textbox to output morse code text
+        self.parent = parent  # the parent container
 
         # PRIVATE VARIABLES
+        self.__output_text = None           # textbox to output morse code text
         self.__morse_code_scrollbar = None  # horizontal scrollbar to scroll output textbox
 
         # CONFIG SELF
         self.__create_widgets()
         self.__place_widgets()
+
+    """
+    PUBLIC METHODS
+    """
+
+    def set_output_text(self, text: str):
+        """
+        Set the text in the Morse Code Output Textbox
+        :param text: The text to be displayed in the Output Textbox
+        """
+
+        self.__output_text.config(state="normal")
+        self.__output_text.delete("1.0", tk.END)  # delete old text in output box
+        self.__output_text.insert("1.0", text)    # insert new text into output box
+        self.__output_text.config(state="disabled")
+
+    def get_output_text(self):
+        """
+        Get the text from the Output Textbox
+        :return: A string of text from the Output Textbox
+        """
+
+        return self.__output_text.get("1.0", tk.END)
 
     """
     PRIVATE METHODS
@@ -58,7 +80,7 @@ class OutputTextboxFrame(tk.Frame):
     def __create_widgets(self):
 
         # TEXT ENTRY
-        self.output_text = tk.Text(
+        self.__output_text = tk.Text(
             self,
             height=sett.OUTPUT_TEXT_HEIGHT,
             font=sett.MORSE_CODE_FONT,
@@ -71,16 +93,16 @@ class OutputTextboxFrame(tk.Frame):
         self.__morse_code_scrollbar = tk.Scrollbar(
             self,
             orient="horizontal",
-            command=self.output_text.xview,
+            command=self.__output_text.xview,
         )
-        self.output_text.config(
+        self.__output_text.config(
             xscrollcommand=self.__morse_code_scrollbar.set,
         )
 
     def __place_widgets(self):
 
         # TEXT ENTRY
-        self.output_text.grid(
+        self.__output_text.grid(
             column=0,
             row=0,
             sticky="NESW",

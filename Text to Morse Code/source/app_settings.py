@@ -14,6 +14,9 @@ MAIN APP
 MS_TIL_TRANSLATE = 200     # time to wait between translation updates
 MC_TIME_INTERVAL_MS = 100  # time interval for morse code audio output
 
+FRAME_HIGHLIGHT_THICKNESS = 1
+FRAME_HIGHLIGHT_COLOR = "#000000"
+
 """
 WINDOW
 """
@@ -30,8 +33,6 @@ TITLE FRAME
 """
 TITLE_FONT = ("Arial", 36, "bold")
 TITLE_MC_FONT = ("Arial", 18, "bold")
-
-TITLE_MC_PADY = 10
 
 """
 INPUT TEXTBOX FRAME

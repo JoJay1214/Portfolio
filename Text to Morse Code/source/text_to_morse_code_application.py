@@ -76,21 +76,29 @@ class TextToMorseCodeApplication(tk.Frame):
         # TITLE
         self.__title_frame = TitleFrame(
             self,
+            highlightthickness=sett.FRAME_HIGHLIGHT_THICKNESS,
+            highlightbackground=sett.FRAME_HIGHLIGHT_COLOR,
         )
 
         # INPUT TEXTBOX
         self.__input_textbox_frame = InputTextboxFrame(
             self,
+            highlightthickness=sett.FRAME_HIGHLIGHT_THICKNESS,
+            highlightbackground=sett.FRAME_HIGHLIGHT_COLOR,
         )
 
         # OUTPUT TEXTBOX
         self.__output_textbox_frame = OutputTextboxFrame(
             self,
+            highlightthickness=sett.FRAME_HIGHLIGHT_THICKNESS,
+            highlightbackground=sett.FRAME_HIGHLIGHT_COLOR,
         )
 
         # PLAY BUTTON
         self.__play_button_frame = PlayButtonFrame(
             self,
+            highlightthickness=sett.FRAME_HIGHLIGHT_THICKNESS,
+            highlightbackground=sett.FRAME_HIGHLIGHT_COLOR,
         )
 
     def __config_commands(self):
@@ -136,12 +144,10 @@ class TextToMorseCodeApplication(tk.Frame):
         """
 
         # get input text
-        translated_text = CharToMorseCodeTranslator.translate(self.__input_textbox_frame.text_entry.get("1.0", tk.END))
+        translated_text = CharToMorseCodeTranslator.translate(self.__input_textbox_frame.get_input_text())
 
-        self.__output_textbox_frame.output_text.config(state="normal")
-        self.__output_textbox_frame.output_text.delete("1.0", tk.END)  # delete old text in output box
-        self.__output_textbox_frame.output_text.insert("1.0", translated_text)  # insert new text into output box
-        self.__output_textbox_frame.output_text.config(state="disabled")
+        # set output text
+        self.__output_textbox_frame.set_output_text(translated_text)
 
         self.parent.after(sett.MS_TIL_TRANSLATE, self.__translate_text_in_box)  # run translate after wait time
 
@@ -155,7 +161,7 @@ class TextToMorseCodeApplication(tk.Frame):
 
         else:  # if not playing, start
             # disable text box
-            self.__input_textbox_frame.text_entry.config(state="disabled")
+            self.__input_textbox_frame.disable_input_textbox()
 
             self.__play_button_frame.play_button.config(text="Stop")
             self.__play_morse_code(0)  # start playing the Morse Code audio
@@ -170,12 +176,12 @@ class TextToMorseCodeApplication(tk.Frame):
         self.__timer = None
 
         # enable text box
-        self.__input_textbox_frame.text_entry.config(state="normal")
+        self.__input_textbox_frame.enable_input_textbox()
 
         self.__play_button_frame.play_button.config(text="Play")
 
     def __play_morse_code(self, interval: int):
-        morse_code_text = self.__output_textbox_frame.output_text.get("1.0", tk.END)  # get outputted Morse Code text
+        morse_code_text = self.__output_textbox_frame.get_output_text()  # get outputted Morse Code text
 
         # if there's morse code left to be played, keep playing
         if interval < len(morse_code_text):
