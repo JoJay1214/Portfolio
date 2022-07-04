@@ -2,22 +2,58 @@
 Tic Tac Toe
 file:   main.py
 author: Joshua Jacobs
-date:   4/26/2022
+date:   7/3/2022
 brief:  The classic Tic Tac Toe game presented in a GUI that was built using
         TKinter. The game is built for two players to switch off taking their
         turns; and resets after a round is decided.
 
 """
-from source.tic_tac_toe import TicTacToe
-from source.tic_tac_toe_ui import TicTacToeUI
+
+# EXTERNAL LIBRARY IMPORTS
+import tkinter as tk
+
+# PROJECT IMPORTS
+from source.tic_tac_toe_app import TicTacToeApplication
+
+__WIN_START_POS = (350, 50)
+__WINDOW_PAD = 20
 
 
 def main():
     """
-    Configures and runs the Tic Tac Toe app
+    The classic Tic Tac Toe game presented in a GUI that was built using TKinter. The game is
+    built for two players to switch off taking their turns; and resets after a round is decided
     """
-    tic_tac_toe = TicTacToe()
-    TicTacToeUI(tic_tac_toe)
+
+    # root window
+    root = tk.Tk()
+    __config_root_window(root)
+
+    # tic-tac-toe app
+    tic_tac_toe_app = TicTacToeApplication(
+        root,
+    )
+    tic_tac_toe_app.grid(
+        column=0,
+        row=0,
+        sticky="NESW",
+    )
+
+    root.mainloop()
+
+
+def __config_root_window(root: tk.Tk):
+    root.title("Tic Tac Toe")
+    root.config(
+        padx=__WINDOW_PAD,
+        pady=__WINDOW_PAD,
+    )
+
+    root.geometry(f"+{__WIN_START_POS[0]}+{__WIN_START_POS[1]}")
+    root.resizable(width=False, height=False)
+
+    root.grid_columnconfigure(0, weight=1)
+    root.grid_rowconfigure(0, weight=1)
 
 
 if __name__ == "__main__":
