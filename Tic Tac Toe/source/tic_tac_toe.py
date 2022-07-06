@@ -4,6 +4,7 @@ file:   tic_tac_toe.py
 author: Joshua Jacobs
 date:   3/10/2022
 brief:  Tic Tac Toe implementation and logic that runs the game.
+
 """
 import random  # shuffle
 
