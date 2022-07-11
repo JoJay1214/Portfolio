@@ -7,26 +7,6 @@ class TypingSpeedTestUI:
         self.__tst = tst
         self.__timer = None
 
-        self.__score_title_label = Label(text="Score", pady=5)
-        self.__score_title_label.grid(row=2, column=0)
-        self.__score_label = Label(text="0/0", pady=5)
-        self.__score_label.grid(row=3, column=0)
-
-        self.__time_title_label = Label(text="Time", pady=5)
-        self.__time_title_label.grid(row=2, column=2)
-        self.__time_label = Label(text="00", pady=5)
-        self.__time_label.grid(row=3, column=2)
-
-        self.__word_label = Label(text="word", pady=5)
-        self.__word_label.grid(row=4, column=1)
-
-        self.__typing_entry = Entry(justify="center")
-        self.__typing_entry.bind("<Return>", self.__input_typed_entry)
-        self.__typing_entry.grid(row=5, column=0, columnspan=3)
-
-        self.__hint_label = Label(text="Hit Enter Key to Submit each Word", pady=10)
-        self.__hint_label.grid(row=6, column=0, columnspan=3)
-
     def __start_test(self):
         self.__tst.restart_game()
         self.__get_new_word()

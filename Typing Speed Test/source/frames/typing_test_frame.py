@@ -1,9 +1,9 @@
 """
 Typing Speed Test
-file:   .py
+file:   typing_test_frame.py
 author: Joshua Jacobs
-date:   7//2022
-brief:  TKinter Frame that holds the widgets used for the _____ of the Typing Speed Test app
+date:   7/10/2022
+brief:  TKinter Frame that holds the widgets used for the Typing Test section of the Typing Speed Test app
 
 """
 
@@ -11,14 +11,19 @@ brief:  TKinter Frame that holds the widgets used for the _____ of the Typing Sp
 import tkinter as tk
 
 
-class Frame(tk.Frame):
+class TypingTestFrame(tk.Frame):
     """
-    TKinter Frame that holds the widgets used for the _____ of the Typing Speed Test app
+    TKinter Frame that holds the widgets used for the Typing Test section of the Typing Speed Test app
     """
 
     """
     CONSTANTS
     """
+
+    __WORD_PADY = 5
+    __HINT_PADY = 10
+
+    __HINT_START_TEXT = "Hit Enter Key to Submit each Word"
 
     """
     CONSTRUCTOR
@@ -26,7 +31,7 @@ class Frame(tk.Frame):
 
     def __init__(self, parent: tk.Frame, *args, **kwargs):
         """
-        Constructor for the _____ Frame
+        Constructor for the Typing Test Frame
         :param parent: The parent frame
         :param args: Argument list
         :param kwargs: Keyword Argument list
@@ -38,12 +43,16 @@ class Frame(tk.Frame):
         self.grid_columnconfigure(0, weight=1)
 
         self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_rowconfigure(2, weight=1)
 
         # PUBLIC VARIABLES
-        self.parent = parent  # the parent frame
+        self.parent = parent      # the parent frame
+        self.word_label = None    # displays the current word in the test
+        self.typing_entry = None  # entry for user input and typing out words
 
         # PRIVATE VARIABLES
-        # put here
+        self.__hint_label = None  # displays a hint about what the user should do to interact
 
         # CONFIG SELF
         self.__create_widgets()
@@ -54,7 +63,47 @@ class Frame(tk.Frame):
     """
 
     def __create_widgets(self):
-        pass
+
+        # WORD TO TYPE
+        self.word_label = tk.Label(
+            self,
+            text="word",
+            pady=self.__WORD_PADY,
+        )
+
+        # INPUT ENTRY
+        self.typing_entry = tk.Entry(
+            self,
+            justify="center",
+        )
+        # self.__typing_entry.bind(
+        #     "<Return>",
+        #     self.__input_typed_entry,
+        # )
+
+        # HINT LABEL
+        self.__hint_label = tk.Label(
+            self,
+            text=self.__HINT_START_TEXT,
+            pady=self.__HINT_PADY,
+        )
 
     def __place_widgets(self):
-        pass
+
+        # WORD TO TYPE
+        self.word_label.grid(
+            column=0,
+            row=0,
+        )
+
+        # INPUT ENTRY
+        self.typing_entry.grid(
+            column=0,
+            row=1,
+        )
+
+        # HINT LABEL
+        self.__hint_label.grid(
+            column=0,
+            row=2,
+        )

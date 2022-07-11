@@ -1,9 +1,9 @@
 """
 Typing Speed Test
-file:   .py
+file:   time_display_frame.py
 author: Joshua Jacobs
-date:   7//2022
-brief:  TKinter Frame that holds the widgets used for the _____ of the Typing Speed Test app
+date:   7/10/2022
+brief:  TKinter Frame that holds the widgets used for the Time Display Frame of the Typing Speed Test app
 
 """
 
@@ -11,14 +11,17 @@ brief:  TKinter Frame that holds the widgets used for the _____ of the Typing Sp
 import tkinter as tk
 
 
-class Frame(tk.Frame):
+class TimeDisplayFrame(tk.Frame):
     """
-    TKinter Frame that holds the widgets used for the _____ of the Typing Speed Test app
+    TKinter Frame that holds the widgets used for the Time Display Frame of the Typing Speed Test app
     """
 
     """
     CONSTANTS
     """
+
+    __WIDGET_PADY = 5
+    __TIME_START_TEXT = "00"
 
     """
     CONSTRUCTOR
@@ -26,7 +29,7 @@ class Frame(tk.Frame):
 
     def __init__(self, parent: tk.Frame, *args, **kwargs):
         """
-        Constructor for the _____ Frame
+        Constructor for the Time Display Frame
         :param parent: The parent frame
         :param args: Argument list
         :param kwargs: Keyword Argument list
@@ -38,12 +41,14 @@ class Frame(tk.Frame):
         self.grid_columnconfigure(0, weight=1)
 
         self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)
 
         # PUBLIC VARIABLES
-        self.parent = parent  # the parent frame
+        self.parent = parent    # the parent frame
+        self.time_label = None  # current time left in the test
 
         # PRIVATE VARIABLES
-        # put here
+        self.__time_title_label = None  # title of the frame
 
         # CONFIG SELF
         self.__create_widgets()
@@ -54,7 +59,31 @@ class Frame(tk.Frame):
     """
 
     def __create_widgets(self):
-        pass
+
+        # TITLE
+        self.__time_title_label = tk.Label(
+            self,
+            text="Time",
+            pady=self.__WIDGET_PADY,
+        )
+
+        # TIME
+        self.time_label = tk.Label(
+            self,
+            text=self.__TIME_START_TEXT,
+            pady=self.__WIDGET_PADY,
+        )
 
     def __place_widgets(self):
-        pass
+
+        # TITLE
+        self.__time_title_label.grid(
+            column=0,
+            row=0,
+        )
+
+        # TIME
+        self.time_label.grid(
+            column=0,
+            row=1,
+        )
