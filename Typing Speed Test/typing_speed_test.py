@@ -12,7 +12,6 @@ class TypingSpeedTest:
         self.__typed_words = []
 
         self.__score = 0
-        self.__timer = None
 
     def restart_game(self):
         with open("words.txt", 'r') as infile:

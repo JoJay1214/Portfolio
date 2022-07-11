@@ -48,11 +48,11 @@ class TypingTestFrame(tk.Frame):
 
         # PUBLIC VARIABLES
         self.parent = parent      # the parent frame
-        self.word_label = None    # displays the current word in the test
-        self.typing_entry = None  # entry for user input and typing out words
 
         # PRIVATE VARIABLES
-        self.__hint_label = None  # displays a hint about what the user should do to interact
+        self.__word_label = None    # displays the current word in the test
+        self.__typing_entry = None  # entry for user input and typing out words
+        self.__hint_label = None    # displays a hint about what the user should do to interact
 
         # CONFIG SELF
         self.__create_widgets()
@@ -65,14 +65,14 @@ class TypingTestFrame(tk.Frame):
     def __create_widgets(self):
 
         # WORD TO TYPE
-        self.word_label = tk.Label(
+        self.__word_label = tk.Label(
             self,
             text="word",
             pady=self.__WORD_PADY,
         )
 
         # INPUT ENTRY
-        self.typing_entry = tk.Entry(
+        self.__typing_entry = tk.Entry(
             self,
             justify="center",
         )
@@ -91,13 +91,13 @@ class TypingTestFrame(tk.Frame):
     def __place_widgets(self):
 
         # WORD TO TYPE
-        self.word_label.grid(
+        self.__word_label.grid(
             column=0,
             row=0,
         )
 
         # INPUT ENTRY
-        self.typing_entry.grid(
+        self.__typing_entry.grid(
             column=0,
             row=1,
         )

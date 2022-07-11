@@ -45,9 +45,9 @@ class TimeDisplayFrame(tk.Frame):
 
         # PUBLIC VARIABLES
         self.parent = parent    # the parent frame
-        self.time_label = None  # current time left in the test
 
         # PRIVATE VARIABLES
+        self.__time_label = None        # current time left in the test
         self.__time_title_label = None  # title of the frame
 
         # CONFIG SELF
@@ -68,7 +68,7 @@ class TimeDisplayFrame(tk.Frame):
         )
 
         # TIME
-        self.time_label = tk.Label(
+        self.__time_label = tk.Label(
             self,
             text=self.__TIME_START_TEXT,
             pady=self.__WIDGET_PADY,
@@ -83,7 +83,7 @@ class TimeDisplayFrame(tk.Frame):
         )
 
         # TIME
-        self.time_label.grid(
+        self.__time_label.grid(
             column=0,
             row=1,
         )

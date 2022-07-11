@@ -4,7 +4,6 @@ from typing_speed_test import TypingSpeedTest, TEST_LEN_SEC
 
 class TypingSpeedTestUI:
     def __init__(self, tst: TypingSpeedTest):
-        self.__tst = tst
         self.__timer = None
 
     def __start_test(self):

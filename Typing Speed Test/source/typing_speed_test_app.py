@@ -58,11 +58,13 @@ class TypingSpeedTestApp(tk.Frame):
         self.parent = parent  # the parent window
 
         # PRIVATE VARIABLES
-        self.__title_frame = None          # the app's title
-        self.__start_button_frame = None   # start button to start/stop the test
-        self.__score_display_frame = None  # displays the current score in the typing test
-        self.__time_display_frame = None   # displays the current time left in the typing test
-        self.__typing_test_frame = None    # displays current word and has entry for user interaction
+        self.__title_frame = None                   # the app's title
+        self.__start_button_frame = None            # start button to start/stop the test
+        self.__score_display_frame = None           # displays the current score in the typing test
+        self.__time_display_frame = None            # displays the current time left in the typing test
+        self.__typing_test_frame = None             # displays current word and has entry for user interaction
+
+        self.typing_speed_test = TypingSpeedTest()  # the current typing speed test
 
         # CONFIG SELF
         self.__create_widgets()

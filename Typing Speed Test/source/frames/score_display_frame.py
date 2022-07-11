@@ -45,9 +45,9 @@ class ScoreDisplayFrame(tk.Frame):
 
         # PUBLIC VARIABLES
         self.parent = parent     # the parent frame
-        self.score_label = None  # current score in the test
 
         # PRIVATE VARIABLES
+        self.__score_label = None        # current score in the test
         self.__score_title_label = None  # score frame title label
 
         # CONFIG SELF
@@ -68,7 +68,7 @@ class ScoreDisplayFrame(tk.Frame):
         )
 
         # SCORE
-        self.score_label = tk.Label(
+        self.__score_label = tk.Label(
             self,
             text=self.__SCORE_START_TEXT,
             pady=self.__WIDGET_PADY,
@@ -83,7 +83,7 @@ class ScoreDisplayFrame(tk.Frame):
         )
 
         # SCORE
-        self.score_label.grid(
+        self.__score_label.grid(
             column=0,
             row=1,
         )
