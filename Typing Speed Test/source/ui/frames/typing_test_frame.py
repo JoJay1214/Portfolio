@@ -10,6 +10,8 @@ brief:  TKinter Frame that holds the widgets used for the Typing Test section of
 # EXTERNAL LIBRARY IMPORTS
 import tkinter as tk
 
+from typing import Callable
+
 
 class TypingTestFrame(tk.Frame):
     """
@@ -59,6 +61,62 @@ class TypingTestFrame(tk.Frame):
         self.__place_widgets()
 
     """
+    PUBLIC METHODS
+    """
+
+    def set_word_label(self, text: str):
+        """
+        Set the text in the Word Label
+        :param text: The text to be displayed by the label
+        """
+
+        self.__word_label.config(text=text)
+
+    def bind_text_entry(self, event: str, handler: Callable):
+        """
+        Bind a function for the Text Entry to a given Event
+        :param event: The Event that will trigger the function
+        :param handler: The function to be bound
+        """
+
+        self.__typing_entry.bind(
+            event,
+            handler,
+        )
+
+    def get_text_entry(self) -> str:
+        """
+        Get the text from the Text Entry
+        :return: The string of text in the Text Entry
+        """
+
+        return self.__typing_entry.get()
+
+    def focus_text_entry(self):
+        """
+        Focuses on the Typing Test text Entry
+        """
+
+        self.__typing_entry.focus()
+
+    def delete_text_entry(self):
+        """
+        Deletes the text in the Text Entry
+        """
+
+        self.__typing_entry.delete(0, tk.END)
+
+    def set_text_entry_state(self, state: str):
+        """
+        Set the State of the Text Entry--either "normal" or "disabled"
+        """
+
+        if state == "normal" or state == "disabled":
+            self.__typing_entry.config(state=state)
+        else:
+            print("Invalid Text Entry State!")
+
+    """
     PRIVATE METHODS
     """
 
@@ -75,11 +133,8 @@ class TypingTestFrame(tk.Frame):
         self.__typing_entry = tk.Entry(
             self,
             justify="center",
+            state="disabled",
         )
-        # self.__typing_entry.bind(
-        #     "<Return>",
-        #     self.__input_typed_entry,
-        # )
 
         # HINT LABEL
         self.__hint_label = tk.Label(

@@ -2,7 +2,6 @@ import random
 
 WORD_LEN_MIN = 4
 WORD_LEN_MAX = 7
-TEST_LEN_SEC = 60
 
 
 class TypingSpeedTest:
@@ -14,7 +13,7 @@ class TypingSpeedTest:
         self.__score = 0
 
     def restart_game(self):
-        with open("words.txt", 'r') as infile:
+        with open("assets/words.txt", 'r') as infile:
             words = infile.readlines()
 
             words_filtered = [word.split('\n')[0] for word in words]  # split off new lines

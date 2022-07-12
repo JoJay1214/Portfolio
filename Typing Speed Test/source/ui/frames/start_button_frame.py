@@ -10,6 +10,8 @@ brief:  TKinter Frame that holds the widgets used for the Start Button for the T
 # EXTERNAL LIBRARY IMPORTS
 import tkinter as tk
 
+from typing import Callable
+
 
 class StartButtonFrame(tk.Frame):
     """
@@ -50,6 +52,19 @@ class StartButtonFrame(tk.Frame):
         self.__place_widgets()
 
     """
+    PUBLIC METHODS
+    """
+
+    def set_start_button(self, btn_txt: str, btn_cmd: Callable):
+        """
+        Set the Start Button values
+        :param btn_txt: The text to be displayed on the button
+        :param btn_cmd: The function to bind to the Button's command
+        """
+
+        self.__start_button.config(text=btn_txt, command=btn_cmd)
+
+    """
     PRIVATE METHODS
     """
 
@@ -58,7 +73,6 @@ class StartButtonFrame(tk.Frame):
         self.__start_button = tk.Button(
             self,
             text="Start Typing",
-            # command=self.__start_test,
         )
 
     def __place_widgets(self):

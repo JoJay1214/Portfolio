@@ -55,6 +55,18 @@ class TimeDisplayFrame(tk.Frame):
         self.__place_widgets()
 
     """
+    PUBLIC METHODS
+    """
+
+    def set_time_label(self, text: str):
+        """
+        Set the text in the Time Label
+        :param text: The text to be displayed
+        """
+
+        self.__time_label.config(text=text)
+
+    """
     PRIVATE METHODS
     """
 

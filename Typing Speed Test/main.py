@@ -9,14 +9,12 @@ References:
     word list: https://www.ef.edu/english-resources/english-vocabulary/top-3000-words/
 
 """
-from typing_speed_test import TypingSpeedTest
-from ui import TypingSpeedTestUI
 
 # EXTERNAL LIBRARY IMPORTS
 import tkinter as tk
 
 # PROJECT IMPORTS
-from source.typing_speed_test_app import TypingSpeedTestApp
+from source.ui.typing_speed_test_app import TypingSpeedTestApp
 
 __WIN_START_POS = (350, 50)
 __WIN_PAD = 20
@@ -26,9 +24,6 @@ def main():
     """
     Creates and configures the Typing Speed Test window and application
     """
-
-    typing_speed_test = TypingSpeedTest()
-    TypingSpeedTestUI(typing_speed_test)
 
     # root window
     root = tk.Tk()

@@ -47,12 +47,24 @@ class ScoreDisplayFrame(tk.Frame):
         self.parent = parent     # the parent frame
 
         # PRIVATE VARIABLES
-        self.__score_label = None        # current score in the test
         self.__score_title_label = None  # score frame title label
+        self.__score_label = None        # current score in the test
 
         # CONFIG SELF
         self.__create_widgets()
         self.__place_widgets()
+
+    """
+    PUBLIC METHODS
+    """
+
+    def set_score_label(self, text: str):
+        """
+        Set the text in the Score Label
+        :param text: The text to be displayed
+        """
+
+        self.__score_label.config(text=text)
 
     """
     PRIVATE METHODS
