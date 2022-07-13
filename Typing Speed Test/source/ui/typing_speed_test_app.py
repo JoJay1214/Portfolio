@@ -152,42 +152,59 @@ class TypingSpeedTestApp(tk.Frame):
         )
 
     def __start_test(self):
-        self.__typing_speed_test.restart_game()
 
-        self.__get_new_word()
+        self.__typing_speed_test.restart_game()  # reset typing test word list and score
+
+        self.__get_new_word()  # populate word label
         self.__count_down(self.TEST_LEN_SEC)
 
+        # config widgets
         self.__start_button_frame.set_start_button(btn_txt="Cancel Test", btn_cmd=self.__cancel_test)
         self.__score_display_frame.set_score_label("0/0")
         self.__typing_test_frame.set_text_entry_state("normal")
         self.__typing_test_frame.focus_text_entry()
 
     def __cancel_test(self):
+
         self.__reset_ui()
 
     def __reset_ui(self):
+
+        # cancel timer
         self.parent.after_cancel(self.__timer)
         self.__timer = None
 
+        # reset widgets
         self.__start_button_frame.set_start_button(btn_txt="Start Typing", btn_cmd=self.__start_test)
         self.__time_display_frame.set_time_label("00")
         self.__typing_test_frame.set_word_label("word")
+
         self.__typing_test_frame.delete_text_entry()
         self.__typing_test_frame.set_text_entry_state("disabled")
 
     def __input_typed_entry(self, _=None):
+
         if self.__timer:
+
+            # store user input, update score, and repopulate word label
             self.__typing_speed_test.store_typed_word(self.__typing_test_frame.get_text_entry())
             self.__score_display_frame.set_score_label(self.__typing_speed_test.get_score_str())
             self.__get_new_word()
 
     def __get_new_word(self):
+
+        # set new word and delete last input
         self.__typing_test_frame.set_word_label(self.__typing_speed_test.get_word())
         self.__typing_test_frame.delete_text_entry()
 
     def __count_down(self, count: int):
+
+        # update time
         self.__time_display_frame.set_time_label(f"{count:02}")
+
         if count > 0:
+            # set new timer and recall function in 1 second, until time at 0
             self.__timer = self.parent.after(1000, self.__count_down, count - 1)
         else:
+            # end test
             self.__reset_ui()
