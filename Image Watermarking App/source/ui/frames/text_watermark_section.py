@@ -10,9 +10,11 @@ brief:  TKinter Frame that holds the widgets used for the text watermark and its
 # EXTERNAL LIBRARY IMPORTS
 import tkinter as tk
 
+from typing import Callable
+
 # PROJECT IMPORTS
-from source.watermark_font_settings_section import WatermarkFontSettingsSection
-from source.watermark_positioning_section import WatermarkPositioningSection
+from source.ui.frames.watermark_font_settings_section import WatermarkFontSettingsSection
+from source.ui.frames.watermark_positioning_section import WatermarkPositioningSection
 
 import source.app_settings as sett
 
@@ -38,24 +40,46 @@ class TextWatermarkSection(tk.Frame):
         tk.Frame.__init__(self, parent, *args, **kwargs)
 
         self.grid_columnconfigure(1, weight=1)
+
         self.grid_rowconfigure(2, weight=1)
         self.grid_rowconfigure(3, weight=1)
 
         # PUBLIC VARIABLES
         self.parent = parent                 # the parent container
 
-        self.watermark_entry = None          # entry for inputting watermark text
-        self.update_watermark_button = None  # button used to update watermark text on image
         self.watermark_font_settings = None  # section used to control watermark font settings
         self.watermark_positioning = None    # section used to control watermark position
 
         # PRIVATE VARIABLES
-        self.__section_title_label = None   # text watermark section title label
-        self.__watermark_text_label = None  # Text label for watermark entry
+        self.__watermark_entry = None          # entry for inputting watermark text
+        self.__update_watermark_button = None  # button used to update watermark text on image
+        self.__section_title_label = None      # text watermark section title label
+        self.__watermark_text_label = None     # Text label for watermark entry
 
         # CONFIG SELF
         self.__create_widgets()
         self.__place_widgets()
+
+    """
+    PUBLIC METHODS
+    """
+
+    def get_watermark_entry_text(self) -> str:
+        """
+        Get the string of text that has been entered in the Watermark Entry
+        :returns: The string of text to be used to watermark
+        """
+
+        return self.__watermark_entry.get()
+
+    def set_update_watermark_btn_cmd(self, cmd: Callable):
+        """
+        Set the command of the TK Button used for updating the watermark on the image
+        """
+
+        self.__update_watermark_button.config(
+            command=cmd,
+        )
 
     """
     PRIVATE METHODS
@@ -78,11 +102,11 @@ class TextWatermarkSection(tk.Frame):
             bg=sett.SEC_BG_COLOR,
             font=sett.SEC_CONTENT_FONT,
         )
-        self.watermark_entry = tk.Entry(
+        self.__watermark_entry = tk.Entry(
             self,
             font=sett.SEC_CONTENT_FONT,
         )
-        self.update_watermark_button = tk.Button(
+        self.__update_watermark_button = tk.Button(
             self,
             text="Update Text",
             width=sett.UPDATE_WATERMARK_BTN_WIDTH,
@@ -125,13 +149,13 @@ class TextWatermarkSection(tk.Frame):
             sticky="W",
             padx=(sett.SEC_CONTENT_OUTER_PAD_X, 0),
         )
-        self.watermark_entry.grid(
+        self.__watermark_entry.grid(
             column=1,
             row=1,
             sticky="EW",
             padx=sett.SEC_ENTRY_PAD_X,
         )
-        self.update_watermark_button.grid(
+        self.__update_watermark_button.grid(
             column=2,
             row=1,
             sticky="E",

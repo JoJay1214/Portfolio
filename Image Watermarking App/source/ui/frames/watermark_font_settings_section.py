@@ -10,6 +10,8 @@ brief:  TKinter Frame that holds the widgets used for the text watermark font se
 # EXTERNAL LIBRARY IMPORTS
 import tkinter as tk
 
+from typing import Callable
+
 # PROJECT IMPORTS
 import source.app_settings as sett
 
@@ -37,12 +39,12 @@ class WatermarkFontSettingsSection(tk.Frame):
         self.grid_columnconfigure(1, weight=1)
 
         # PUBLIC VARIABLES
-        self.parent = parent         # the parent container
-
-        self.font_size_scale = None  # scale that controls watermark text font size
-        self.alpha_scale = None      # scale that controls watermark text transparency
+        self.parent = parent  # the parent container
 
         # PRIVATE VARIABLES
+        self.__font_size_scale = None  # scale that controls watermark text font size
+        self.__alpha_scale = None      # scale that controls watermark text transparency
+
         self.__section_title_label = None  # watermark font settings section title label
         self.__font_size_label = None      # font size label for scale
         self.__font_alpha_label = None     # font alpha label for scale
@@ -50,6 +52,46 @@ class WatermarkFontSettingsSection(tk.Frame):
         # CONFIG SELF
         self.__create_widgets()
         self.__place_widgets()
+
+    """
+    PUBLIC METHODS
+    """
+
+    def get_font_size_value(self):
+        """
+        Get the value stored in the font size scale
+        :returns: The font size value
+        """
+
+        return self.__font_size_scale.get()
+
+    def get_alpha_value(self):
+        """
+        Get the value stored in the alpha scale
+        :returns: The alpha value
+        """
+
+        return self.__alpha_scale.get()
+
+    def set_font_size_scale_cmd(self, cmd: Callable):
+        """
+        Set the command for when the scale is interacted with
+        :param cmd: The function to call when the scale is interacted with
+        """
+
+        self.__font_size_scale.config(
+            command=cmd,
+        )
+
+    def set_alpha_scale_cmd(self, cmd: Callable):
+        """
+        Set the command for when the scale is interacted with
+        :param cmd: The function to call when the scale is interacted with
+        """
+
+        self.__alpha_scale.config(
+            command=cmd,
+        )
 
     """
     PRIVATE METHODS
@@ -72,7 +114,7 @@ class WatermarkFontSettingsSection(tk.Frame):
             bg=sett.SUBSEC_BG_COLOR,
             font=sett.SEC_CONTENT_FONT,
         )
-        self.font_size_scale = tk.Scale(
+        self.__font_size_scale = tk.Scale(
             self,
             from_=sett.FONT_SIZE_MIN,
             to=sett.FONT_SIZE_MAX,
@@ -82,7 +124,7 @@ class WatermarkFontSettingsSection(tk.Frame):
             highlightbackground=sett.SUBSEC_BG_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
-        self.font_size_scale.set(sett.FONT_SIZE_SCALE_DEFAULT)
+        self.__font_size_scale.set(sett.FONT_SIZE_SCALE_DEFAULT)
 
         # FONT ALPHA
         self.__font_alpha_label = tk.Label(
@@ -91,7 +133,7 @@ class WatermarkFontSettingsSection(tk.Frame):
             bg=sett.SUBSEC_BG_COLOR,
             font=sett.SEC_CONTENT_FONT,
         )
-        self.alpha_scale = tk.Scale(
+        self.__alpha_scale = tk.Scale(
             self,
             from_=sett.ALPHA_MIN,
             to=sett.ALPHA_MAX,
@@ -101,7 +143,7 @@ class WatermarkFontSettingsSection(tk.Frame):
             highlightbackground=sett.SUBSEC_BG_COLOR,
             troughcolor=sett.TROUGH_COLOR,
         )
-        self.alpha_scale.set(sett.ALPHA_SCALE_DEFAULT)
+        self.__alpha_scale.set(sett.ALPHA_SCALE_DEFAULT)
 
     def __place_widgets(self):
 
@@ -122,7 +164,7 @@ class WatermarkFontSettingsSection(tk.Frame):
             sticky="SW",
             padx=(sett.SEC_CONTENT_OUTER_PAD_X, 0),
         )
-        self.font_size_scale.grid(
+        self.__font_size_scale.grid(
             column=1,
             row=1,
             sticky="EW",
@@ -136,7 +178,7 @@ class WatermarkFontSettingsSection(tk.Frame):
             sticky="SW",
             padx=(sett.SEC_CONTENT_OUTER_PAD_X, 0),
         )
-        self.alpha_scale.grid(
+        self.__alpha_scale.grid(
             column=1,
             row=2,
             sticky="EW",

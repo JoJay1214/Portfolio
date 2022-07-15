@@ -37,6 +37,11 @@ class ImageCanvasesSection(tk.Frame):
         # INIT/CONFIG TK FRAME
         tk.Frame.__init__(self, parent, *args, **kwargs)
 
+        self.grid_columnconfigure(0, weight=1)
+
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)
+
         # PUBLIC VARIABLES
         self.parent = parent  # the parent container
 

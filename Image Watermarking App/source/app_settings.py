@@ -49,7 +49,7 @@ WINDOW
 """
 
 # TK Window Settings
-WIN_START_POS = (0, 0)  # starting position of the app window
+WIN_START_POS = (32, 0)  # starting position of the app window
 WIN_PAD_X = 20          # window padding x
 WIN_PAD_Y = 10          # window padding y
 

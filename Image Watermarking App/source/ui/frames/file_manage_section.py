@@ -10,6 +10,8 @@ brief:  TKinter Frame that holds the widgets used for file management in the Ima
 # EXTERNAL LIBRARY IMPORTS
 import tkinter as tk
 
+from typing import Callable
+
 # PROJECT IMPORTS
 import source.app_settings as sett
 
@@ -37,13 +39,13 @@ class FileManageSection(tk.Frame):
         self.grid_columnconfigure(1, weight=1)
 
         # PUBLIC VARIABLES
-        self.parent = parent       # the parent container
-
-        self.browse_entry = None   # entry to file with file path
-        self.browse_button = None  # button to browse for file
-        self.save_button = None    # button to save file
+        self.parent = parent  # the parent container
 
         # PRIVATE VARIABLES
+        self.__browse_entry = None         # entry to file with file path
+        self.__browse_button = None        # button to browse for file
+        self.__save_button = None          # button to save file
+
         self.__section_title_label = None  # file section title label
         self.__image_for_wm_label = None   # image for watermarking label
 
@@ -61,10 +63,30 @@ class FileManageSection(tk.Frame):
         :param filepath: The path to the image file
         """
 
-        self.browse_entry.config(state="normal")
-        self.browse_entry.delete(0, tk.END)
-        self.browse_entry.insert(0, filepath)
-        self.browse_entry.config(state="disabled")
+        self.__browse_entry.config(state="normal")
+        self.__browse_entry.delete(0, tk.END)
+        self.__browse_entry.insert(0, filepath)
+        self.__browse_entry.config(state="disabled")
+
+    def set_browse_btn_cmd(self, cmd: Callable):
+        """
+        Set the command for the TK Button use for file browsing
+        :param cmd: The function to call when the button is pressed
+        """
+
+        self.__browse_button.config(
+            command=cmd,
+        )
+
+    def set_save_btn_cmd(self, cmd: Callable):
+        """
+        Set the command for the TK Button use for saving files
+        :param cmd: The function to call when the button is pressed
+        """
+
+        self.__save_button.config(
+            command=cmd,
+        )
 
     """
     PRIVATE METHODS
@@ -87,12 +109,12 @@ class FileManageSection(tk.Frame):
             bg=sett.SEC_BG_COLOR,
             font=sett.SEC_CONTENT_FONT,
         )
-        self.browse_entry = tk.Entry(
+        self.__browse_entry = tk.Entry(
             self,
             font=sett.SEC_CONTENT_FONT,
             state="disabled",
         )
-        self.browse_button = tk.Button(
+        self.__browse_button = tk.Button(
             self,
             text="Browse",
             width=sett.BROWSE_BTN_WIDTH,
@@ -101,7 +123,7 @@ class FileManageSection(tk.Frame):
         )
 
         # SAVE
-        self.save_button = tk.Button(
+        self.__save_button = tk.Button(
             self,
             text="Save Watermarked Copy",
             bg=sett.PRIMARY_APP_COLOR,
@@ -127,20 +149,20 @@ class FileManageSection(tk.Frame):
             sticky="W",
             padx=(sett.SEC_CONTENT_OUTER_PAD_X, 0),
         )
-        self.browse_entry.grid(
+        self.__browse_entry.grid(
             column=1,
             row=1,
             sticky="EW",
             padx=sett.SEC_ENTRY_PAD_X,
         )
-        self.browse_button.grid(
+        self.__browse_button.grid(
             column=2,
             row=1,
             padx=(0, sett.SEC_CONTENT_OUTER_PAD_X),
         )
 
         # SAVE
-        self.save_button.grid(
+        self.__save_button.grid(
             column=1,
             row=2,
             pady=sett.SAVE_BUTTON_PAD_Y,

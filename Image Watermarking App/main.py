@@ -12,7 +12,7 @@ brief:  Desktop application that allows a user to browse for an image file, then
 import tkinter as tk
 
 # PROJECT IMPORTS
-from source.image_watermarking_application import ImageWatermarkingApplication
+from source.ui.image_watermarking_application import ImageWatermarkingApplication
 
 import source.app_settings as sett
 
@@ -47,8 +47,11 @@ def __config_root_window(root: tk.Tk):
         padx=sett.WIN_PAD_X,
         pady=sett.WIN_PAD_Y,
     )
+
+    root.geometry(f"+{sett.WIN_START_POS[0]}+{sett.WIN_START_POS[1]}")
+
     root.grid_columnconfigure(0, weight=1)
-    root.geometry(f"1280x720+{sett.WIN_START_POS[0]}+{sett.WIN_START_POS[1]}")
+    root.grid_rowconfigure(0, weight=1)
 
 
 if __name__ == "__main__":

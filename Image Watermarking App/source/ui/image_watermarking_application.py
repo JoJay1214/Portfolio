@@ -12,9 +12,9 @@ import tkinter as tk
 from tkinter import filedialog
 
 # PROJECT IMPORTS
-from source.file_manage_section import FileManageSection
-from source.text_watermark_section import TextWatermarkSection
-from source.image_canvases_section import ImageCanvasesSection
+from source.ui.frames.file_manage_section import FileManageSection
+from source.ui.frames.text_watermark_section import TextWatermarkSection
+from source.ui.frames.image_canvases_section import ImageCanvasesSection
 from source.watermark import Watermark
 
 import source.app_settings as sett
@@ -41,6 +41,7 @@ class ImageWatermarkingApplication(tk.Frame):
         tk.Frame.__init__(self, parent, *args, **kwargs)
 
         self.grid_columnconfigure(0, weight=1)
+
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
 
@@ -90,33 +91,19 @@ class ImageWatermarkingApplication(tk.Frame):
     def __config_commands(self):
 
         # FILE MANAGEMENT
-        self.__file_manage_section.browse_button.config(
-            command=self.__browse_for_file,
-        )
-        self.__file_manage_section.save_button.config(
-            command=self.__save_watermarked_image,
-        )
+        self.__file_manage_section.set_browse_btn_cmd(cmd=self.__browse_for_file)
+        self.__file_manage_section.set_save_btn_cmd(cmd=self.__save_watermarked_image)
 
         # TEXT WATERMARK
-        self.__text_watermark_section.update_watermark_button.config(
-            command=self.__update_canvas_images,
-        )
+        self.__text_watermark_section.set_update_watermark_btn_cmd(cmd=self.__update_canvas_images)
 
         # TEXT WATERMARK -> WATERMARK FONT SETTINGS
-        self.__text_watermark_section.watermark_font_settings.font_size_scale.config(
-            command=self.__update_canvas_images,
-        )
-        self.__text_watermark_section.watermark_font_settings.alpha_scale.config(
-            command=self.__update_canvas_images,
-        )
+        self.__text_watermark_section.watermark_font_settings.set_font_size_scale_cmd(cmd=self.__update_canvas_images)
+        self.__text_watermark_section.watermark_font_settings.set_alpha_scale_cmd(cmd=self.__update_canvas_images)
 
         # TEXT WATERMARK -> WATERMARK POSITIONING
-        self.__text_watermark_section.watermark_positioning.x_pos_scale.config(
-            command=self.__update_canvas_images,
-        )
-        self.__text_watermark_section.watermark_positioning.y_pos_scale.config(
-            command=self.__update_canvas_images,
-        )
+        self.__text_watermark_section.watermark_positioning.set_x_pos_scale_cmd(cmd=self.__update_canvas_images)
+        self.__text_watermark_section.watermark_positioning.set_y_pos_scale_cmd(cmd=self.__update_canvas_images)
 
     def __place_widgets(self):
 
@@ -182,11 +169,11 @@ class ImageWatermarkingApplication(tk.Frame):
             # get image watermarked and resized
             wm_img = Watermark.watermark_image(
                 image=self.__orig_img,
-                watermark=self.__text_watermark_section.watermark_entry.get(),
-                font_size=self.__text_watermark_section.watermark_font_settings.font_size_scale.get(),
-                color=(255, 255, 255, self.__text_watermark_section.watermark_font_settings.alpha_scale.get()),
-                pos=(self.__text_watermark_section.watermark_positioning.x_pos_scale.get(),
-                     self.__text_watermark_section.watermark_positioning.y_pos_scale.get()),
+                watermark=self.__text_watermark_section.get_watermark_entry_text(),
+                font_size=self.__text_watermark_section.watermark_font_settings.get_font_size_value(),
+                color=(255, 255, 255, self.__text_watermark_section.watermark_font_settings.get_alpha_value()),
+                pos=(self.__text_watermark_section.watermark_positioning.get_x_pos_value(),
+                     self.__text_watermark_section.watermark_positioning.get_y_pos_value()),
             )
             resized_wm_img = Watermark.resize_image(wm_img, sett.CANVAS_WIDTH, sett.CANVAS_HEIGHT)
 
@@ -213,11 +200,11 @@ class ImageWatermarkingApplication(tk.Frame):
                 Watermark.save_image(
                     Watermark.watermark_image(
                         image=self.__orig_img,
-                        watermark=self.__text_watermark_section.watermark_entry.get(),
-                        font_size=self.__text_watermark_section.watermark_font_settings.font_size_scale.get(),
-                        color=(255, 255, 255, self.__text_watermark_section.watermark_font_settings.alpha_scale.get()),
-                        pos=(self.__text_watermark_section.watermark_positioning.x_pos_scale.get(),
-                             self.__text_watermark_section.watermark_positioning.y_pos_scale.get()),
+                        watermark=self.__text_watermark_section.get_watermark_entry_text(),
+                        font_size=self.__text_watermark_section.watermark_font_settings.get_font_size_value(),
+                        color=(255, 255, 255, self.__text_watermark_section.watermark_font_settings.get_alpha_value()),
+                        pos=(self.__text_watermark_section.watermark_positioning.get_x_pos_value(),
+                             self.__text_watermark_section.watermark_positioning.get_y_pos_value()),
                     ),
                     filepath
                 )
