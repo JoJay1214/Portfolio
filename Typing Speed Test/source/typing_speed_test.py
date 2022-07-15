@@ -90,14 +90,16 @@ class TypingSpeedTest:
         Calculate and return the current score in the test
         :return: A string of the current score
         """
+        # # alternative scoring formula
+        # score = 0
+        #
+        # for i in range(len(self.__typed_words)):
+        #
+        #     # if the word was typed correctly...
+        #     if self.__typed_words[i] == self.__given_words[i]:
+        #         score += len(self.__typed_words[i]) + 1  # append amount of characters from word, +1 for return key
+        #
+        # # return the total number of characters from the words gotten correct, divided by 5
+        # return f"{score / 5}"
 
-        score = 0
-
-        for i in range(len(self.__typed_words)):
-
-            # if the word was typed correctly...
-            if self.__typed_words[i] == self.__given_words[i]:
-                score += len(self.__typed_words[i]) + 1  # append amount of characters from word, +1 for return key
-
-        # return the total number of characters from the words gotten correct, divided by 5
-        return f"{score / 5}"
+        return f"{self.__score}/{len(self.__given_words)}"
