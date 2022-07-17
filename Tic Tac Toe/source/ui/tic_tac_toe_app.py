@@ -11,9 +11,9 @@ brief:  Main TKinter GUI for Tic Tac Toe app
 import tkinter as tk
 
 # PROJECT IMPORTS
-from source.title_frame import TitleFrame
-from source.button_board_frame import ButtonBoardFrame
-from source.game_text_frame import GameTextFrame
+from source.ui.frames.title_frame import TitleFrame
+from source.ui.frames.button_board_frame import ButtonBoardFrame
+from source.ui.frames.game_text_frame import GameTextFrame
 
 from source.tic_tac_toe import TicTacToe
 
@@ -89,12 +89,7 @@ class TicTacToeApplication(tk.Frame):
     def __config_widgets(self):
 
         # BUTTON BOARD
-        for row in range(3):
-            for col in range(3):
-                # bind method to button, passing its 2D row/column indexes
-                self.__button_board.button_board[row][col].config(
-                    command=lambda r=row, c=col: self.__click_game_space(r, c),
-                )
+        self.__button_board.set_button_board_commands(cmd=self.__click_game_space)
 
         # GAME TEXT
         self.__game_text.set_game_text(f"{self.__tic_tac_toe_game.get_current_player_marker()}'s Turn")
@@ -131,7 +126,7 @@ class TicTacToeApplication(tk.Frame):
         # update each buttons' text corresponding to each space on the game's board
         for row in range(3):
             for col in range(3):
-                self.__button_board.button_board[row][col].config(
+                self.__button_board.__button_board[row][col].config(
                     text=board[row][col],
                 )
 

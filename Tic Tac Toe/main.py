@@ -13,7 +13,7 @@ brief:  The classic Tic Tac Toe game presented in a GUI that was built using
 import tkinter as tk
 
 # PROJECT IMPORTS
-from source.tic_tac_toe_app import TicTacToeApplication
+from source.ui.tic_tac_toe_app import TicTacToeApplication
 
 __WIN_START_POS = (350, 50)
 __WINDOW_PAD = 20

@@ -10,6 +10,8 @@ brief:  TKinter Frame that holds the widgets used for the Button Board of the Ti
 # EXTERNAL LIBRARY IMPORTS
 import tkinter as tk
 
+from typing import Callable
+
 
 class ButtonBoardFrame(tk.Frame):
     """
@@ -44,16 +46,39 @@ class ButtonBoardFrame(tk.Frame):
         )
 
         self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(2, weight=1)
 
         self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_rowconfigure(2, weight=1)
 
         # PUBLIC VARIABLES
-        self.parent = parent      # the parent frame
-        self.button_board = None  # the clickable buttons where game markers are placed
+        self.parent = parent  # the parent frame
+
+        # PRIVATE VARIABLES
+        self.__button_board = None  # the clickable buttons where game markers are placed
 
         # CONFIG SELF
         self.__create_widgets()
         self.__place_widgets()
+
+    """
+    PUBLIC METHODS
+    """
+
+    def set_button_board_commands(self, cmd: Callable[[int, int], None]):
+        """
+        Set the function to be called when a button is pressed
+        :param cmd: The function to be called upon button press
+        """
+
+        for row in range(3):
+            for col in range(3):
+                # bind method to button, passing its 2D row/column indexes
+                self.__button_board[row][col].config(
+                    command=lambda r=row, c=col: cmd(r, c),
+                )
 
     """
     PRIVATE METHODS
@@ -62,7 +87,7 @@ class ButtonBoardFrame(tk.Frame):
     def __create_widgets(self):
 
         # empty list of lists for the board buttons
-        self.button_board = [
+        self.__button_board = [
             [],
             [],
             []
@@ -80,13 +105,13 @@ class ButtonBoardFrame(tk.Frame):
                     width=3,
                 )
 
-                self.button_board[row].append(button)
+                self.__button_board[row].append(button)
 
     def __place_widgets(self):
 
         for row in range(3):
             for col in range(3):
-                self.button_board[row][col].grid(
+                self.__button_board[row][col].grid(
                     column=col,
                     row=row,
                     padx=self.__BUTTON_PAD,
