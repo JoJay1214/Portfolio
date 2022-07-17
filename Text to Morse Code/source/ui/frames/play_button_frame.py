@@ -11,6 +11,8 @@ brief:  TKinter Frame that holds the widgets used for the Play Button of the Tex
 # EXTERNAL LIBRARY IMPORTS
 import tkinter as tk
 
+from typing import Callable
+
 # PROJECT IMPORTS
 import source.app_settings as sett
 
@@ -18,6 +20,10 @@ import source.app_settings as sett
 class PlayButtonFrame(tk.Frame):
     """
     TKinter Frame that holds the widgets used for the Play Button of the Text to Morse Code app
+    """
+
+    """
+    CONSTRUCTOR
     """
 
     def __init__(self, parent: tk.Frame, *args, **kwargs):
@@ -36,12 +42,38 @@ class PlayButtonFrame(tk.Frame):
         self.grid_rowconfigure(0, weight=1)
 
         # PUBLIC VARIABLES
-        self.parent = parent     # the parent container
+        self.parent = parent  # the parent container
+
+        # PRIVATE VARIABLES
         self.play_button = None  # button to play the morse code
 
         # CONFIG SELF
         self.__create_widgets()
         self.__place_widgets()
+
+    """
+    PUBLIC METHODS
+    """
+
+    def set_play_button_command(self, cmd: Callable):
+        """
+        Set the command of the TK Button
+        :param cmd: The function to be called when the button is pressed
+        """
+
+        self.play_button.config(command=cmd)
+
+    def set_play_button_text(self, text: str):
+        """
+        Set the text displayed by the Play Button
+        :param text: The text to display
+        """
+
+        self.play_button.config(text=text)
+
+    """
+    PRIVATE METHODS
+    """
 
     def __create_widgets(self):
 

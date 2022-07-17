@@ -13,9 +13,11 @@ brief:  TKinter app that lets a user enter text into a text box and outputs to t
 import tkinter as tk
 
 # PROJECT IMPORTS
-from source.text_to_morse_code_application import TextToMorseCodeApplication
+from source.ui.text_to_morse_code_application import TextToMorseCodeApplication
 
 import source.app_settings as sett
+
+__WIN_START_POS = (60, 60)
 
 
 def main():
@@ -51,7 +53,7 @@ def __config_root_window(root: tk.Tk):
     )
     root.grid_columnconfigure(0, weight=1)
     root.grid_rowconfigure(0, weight=1)
-    # root.geometry()
+    root.geometry(f"+{__WIN_START_POS[0]}+{__WIN_START_POS[1]}")
 
 
 if __name__ == "__main__":

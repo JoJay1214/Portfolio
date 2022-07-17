@@ -12,10 +12,10 @@ import tkinter as tk
 from winsound import PlaySound, SND_FILENAME
 
 # PROJECT IMPORTS
-from source.title_frame import TitleFrame
-from source.input_textbox_frame import InputTextboxFrame
-from source.output_textbox_frame import OutputTextboxFrame
-from source.play_button_frame import PlayButtonFrame
+from source.ui.frames.title_frame import TitleFrame
+from source.ui.frames.input_textbox_frame import InputTextboxFrame
+from source.ui.frames.output_textbox_frame import OutputTextboxFrame
+from source.ui.frames.play_button_frame import PlayButtonFrame
 
 from source.char_to_morse_code import CharToMorseCodeTranslator, DIT, DAH
 
@@ -104,8 +104,8 @@ class TextToMorseCodeApplication(tk.Frame):
     def __config_commands(self):
 
         # PLAY BUTTON
-        self.__play_button_frame.play_button.config(
-            command=self.__toggle_play_stop,
+        self.__play_button_frame.set_play_button_command(
+            cmd=self.__toggle_play_stop,
         )
 
     def __place_widgets(self):
@@ -163,7 +163,7 @@ class TextToMorseCodeApplication(tk.Frame):
             # disable text box
             self.__input_textbox_frame.disable_input_textbox()
 
-            self.__play_button_frame.play_button.config(text="Stop")
+            self.__play_button_frame.set_play_button_text(text="Stop")
             self.__play_morse_code(0)  # start playing the Morse Code audio
 
     def __reset_on_player_stop(self):
@@ -178,7 +178,7 @@ class TextToMorseCodeApplication(tk.Frame):
         # enable text box
         self.__input_textbox_frame.enable_input_textbox()
 
-        self.__play_button_frame.play_button.config(text="Play")
+        self.__play_button_frame.set_play_button_text(text="Play")
 
     def __play_morse_code(self, interval: int):
         morse_code_text = self.__output_textbox_frame.get_output_text()  # get outputted Morse Code text
