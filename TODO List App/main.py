@@ -3,7 +3,7 @@ TODO List App
 file:   main.py
 author: Joshua Jacobs
 date:   7/19/2022
-brief:  descrip
+brief:  An application used to manage digital to-do lists, built using TKinter
 
 """
 
@@ -11,14 +11,14 @@ brief:  descrip
 import tkinter as tk
 
 # PROJECT IMPORTS
-# put here
+from source.ui.todo_list_app import TODOListApp
 
-__WIN_START_POS = (350, 50)
+__WIN_START_POS = (100, 50)
 
 
 def main():
     """
-    descrip
+    An application used to manage digital to-do lists, built using TKinter
     """
 
     # root window
@@ -26,7 +26,14 @@ def main():
     __config_root_window(root)
 
     # app
-    # put here
+    todo_list_app = TODOListApp(
+        root,
+    )
+    todo_list_app.grid(
+        column=0,
+        row=0,
+        sticky="NESW",
+    )
 
     root.mainloop()
 

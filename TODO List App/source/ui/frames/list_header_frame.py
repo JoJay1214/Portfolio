@@ -2,8 +2,8 @@
 TODO List App
 file:   list_header_frame.py
 author: Joshua Jacobs
-date:   descrip
-brief:  descrip
+date:   7/21/2022
+brief:  TK Frame that holds the header used with the to-do list
 
 """
 
@@ -11,53 +11,55 @@ brief:  descrip
 import tkinter as tk
 
 # PROJECT IMPORTS
-# put here
+from source.ui.list_item import ListItem
 
 
-class frame(tk.Frame):
+class ListHeaderFrame(ListItem):
     """
-    descrip
+    List Item that holds the header used with the to-do list
     """
 
     """
     CONSTANTS
     """
 
+    __FONT = "bold"
+
+    __HEADER_BOARDER_THICKNESS = 1
+    __HEADER_BOARDER_COLOR = "#000000"
+
     """
     CONSTRUCTOR
     """
 
-    def __init__(self, parent: tk.Tk, *args, **kwargs):
+    def __init__(self, parent: tk.Frame, title: str, description: str, deadline: str, *args, **kwargs):
         """
-        descrip
+        List Item that holds the header used with the to-do list
         :param parent: The parent container
+        :param title: Title of the to-do task
+        :param description: Description of the to-do task
+        :param deadline: Deadline of the to-do task
         :param args: Argument List
         :param kwargs: Keyword Argument List
         """
 
-        # INIT/CONFIG SELF
-        tk.Frame.__init__(self, parent, *args, **kwargs)
+        # INIT/CONFIG LIST ITEM
+        super().__init__(parent, title, description, deadline, *args, **kwargs)
 
-        self.grid_columnconfigure(0, weight=1)
+        self.title_label.config(
+            highlightthickness=self.__HEADER_BOARDER_THICKNESS,
+            highlightbackground=self.__HEADER_BOARDER_COLOR,
+            font=self.__FONT,
+        )
 
-        self.grid_rowconfigure(0, weight=1)
+        self.description_label.config(
+            highlightthickness=self.__HEADER_BOARDER_THICKNESS,
+            highlightbackground=self.__HEADER_BOARDER_COLOR,
+            font=self.__FONT,
+        )
 
-        # PUBLIC VARIABLES
-        self.parent = parent  # the parent container
-
-        # PRIVATE VARIABLES
-        # put here
-
-        # CONFIG SELF
-        self.__create_widgets()
-        self.__config_commands()
-        self.__place_widgets()
-
-    def __create_widgets(self):
-        pass
-
-    def __config_commands(self):
-        pass
-
-    def __place_widgets(self):
-        pass
+        self.deadline_label.config(
+            highlightthickness=self.__HEADER_BOARDER_THICKNESS,
+            highlightbackground=self.__HEADER_BOARDER_COLOR,
+            font=self.__FONT,
+        )

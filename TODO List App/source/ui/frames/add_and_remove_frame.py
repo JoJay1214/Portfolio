@@ -27,7 +27,7 @@ class frame(tk.Frame):
     CONSTRUCTOR
     """
 
-    def __init__(self, parent: tk.Tk, *args, **kwargs):
+    def __init__(self, parent: tk.Frame, *args, **kwargs):
         """
         descrip
         :param parent: The parent container
@@ -35,7 +35,7 @@ class frame(tk.Frame):
         :param kwargs: Keyword Argument List
         """
 
-        # INIT/CONFIG SELF
+        # INIT/CONFIG TK FRAME
         tk.Frame.__init__(self, parent, *args, **kwargs)
 
         self.grid_columnconfigure(0, weight=1)
@@ -50,13 +50,9 @@ class frame(tk.Frame):
 
         # CONFIG SELF
         self.__create_widgets()
-        self.__config_commands()
         self.__place_widgets()
 
     def __create_widgets(self):
-        pass
-
-    def __config_commands(self):
         pass
 
     def __place_widgets(self):
