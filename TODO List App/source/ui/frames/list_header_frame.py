@@ -23,10 +23,12 @@ class ListHeaderFrame(ListItem):
     CONSTANTS
     """
 
-    __FONT = "bold"
+    __FONT = ("Arial", 15, "bold")
+
+    __FRAME_BG_COLOR = "#000000"
 
     __HEADER_BOARDER_THICKNESS = 1
-    __HEADER_BOARDER_COLOR = "#000000"
+    __HEADER_BOARDER_COLOR = "#555555"
 
     """
     CONSTRUCTOR
@@ -45,6 +47,12 @@ class ListHeaderFrame(ListItem):
 
         # INIT/CONFIG LIST ITEM
         super().__init__(parent, title, description, deadline, *args, **kwargs)
+
+        self.config(
+            bg=self.__FRAME_BG_COLOR,
+            highlightthickness=self.__HEADER_BOARDER_THICKNESS,
+            highlightbackground=self.__HEADER_BOARDER_COLOR,
+        )
 
         self.title_label.config(
             highlightthickness=self.__HEADER_BOARDER_THICKNESS,

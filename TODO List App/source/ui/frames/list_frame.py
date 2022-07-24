@@ -9,6 +9,7 @@ brief:  The TK Frame that is used to display the list of to-do items
 
 # EXTERNAL LIBRARY IMPORTS
 import tkinter as tk
+from source.ui.list_item import ListItem
 
 
 class ListFrame(tk.Frame):
@@ -20,7 +21,7 @@ class ListFrame(tk.Frame):
     CONSTANTS
     """
 
-    __CANVAS_HEIGHT = 100
+    __CANVAS_HEIGHT = 250
 
     """
     CONSTRUCTOR
@@ -47,9 +48,11 @@ class ListFrame(tk.Frame):
         # PRIVATE VARIABLES
         self.__list_canvas = None
         self.__scrollbar = None
+        self.__scrollable_frame = None
 
         # CONFIG SELF
         self.__create_widgets()
+        self.__setup_scrollable_frame()
         self.__place_widgets()
 
     def __create_widgets(self):
@@ -57,7 +60,7 @@ class ListFrame(tk.Frame):
         # LIST CANVAS
         self.__list_canvas = tk.Canvas(
             self,
-            height=self.__CANVAS_HEIGHT,
+            height=self.__CANVAS_HEIGHT
         )
 
         # SCROLLBAR
@@ -68,6 +71,25 @@ class ListFrame(tk.Frame):
         self.__list_canvas.config(
             yscrollcommand=self.__scrollbar.set,
         )
+
+        # SCROLLABLE FRAME
+        self.__scrollable_frame = tk.Frame(
+            self.__list_canvas,
+        )
+
+    def __setup_scrollable_frame(self):
+
+        # <Configure> triggers whenever the scrollable frame changes size (i.e. when items are added/removed from it)
+        # canvas.bbox gives canvas position to define scroll region
+        self.__scrollable_frame.bind(
+            "<Configure>",
+            lambda e: self.__list_canvas.configure(
+                scrollregion=self.__list_canvas.bbox("all")
+            )
+        )
+
+        # place scrollable frame on canvas
+        self.__list_canvas.create_window((0, 0), window=self.__scrollable_frame, anchor="nw")
 
     def __place_widgets(self):
 
@@ -80,7 +102,10 @@ class ListFrame(tk.Frame):
 
         # SCROLLBAR
         self.__scrollbar.grid(
-            column=1,
+            column=0,
             row=0,
-            sticky="NESW",
+            sticky="NES",
         )
+
+        for i in range(50):
+            ListItem(self.__scrollable_frame, title=f"meowwwwwwwwwwwwwwwwwwwwwwwwwww{i}", description=f"{i}nyaa", deadline="haha never").grid(column=0, row=i, sticky="EW")

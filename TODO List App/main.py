@@ -13,7 +13,9 @@ import tkinter as tk
 # PROJECT IMPORTS
 from source.ui.todo_list_app import TODOListApp
 
+__WIN_BG_COL = "#BBBBBB"
 __WIN_START_POS = (100, 50)
+__WIN_PAD = 20
 
 
 def main():
@@ -28,6 +30,7 @@ def main():
     # app
     todo_list_app = TODOListApp(
         root,
+        bg=__WIN_BG_COL,
     )
     todo_list_app.grid(
         column=0,
@@ -41,7 +44,9 @@ def main():
 def __config_root_window(root: tk.Tk):
     root.title("TODO List")
     root.config(
-
+        bg=__WIN_BG_COL,
+        padx=__WIN_PAD,
+        pady=__WIN_PAD,
     )
 
     root.geometry(f"+{__WIN_START_POS[0]}+{__WIN_START_POS[1]}")

@@ -14,6 +14,7 @@ import tkinter as tk
 from source.ui.frames.list_header_frame import ListHeaderFrame
 from source.ui.list_item import ListItem
 from source.ui.frames.list_frame import ListFrame
+from source.ui.frames.add_and_remove_frame import AddAndRemoveFrame
 
 
 class TODOListApp(tk.Frame):
@@ -42,7 +43,9 @@ class TODOListApp(tk.Frame):
 
         self.grid_columnconfigure(0, weight=1)
 
-        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=0)
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_rowconfigure(2, weight=1)
 
         # PUBLIC VARIABLES
         self.parent = parent  # the parent container
@@ -50,6 +53,7 @@ class TODOListApp(tk.Frame):
         # PRIVATE VARIABLES
         self.__list_header = None
         self.__list_frame = None
+        self.__add_and_remove = None
 
         # CONFIG SELF
         self.__create_widgets()
@@ -71,6 +75,11 @@ class TODOListApp(tk.Frame):
             self,
         )
 
+        # ADD AND REMOVE
+        self.__add_and_remove = AddAndRemoveFrame(
+            self,
+        )
+
     def __config_commands(self):
         pass
 
@@ -80,7 +89,7 @@ class TODOListApp(tk.Frame):
         self.__list_header.grid(
             column=0,
             row=0,
-            sticky="NESW",
+            sticky="EW",
         )
 
         # LIST
@@ -88,4 +97,11 @@ class TODOListApp(tk.Frame):
             column=0,
             row=1,
             sticky="NESW",
+        )
+
+        # ADD AND REMOVE
+        self.__add_and_remove.grid(
+            column=0,
+            row=2,
+            sticky="ES",
         )

@@ -24,7 +24,12 @@ class ListItem(tk.Frame):
     __DESCRIPTION_WIDTH = 40
     __DEADLINE_WIDTH = 15
 
-    __FONT = "bold"
+    __FONT = ("Arial", 16, "normal")
+
+    __HEADER_BOARDER_THICKNESS = 1
+    __HEADER_BOARDER_COLOR = "#AAAAAA"
+
+    __PADX = 6
 
     """
     CONSTRUCTOR
@@ -43,6 +48,11 @@ class ListItem(tk.Frame):
 
         # INIT/CONFIG TK FRAME
         tk.Frame.__init__(self, parent, *args, **kwargs)
+
+        self.config(
+            highlightthickness=self.__HEADER_BOARDER_THICKNESS,
+            highlightbackground=self.__HEADER_BOARDER_COLOR,
+        )
 
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
@@ -70,6 +80,7 @@ class ListItem(tk.Frame):
             text=title,
             width=self.__TITLE_WIDTH,
             font=self.__FONT,
+            anchor="w",
         )
 
         # DESCRIPTION
@@ -78,6 +89,7 @@ class ListItem(tk.Frame):
             text=description,
             width=self.__DESCRIPTION_WIDTH,
             font=self.__FONT,
+            anchor="w",
         )
 
         # DEADLINE
@@ -86,6 +98,7 @@ class ListItem(tk.Frame):
             text=deadline,
             width=self.__DEADLINE_WIDTH,
             font=self.__FONT,
+            anchor="w",
         )
 
     def __place_widgets(self):
@@ -102,6 +115,7 @@ class ListItem(tk.Frame):
             column=1,
             row=0,
             sticky="NESW",
+            padx=self.__PADX,
         )
 
         # DEADLINE
