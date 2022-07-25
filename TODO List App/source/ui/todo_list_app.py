@@ -11,8 +11,7 @@ brief:  An application built using TKinter that acts as a to-do list viewer/mana
 import tkinter as tk
 
 # PROJECT IMPORTS
-from source.ui.frames.list_header_frame import ListHeaderFrame
-from source.ui.list_item import ListItem
+from source.ui.three_col_widgets.list_header_frame import ListHeaderFrame
 from source.ui.frames.list_frame import ListFrame
 from source.ui.frames.add_and_remove_frame import AddAndRemoveFrame
 
@@ -65,9 +64,6 @@ class TODOListApp(tk.Frame):
         # HEADER
         self.__list_header = ListHeaderFrame(
             self,
-            title="TITLE",
-            description="DESCRIPTION",
-            deadline="DEADLINE",
         )
 
         # LIST

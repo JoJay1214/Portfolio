@@ -9,7 +9,7 @@ brief:  The TK Frame that is used to display the list of to-do items
 
 # EXTERNAL LIBRARY IMPORTS
 import tkinter as tk
-from source.ui.list_item import ListItem
+from source.ui.three_col_widgets.list_item import ListItem
 
 
 class ListFrame(tk.Frame):
@@ -108,4 +108,4 @@ class ListFrame(tk.Frame):
         )
 
         for i in range(50):
-            ListItem(self.__scrollable_frame, title=f"meowwwwwwwwwwwwwwwwwwwwwwwwwww{i}", description=f"{i}nyaa", deadline="haha never").grid(column=0, row=i, sticky="EW")
+            ListItem(self.__scrollable_frame, title=f"meowwwwwwwwwwwwwwwwwwwwwwwwwww{i}", description=f"{i}nyaa", deadline="soon").grid(column=0, row=i, sticky="EW")
