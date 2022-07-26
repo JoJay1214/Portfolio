@@ -25,7 +25,7 @@ class ListHeaderFrame(ThreeColWidget):
 
     __FONT = ("Arial", 15, "bold")
     __FRAME_BG_COLOR = "#000000"
-    __HEADER_BOARDER_COLOR = "#555555"
+    __BOARDER_COLOR = "#555555"
 
     """
     CONSTRUCTOR
@@ -45,7 +45,7 @@ class ListHeaderFrame(ThreeColWidget):
         # CONFIG TK FRAME
         self.config(
             bg=self.__FRAME_BG_COLOR,
-            highlightbackground=self.__HEADER_BOARDER_COLOR,
+            highlightbackground=self.__BOARDER_COLOR,
         )
 
         # CONFIG SELF

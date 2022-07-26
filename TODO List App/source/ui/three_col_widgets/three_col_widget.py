@@ -24,7 +24,7 @@ class ThreeColWidget(tk.Frame):
     DESCRIPTION_WIDTH = 40
     DEADLINE_WIDTH = 15
 
-    DESCRIPTION_PADX = 6
+    DESCRIPTION_PADX = 10
 
     __HEADER_BOARDER_THICKNESS = 1
 

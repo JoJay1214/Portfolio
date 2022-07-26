@@ -9,7 +9,10 @@ brief:  The TK Frame that is used to display the list of to-do items
 
 # EXTERNAL LIBRARY IMPORTS
 import tkinter as tk
+
+# PROJECT IMPORTS
 from source.ui.three_col_widgets.list_item import ListItem
+from source.ui.three_col_widgets.list_input_item import ListInputItem
 
 
 class ListFrame(tk.Frame):
@@ -50,10 +53,34 @@ class ListFrame(tk.Frame):
         self.__scrollbar = None
         self.__scrollable_frame = None
 
+        self.__item_count = 0
+
         # CONFIG SELF
         self.__create_widgets()
         self.__setup_scrollable_frame()
         self.__place_widgets()
+
+    """
+    PUBLIC METHODS
+    """
+
+    def create_new_input_item(self):
+        """
+        Add a new input item to the end of the list
+        """
+
+        ListInputItem(self.__scrollable_frame).grid(column=0, row=self.__item_count, sticky="EW",)
+
+    def scroll_to_list_end(self):
+        """
+        Scrolls the list scrollbar to the bottom
+        """
+
+        self.__list_canvas.yview_moveto(1)
+
+    """
+    PRIVATE METHODS
+    """
 
     def __create_widgets(self):
 
@@ -83,7 +110,7 @@ class ListFrame(tk.Frame):
         # canvas.bbox gives canvas position to define scroll region
         self.__scrollable_frame.bind(
             "<Configure>",
-            lambda e: self.__list_canvas.configure(
+            lambda event: self.__list_canvas.configure(
                 scrollregion=self.__list_canvas.bbox("all")
             )
         )
@@ -107,5 +134,6 @@ class ListFrame(tk.Frame):
             sticky="NES",
         )
 
-        for i in range(50):
+        for i in range(12):
             ListItem(self.__scrollable_frame, title=f"meowwwwwwwwwwwwwwwwwwwwwwwwwww{i}", description=f"{i}nyaa", deadline="soon").grid(column=0, row=i, sticky="EW")
+            self.__item_count += 1

@@ -1,10 +1,10 @@
 """
 TODO List App
-file:   list_item.py
+file:   list_input_item.py
 author: Joshua Jacobs
-date:   7/21/2022
-brief:  An item meant to be stored in a to-do list. Includes a title, description, and deadline. Inherits from
-        three_col_widget
+date:   7/25/2022
+brief:  A TK Frame with three input widgets, used for entering new items into the to-do list.
+        Inherits from three_col_widget
 
 """
 
@@ -15,9 +15,9 @@ import tkinter as tk
 from source.ui.three_col_widgets.three_col_widget import ThreeColWidget
 
 
-class ListItem(ThreeColWidget):
+class ListInputItem(ThreeColWidget):
     """
-    An item meant to be stored in a to-do list. Includes a title, description, and deadline.
+    A TK Frame with three input widgets, used for entering new items into the to-do list.
     Inherits from three_col_widget
     """
 
@@ -32,14 +32,11 @@ class ListItem(ThreeColWidget):
     CONSTRUCTOR
     """
 
-    def __init__(self, parent: tk.Frame, title: str, description: str, deadline: str, *args, **kwargs):
+    def __init__(self, parent: tk.Frame, *args, **kwargs):
         """
-        An item meant to be stored in a to-do list. Includes a title, description, and deadline.
+        A TK Frame with three input widgets, used for entering new items into the to-do list.
         Inherits from three_col_widget
         :param parent: The parent container
-        :param title: Title of the to-do task
-        :param description: Description of the to-do task
-        :param deadline: Deadline of the to-do task
         :param args: Argument List
         :param kwargs: Keyword Argument List
         """
@@ -53,36 +50,32 @@ class ListItem(ThreeColWidget):
         )
 
         # CONFIG SELF
-        self.__create_widgets(title, description, deadline)
+        self.__create_widgets()
         self.__place_widgets()
 
-    def __create_widgets(self, title: str, description: str, deadline: str):
+        self.title.focus()
+
+    def __create_widgets(self):
 
         # TITLE
-        self.title = tk.Label(
+        self.title = tk.Entry(
             self,
-            text=title,
             width=self.TITLE_WIDTH,
             font=self.__FONT,
-            anchor="w",
         )
 
         # DESCRIPTION
-        self.description = tk.Label(
+        self.description = tk.Entry(
             self,
-            text=description,
             width=self.DESCRIPTION_WIDTH,
             font=self.__FONT,
-            anchor="w",
         )
 
         # DEADLINE
-        self.deadline = tk.Label(
+        self.deadline = tk.Entry(
             self,
-            text=deadline,
             width=self.DEADLINE_WIDTH,
             font=self.__FONT,
-            anchor="w",
         )
 
     def __place_widgets(self):

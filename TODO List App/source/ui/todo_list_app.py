@@ -15,6 +15,9 @@ from source.ui.three_col_widgets.list_header_frame import ListHeaderFrame
 from source.ui.frames.list_frame import ListFrame
 from source.ui.frames.add_and_remove_frame import AddAndRemoveFrame
 
+from source.ui.three_col_widgets.list_item import ListItem
+from source.ui.three_col_widgets.list_input_item import ListInputItem
+
 
 class TODOListApp(tk.Frame):
     """
@@ -77,7 +80,9 @@ class TODOListApp(tk.Frame):
         )
 
     def __config_commands(self):
-        pass
+
+        # ADD
+        self.__add_and_remove.set_add_btn_cmd(self.__add_list_input_item)
 
     def __place_widgets(self):
 
@@ -101,3 +106,9 @@ class TODOListApp(tk.Frame):
             row=2,
             sticky="ES",
         )
+
+    def __add_list_input_item(self):
+
+        self.__list_frame.create_new_input_item()
+        self.parent.update_idletasks()
+        self.__list_frame.scroll_to_list_end()

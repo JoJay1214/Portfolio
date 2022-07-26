@@ -9,6 +9,7 @@ brief:  TK Frame that holds the buttons for adding and removing a task from the 
 
 # EXTERNAL LIBRARY IMPORTS
 import tkinter as tk
+from typing import Callable
 
 
 class AddAndRemoveFrame(tk.Frame):
@@ -59,6 +60,34 @@ class AddAndRemoveFrame(tk.Frame):
         # CONFIG SELF
         self.__create_widgets()
         self.__place_widgets()
+
+    """
+    PUBLIC METHODS
+    """
+
+    def set_add_btn_cmd(self, cmd: Callable):
+        """
+        Set the command for the Add Button
+        :param cmd: The function to call when the button is pressed
+        """
+
+        self.__add_button.config(
+            command=cmd,
+        )
+
+    def set_remove_btn_cmd(self, cmd: Callable):
+        """
+        Set the command for the Remove Button
+        :param cmd: The function to call when the button is pressed
+        """
+
+        self.__remove_button.config(
+            command=cmd,
+        )
+
+    """
+    PRIVATE METHODS
+    """
 
     def __create_widgets(self):
 
