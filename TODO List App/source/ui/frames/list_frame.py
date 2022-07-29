@@ -9,6 +9,7 @@ brief:  The TK Frame that is used to display the list of to-do items
 
 # EXTERNAL LIBRARY IMPORTS
 import tkinter as tk
+from typing import Callable
 
 # PROJECT IMPORTS
 from source.ui.three_col_widgets.list_item import ListItem
@@ -53,10 +54,13 @@ class ListFrame(tk.Frame):
         self.__scrollbar = None
         self.__scrollable_frame = None
 
+        self.__current_input_item = None
+
         self.__item_count = 0
 
         # CONFIG SELF
         self.__create_widgets()
+
         self.__setup_scrollable_frame()
         self.__place_widgets()
 
@@ -64,12 +68,63 @@ class ListFrame(tk.Frame):
     PUBLIC METHODS
     """
 
-    def create_new_input_item(self):
+    def input_item_is_active(self) -> bool:
         """
-        Add a new input item to the end of the list
+        Check to see if there is an active input item
+        :return: The current input item
         """
 
-        ListInputItem(self.__scrollable_frame).grid(column=0, row=self.__item_count, sticky="EW",)
+        return self.__current_input_item
+
+    def create_new_input_item(self, cmd: Callable):
+        """
+        Add a new input item to the end of the list
+        :param cmd: The function to be called upon input item event
+        """
+
+        self.__current_input_item = ListInputItem(
+            self.__scrollable_frame
+        )
+
+        self.__current_input_item.set_return_command(cmd=cmd)
+
+        self.__current_input_item.grid(
+            column=0,
+            row=self.__item_count,
+            sticky="EW",
+        )
+
+    def get_inputted_text(self) -> tuple:
+        """
+        Get the inputted texts from the list input item
+        :return: The inputted text strings
+        """
+
+        return self.__current_input_item.get_inputted_text()
+
+    def create_new_list_item(self, title: str, description: str, deadline: str):
+        """
+        Add a new List Item to the end of the list
+        :param title: The List Item's Title
+        :param description: The List Item's Description
+        :param deadline: The List Item's Deadline
+        """
+
+        self.__current_input_item.grid_forget()
+        self.__current_input_item.destroy()
+        self.__current_input_item = None
+
+        ListItem(
+            self.__scrollable_frame,
+            title=title,
+            description=description,
+            deadline=deadline,
+        ).grid(
+            column=0,
+            row=self.__item_count,
+            sticky="EW"
+        )
+        self.__item_count += 1
 
     def scroll_to_list_end(self):
         """
@@ -133,7 +188,3 @@ class ListFrame(tk.Frame):
             row=0,
             sticky="NES",
         )
-
-        for i in range(12):
-            ListItem(self.__scrollable_frame, title=f"meowwwwwwwwwwwwwwwwwwwwwwwwwww{i}", description=f"{i}nyaa", deadline="soon").grid(column=0, row=i, sticky="EW")
-            self.__item_count += 1

@@ -109,6 +109,12 @@ class TODOListApp(tk.Frame):
 
     def __add_list_input_item(self):
 
-        self.__list_frame.create_new_input_item()
-        self.parent.update_idletasks()
-        self.__list_frame.scroll_to_list_end()
+        if not self.__list_frame.input_item_is_active():
+            self.__list_frame.create_new_input_item(cmd=self.__add_list_item)
+            self.parent.update_idletasks()
+            self.__list_frame.scroll_to_list_end()
+
+    def __add_list_item(self, _=None):
+
+        input_item = self.__list_frame.get_inputted_text()
+        self.__list_frame.create_new_list_item(title=input_item[0], description=input_item[1], deadline=input_item[2])

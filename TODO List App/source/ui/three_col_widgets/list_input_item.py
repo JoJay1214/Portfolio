@@ -10,6 +10,7 @@ brief:  A TK Frame with three input widgets, used for entering new items into th
 
 # EXTERNAL LIBRARY IMPORTS
 import tkinter as tk
+from typing import Callable
 
 # PROJECT IMPORTS
 from source.ui.three_col_widgets.three_col_widget import ThreeColWidget
@@ -54,6 +55,41 @@ class ListInputItem(ThreeColWidget):
         self.__place_widgets()
 
         self.title.focus()
+
+    """
+    PUBLIC METHODS
+    """
+
+    def set_return_command(self, cmd: Callable):
+        """
+        Bind a method to the Entry boxes when Return is pressed
+        :param cmd: The function to call
+        """
+
+        self.title.bind(
+            "<Return>",
+            cmd,
+        )
+        self.description.bind(
+            "<Return>",
+            cmd,
+        )
+        self.deadline.bind(
+            "<Return>",
+            cmd,
+        )
+
+    def get_inputted_text(self) -> tuple:
+        """
+        Get the strings inputted into the list input items' entries
+        :return: The strings inputted for title, description, and deadline
+        """
+
+        return self.title.get(), self.description.get(), self.deadline.get()
+
+    """
+    PRIVATE METHODS
+    """
 
     def __create_widgets(self):
 
