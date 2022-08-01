@@ -11,12 +11,11 @@ brief:  An application built using TKinter that acts as a to-do list viewer/mana
 import tkinter as tk
 
 # PROJECT IMPORTS
-from source.ui.three_col_widgets.list_header_frame import ListHeaderFrame
+from source.ui.frames.list_header_frame import ListHeaderFrame
 from source.ui.frames.list_frame import ListFrame
 from source.ui.frames.add_and_remove_frame import AddAndRemoveFrame
 
-from source.ui.three_col_widgets.list_item import ListItem
-from source.ui.three_col_widgets.list_input_item import ListInputItem
+from source.database.todo_list_database import TODOListDatabase
 
 
 class TODOListApp(tk.Frame):
@@ -27,6 +26,8 @@ class TODOListApp(tk.Frame):
     """
     CONSTANTS
     """
+
+    __DB_FILEPATH = "db/TODOListDatabase.db"
 
     """
     CONSTRUCTOR
@@ -57,10 +58,17 @@ class TODOListApp(tk.Frame):
         self.__list_frame = None
         self.__add_and_remove = None
 
+        self.__todo_list_database = TODOListDatabase()
+        self.__todo_list_database.create_connection(self.__DB_FILEPATH)
+
         # CONFIG SELF
         self.__create_widgets()
         self.__config_commands()
         self.__place_widgets()
+
+        # LOAD DATABASE
+        list_items = self.__todo_list_database.get_all_items()
+        self.__load_items(list_items)
 
     def __create_widgets(self):
 
@@ -116,5 +124,22 @@ class TODOListApp(tk.Frame):
 
     def __add_list_item(self, _=None):
 
+        # get item
         input_item = self.__list_frame.get_inputted_text()
-        self.__list_frame.create_new_list_item(title=input_item[0], description=input_item[1], deadline=input_item[2])
+
+        # add item to UI and database
+        self.__list_frame.create_new_list_item(
+            title=input_item[0],
+            description=input_item[1],
+            deadline=input_item[2]
+        )
+        self.__todo_list_database.create_item(input_item)
+
+    def __load_items(self, items: list):
+
+        for item in items:
+            self.__list_frame.create_new_list_item(
+                title=item[1],
+                description=item[2],
+                deadline=item[3]
+            )

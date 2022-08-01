@@ -110,9 +110,10 @@ class ListFrame(tk.Frame):
         :param deadline: The List Item's Deadline
         """
 
-        self.__current_input_item.grid_forget()
-        self.__current_input_item.destroy()
-        self.__current_input_item = None
+        if self.__current_input_item:
+            self.__current_input_item.grid_forget()
+            self.__current_input_item.destroy()
+            self.__current_input_item = None
 
         ListItem(
             self.__scrollable_frame,
