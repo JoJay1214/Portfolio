@@ -102,12 +102,13 @@ class ListFrame(tk.Frame):
 
         return self.__current_input_item.get_inputted_text()
 
-    def create_new_list_item(self, title: str, description: str, deadline: str):
+    def create_new_list_item(self, title: str, description: str, deadline: str) -> ListItem:
         """
         Add a new List Item to the end of the list
         :param title: The List Item's Title
         :param description: The List Item's Description
         :param deadline: The List Item's Deadline
+        :return: The newly created List Item
         """
 
         if self.__current_input_item:
@@ -115,17 +116,20 @@ class ListFrame(tk.Frame):
             self.__current_input_item.destroy()
             self.__current_input_item = None
 
-        ListItem(
+        new_item = ListItem(
             self.__scrollable_frame,
             title=title,
             description=description,
             deadline=deadline,
-        ).grid(
+        )
+        new_item.grid(
             column=0,
             row=self.__item_count,
             sticky="EW"
         )
         self.__item_count += 1
+
+        return new_item
 
     def scroll_to_list_end(self):
         """

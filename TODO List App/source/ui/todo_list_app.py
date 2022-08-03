@@ -61,6 +61,8 @@ class TODOListApp(tk.Frame):
         self.__todo_list_database = TODOListDatabase()
         self.__todo_list_database.create_connection(self.__DB_FILEPATH)
 
+        self.__selected_list_item = None
+
         # CONFIG SELF
         self.__create_widgets()
         self.__config_commands()
@@ -128,18 +130,38 @@ class TODOListApp(tk.Frame):
         input_item = self.__list_frame.get_inputted_text()
 
         # add item to UI and database
-        self.__list_frame.create_new_list_item(
+        list_item = self.__list_frame.create_new_list_item(
             title=input_item[0],
             description=input_item[1],
             deadline=input_item[2]
         )
+        list_item.bind_on_click_command(cmd=self.__select_list_item)
+
         self.__todo_list_database.create_item(input_item)
 
     def __load_items(self, items: list):
 
         for item in items:
-            self.__list_frame.create_new_list_item(
+            list_item = self.__list_frame.create_new_list_item(
                 title=item[1],
                 description=item[2],
                 deadline=item[3]
             )
+            list_item.bind_on_click_command(cmd=self.__select_list_item)
+
+    def __select_list_item(self, event=None):
+
+        if self.__selected_list_item:
+            self.__selected_list_item.deselect_list_item()
+
+        event_widget = event.widget
+
+        if event_widget.winfo_class() == "Frame":
+            caller = event_widget
+        else:
+            caller = event_widget.master
+
+        caller.select_list_item()
+        self.__selected_list_item = caller
+
+        print(self.__selected_list_item.get_list_item_text())
