@@ -138,6 +138,19 @@ class ListFrame(tk.Frame):
 
         self.__list_canvas.yview_moveto(1)
 
+    def clear_list(self):
+        """
+        Completely empty the list
+        """
+
+        items = self.__scrollable_frame.winfo_children()
+
+        for item in items:
+            item.grid_forget()
+            item.destroy()
+
+        self.__item_count = 0
+
     """
     PRIVATE METHODS
     """

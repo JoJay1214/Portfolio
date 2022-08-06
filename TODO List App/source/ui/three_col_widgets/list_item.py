@@ -129,6 +129,14 @@ class ListItem(ThreeColWidget):
 
         return self.title.cget("text"), self.description.cget("text"), self.deadline.cget("text")
 
+    def get_list_item_row(self):
+        """
+        Get the widget's row placement from the grid it is in
+        :return: The widget's row number
+        """
+
+        return self.grid_info()["row"]
+
     """
     PRIVATE METHODS
     """

@@ -94,6 +94,9 @@ class TODOListApp(tk.Frame):
         # ADD
         self.__add_and_remove.set_add_btn_cmd(self.__add_list_input_item)
 
+        # REMOVE
+        self.__add_and_remove.set_remove_btn_cmd(self.__delete_list_item)
+
     def __place_widgets(self):
 
         # HEADER
@@ -149,7 +152,7 @@ class TODOListApp(tk.Frame):
             )
             list_item.bind_on_click_command(cmd=self.__select_list_item)
 
-    def __select_list_item(self, event=None):
+    def __select_list_item(self, event):
 
         if self.__selected_list_item:
             self.__selected_list_item.deselect_list_item()
@@ -164,4 +167,14 @@ class TODOListApp(tk.Frame):
         caller.select_list_item()
         self.__selected_list_item = caller
 
-        print(self.__selected_list_item.get_list_item_text())
+    def __delete_list_item(self):
+
+        if self.__selected_list_item:
+            item_title = self.__selected_list_item.get_list_item_text()[0]
+
+            self.__todo_list_database.delete_item_by_title(item_title)
+            self.__list_frame.clear_list()
+            self.__selected_list_item = None
+
+            list_items = self.__todo_list_database.get_all_items()
+            self.__load_items(list_items)

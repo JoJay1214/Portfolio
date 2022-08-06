@@ -94,6 +94,17 @@ class TODOListDatabase:
 
         return cursor.fetchall()
 
+    def delete_item_by_title(self, title: str):
+        """
+        Delete an item from the database given its Title
+        :param title: The string of text to match with the row to delete
+        """
+
+        sql = f"DELETE FROM {self.__TABLE_NAME} WHERE title=?"
+        cursor = self.__connection.cursor()
+        cursor.execute(sql, (title,))
+        self.__connection.commit()
+
     def close_connection(self):
         """
         If there is an open database connection, close it
