@@ -13,7 +13,7 @@ import tkinter as tk
 # PROJECT IMPORTS
 from source.ui.frames.list_header_frame import ListHeaderFrame
 from source.ui.frames.list_frame import ListFrame
-from source.ui.frames.add_and_remove_frame import AddAndRemoveFrame
+from source.ui.frames.add_edit_remove_frame import AddEditRemoveFrame
 
 from source.database.todo_list_database import TODOListDatabase
 
@@ -56,7 +56,7 @@ class TODOListApp(tk.Frame):
         # PRIVATE VARIABLES
         self.__list_header = None
         self.__list_frame = None
-        self.__add_and_remove = None
+        self.__add_edit_remove = None
 
         self.__todo_list_database = TODOListDatabase()
         self.__todo_list_database.create_connection(self.__DB_FILEPATH)
@@ -85,17 +85,20 @@ class TODOListApp(tk.Frame):
         )
 
         # ADD AND REMOVE
-        self.__add_and_remove = AddAndRemoveFrame(
+        self.__add_edit_remove = AddEditRemoveFrame(
             self,
         )
 
     def __config_commands(self):
 
         # ADD
-        self.__add_and_remove.set_add_btn_cmd(self.__add_list_input_item)
+        self.__add_edit_remove.set_add_btn_cmd(self.__add_list_input_item)
+
+        # EDIT
+        self.__add_edit_remove.set_edit_btn_cmd(self.__edit_list_item)
 
         # REMOVE
-        self.__add_and_remove.set_remove_btn_cmd(self.__delete_list_item)
+        self.__add_edit_remove.set_remove_btn_cmd(self.__delete_list_item)
 
     def __place_widgets(self):
 
@@ -114,7 +117,7 @@ class TODOListApp(tk.Frame):
         )
 
         # ADD AND REMOVE
-        self.__add_and_remove.grid(
+        self.__add_edit_remove.grid(
             column=0,
             row=2,
             sticky="ES",
@@ -123,7 +126,15 @@ class TODOListApp(tk.Frame):
     def __add_list_input_item(self):
 
         if not self.__list_frame.input_item_is_active():
+            if self.__selected_list_item:
+                self.__selected_list_item.deselect_list_item()
+                self.__selected_list_item = None
+
+            self.__add_edit_remove.set_add_btn_state(state="disabled")
+            self.__add_edit_remove.set_edit_btn_state(state="disabled")
+
             self.__list_frame.create_new_input_item(cmd=self.__add_list_item)
+
             self.parent.update_idletasks()
             self.__list_frame.scroll_to_list_end()
 
@@ -133,14 +144,20 @@ class TODOListApp(tk.Frame):
         input_item = self.__list_frame.get_inputted_text()
 
         # add item to UI and database
-        list_item = self.__list_frame.create_new_list_item(
-            title=input_item[0],
-            description=input_item[1],
-            deadline=input_item[2]
-        )
-        list_item.bind_on_click_command(cmd=self.__select_list_item)
+        if self.__todo_list_database.create_item(input_item):
+            list_item = self.__list_frame.create_new_list_item(
+                title=input_item[0],
+                description=input_item[1],
+                deadline=input_item[2]
+            )
+            list_item.bind_on_click_command(cmd=self.__select_list_item)
 
-        self.__todo_list_database.create_item(input_item)
+            self.parent.update_idletasks()
+            self.__list_frame.scroll_to_list_end()
+
+        self.__add_edit_remove.set_add_btn_state(state="normal")
+        self.__add_edit_remove.set_edit_btn_state(state="normal")
+        self.__list_frame.destroy_current_input_item()
 
     def __load_items(self, items: list):
 
@@ -154,27 +171,58 @@ class TODOListApp(tk.Frame):
 
     def __select_list_item(self, event):
 
+        if not self.__list_frame.input_item_is_active():
+            if self.__selected_list_item:
+                self.__selected_list_item.deselect_list_item()
+
+            event_widget = event.widget
+
+            if event_widget.winfo_class() == "Frame":
+                caller = event_widget
+            else:
+                caller = event_widget.master
+
+            caller.select_list_item()
+            self.__selected_list_item = caller
+
+    def __edit_list_item(self):
+
         if self.__selected_list_item:
-            self.__selected_list_item.deselect_list_item()
+            self.__add_edit_remove.set_add_btn_state(state="disabled")
+            self.__add_edit_remove.set_edit_btn_state(state="disabled")
 
-        event_widget = event.widget
+            self.__list_frame.edit_list_item(item=self.__selected_list_item, cmd=self.__update_edited_item)
 
-        if event_widget.winfo_class() == "Frame":
-            caller = event_widget
-        else:
-            caller = event_widget.master
+    def __update_edited_item(self, _=None):
 
-        caller.select_list_item()
-        self.__selected_list_item = caller
+        input_item = self.__list_frame.get_inputted_text()
+        old_item_data = self.__selected_list_item.get_list_item_text()
+
+        if self.__todo_list_database.update_item(old_item=old_item_data, new_item=input_item):
+            self.__selected_list_item.set_list_item_text(
+                title=input_item[0],
+                description=input_item[1],
+                deadline=input_item[2]
+            )
+
+        self.__add_edit_remove.set_add_btn_state(state="normal")
+        self.__add_edit_remove.set_edit_btn_state(state="normal")
+        self.__list_frame.destroy_current_input_item()
 
     def __delete_list_item(self):
 
-        if self.__selected_list_item:
-            item_title = self.__selected_list_item.get_list_item_text()[0]
+        if self.__list_frame.input_item_is_active():
+            self.__add_edit_remove.set_add_btn_state(state="normal")
+            self.__add_edit_remove.set_edit_btn_state(state="normal")
+            self.__list_frame.destroy_current_input_item()
 
-            self.__todo_list_database.delete_item_by_title(item_title)
-            self.__list_frame.clear_list()
-            self.__selected_list_item = None
+        else:
+            if self.__selected_list_item:
+                item_title = self.__selected_list_item.get_list_item_text()[0]
 
-            list_items = self.__todo_list_database.get_all_items()
-            self.__load_items(list_items)
+                self.__todo_list_database.delete_item_by_title(item_title)
+                self.__list_frame.clear_list()
+                self.__selected_list_item = None
+
+                list_items = self.__todo_list_database.get_all_items()
+                self.__load_items(list_items)

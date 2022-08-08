@@ -25,7 +25,7 @@ class TODOListDatabase:
     __SQL_CREATE_TODOLIST_TABLE = f"""
         CREATE TABLE IF NOT EXISTS {__TABLE_NAME} (
             id integer PRIMARY KEY,
-            title text NOT NULL,
+            title text NOT NULL UNIQUE,
             description text NOT NULL,
             deadline text NOT NULL
         );
@@ -38,6 +38,14 @@ class TODOListDatabase:
             deadline
         )
         VALUES(?,?,?)
+    """
+
+    __SQL_UPDATE = f"""
+        UPDATE {__TABLE_NAME}
+        SET title = ? ,
+            description = ? ,
+            deadline = ?
+        WHERE title = ?
     """
 
     """
@@ -73,15 +81,22 @@ class TODOListDatabase:
         except sqlite3.Error as e:
             print(e)
 
-    def create_item(self, item):
+    def create_item(self, item) -> bool:
         """
         Create a new item in the to-do list
         :param item: The item to add to the list
+        :return: True if the item was added, False otherwise (when the item's Primary Key already exists)
         """
 
         cursor = self.__connection.cursor()
-        cursor.execute(self.__SQL_INSERT, item)
-        self.__connection.commit()
+
+        try:
+            cursor.execute(self.__SQL_INSERT, item)
+        except sqlite3.IntegrityError as e:
+            return False
+        else:
+            self.__connection.commit()
+            return True
 
     def get_all_items(self) -> list:
         """
@@ -93,6 +108,23 @@ class TODOListDatabase:
         cursor.execute(f"SELECT * FROM {self.__TABLE_NAME}")
 
         return cursor.fetchall()
+
+    def update_item(self, old_item: tuple, new_item: tuple) -> bool:
+        """
+        Takes a data item and updates it, given new information
+        :param old_item: The old data to be updated
+        :param new_item: The new data
+        """
+
+        try:
+            cursor = self.__connection.cursor()
+            cursor.execute(self.__SQL_UPDATE, (new_item[0], new_item[1], new_item[2], old_item[0]))
+        except sqlite3.IntegrityError as e:
+            print(e)
+            return False
+        else:
+            self.__connection.commit()
+            return True
 
     def delete_item_by_title(self, title: str):
         """

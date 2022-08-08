@@ -129,6 +129,18 @@ class ListItem(ThreeColWidget):
 
         return self.title.cget("text"), self.description.cget("text"), self.deadline.cget("text")
 
+    def set_list_item_text(self, title: str, description: str, deadline: str):
+        """
+        Set the text in each label
+        :param title: Title text string
+        :param description: Description text string
+        :param deadline: Deadline text string
+        """
+
+        self.title.config(text=title)
+        self.description.config(text=description)
+        self.deadline.config(text=deadline)
+
     def get_list_item_row(self):
         """
         Get the widget's row placement from the grid it is in

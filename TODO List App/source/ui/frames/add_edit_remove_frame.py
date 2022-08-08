@@ -1,9 +1,9 @@
 """
 TODO List App
-file:   add_and_remove_frame.py
+file:   add_edit_remove_frame.py
 author: Joshua Jacobs
 date:   7/23/2022
-brief:  TK Frame that holds the buttons for adding and removing a task from the to-do list
+brief:  TK Frame that holds the buttons for adding, editing, and removing a task from the to-do list
 
 """
 
@@ -12,9 +12,9 @@ import tkinter as tk
 from typing import Callable
 
 
-class AddAndRemoveFrame(tk.Frame):
+class AddEditRemoveFrame(tk.Frame):
     """
-    TK Frame that holds the buttons for adding and removing a task from the to-do list
+    TK Frame that holds the buttons for adding, editing, and removing a task from the to-do list
     """
 
     """
@@ -24,7 +24,6 @@ class AddAndRemoveFrame(tk.Frame):
     __FONT = ("Arial", 18, "bold")
     __FRAME_BG_COL = "#BBBBBB"
     __PAD = 5
-    __WIDTH = 3
 
     """
     CONSTRUCTOR
@@ -32,7 +31,7 @@ class AddAndRemoveFrame(tk.Frame):
 
     def __init__(self, parent: tk.Frame, *args, **kwargs):
         """
-        TK Frame that holds the buttons for adding and removing a task from the to-do list
+        TK Frame that holds the buttons for adding, editing, and removing a task from the to-do list
         :param parent: The parent container
         :param args: Argument List
         :param kwargs: Keyword Argument List
@@ -47,6 +46,7 @@ class AddAndRemoveFrame(tk.Frame):
 
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(2, weight=1)
 
         self.grid_rowconfigure(0, weight=1)
 
@@ -55,6 +55,7 @@ class AddAndRemoveFrame(tk.Frame):
 
         # PRIVATE VARIABLES
         self.__add_button = None
+        self.__edit_button = None
         self.__remove_button = None
 
         # CONFIG SELF
@@ -75,6 +76,16 @@ class AddAndRemoveFrame(tk.Frame):
             command=cmd,
         )
 
+    def set_edit_btn_cmd(self, cmd: Callable):
+        """
+        Set the command for the Edit Button
+        :param cmd: The function to call when the button is pressed
+        """
+
+        self.__edit_button.config(
+            command=cmd,
+        )
+
     def set_remove_btn_cmd(self, cmd: Callable):
         """
         Set the command for the Remove Button
@@ -85,6 +96,24 @@ class AddAndRemoveFrame(tk.Frame):
             command=cmd,
         )
 
+    def set_add_btn_state(self, state: str):
+        """
+        Set the state of the Add Button, normal or disabled
+        :param state: The state to set the button, normal or disabled
+        """
+
+        if state in ["normal", "disabled"]:
+            self.__add_button.config(state=state)
+
+    def set_edit_btn_state(self, state: str):
+        """
+        Set the state of the Edit Button, normal or disabled
+        :param state: The state to set the button, normal or disabled
+        """
+
+        if state in ["normal", "disabled"]:
+            self.__edit_button.config(state=state)
+
     """
     PRIVATE METHODS
     """
@@ -94,17 +123,22 @@ class AddAndRemoveFrame(tk.Frame):
         # ADD
         self.__add_button = tk.Button(
             self,
-            text="+",
+            text="ADD",
             font=self.__FONT,
-            width=self.__WIDTH,
+        )
+
+        # EDIT
+        self.__edit_button = tk.Button(
+            self,
+            text="EDIT",
+            font=self.__FONT,
         )
 
         # REMOVE
         self.__remove_button = tk.Button(
             self,
-            text="-",
+            text="REMOVE",
             font=self.__FONT,
-            width=self.__WIDTH,
         )
 
     def __place_widgets(self):
@@ -118,9 +152,18 @@ class AddAndRemoveFrame(tk.Frame):
             pady=self.__PAD,
         )
 
+        # EDIT
+        self.__edit_button.grid(
+            column=1,
+            row=0,
+            sticky="NESW",
+            padx=self.__PAD,
+            pady=self.__PAD,
+        )
+
         # REMOVE
         self.__remove_button.grid(
-            column=1,
+            column=2,
             row=0,
             sticky="NESW",
             padx=self.__PAD,

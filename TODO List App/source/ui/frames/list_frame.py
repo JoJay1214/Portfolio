@@ -82,17 +82,28 @@ class ListFrame(tk.Frame):
         :param cmd: The function to be called upon input item event
         """
 
-        self.__current_input_item = ListInputItem(
-            self.__scrollable_frame
-        )
+        if not self.__current_input_item:
+            self.__current_input_item = ListInputItem(
+                self.__scrollable_frame
+            )
 
-        self.__current_input_item.set_return_command(cmd=cmd)
+            self.__current_input_item.set_return_command(cmd=cmd)
 
-        self.__current_input_item.grid(
-            column=0,
-            row=self.__item_count,
-            sticky="EW",
-        )
+            self.__current_input_item.grid(
+                column=0,
+                row=self.__item_count,
+                sticky="EW",
+            )
+
+    def destroy_current_input_item(self):
+        """
+        If there is currently an Input Item in the List Frame, destroy it
+        """
+
+        if self.__current_input_item:
+            self.__current_input_item.grid_forget()
+            self.__current_input_item.destroy()
+            self.__current_input_item = None
 
     def get_inputted_text(self) -> tuple:
         """
@@ -111,11 +122,6 @@ class ListFrame(tk.Frame):
         :return: The newly created List Item
         """
 
-        if self.__current_input_item:
-            self.__current_input_item.grid_forget()
-            self.__current_input_item.destroy()
-            self.__current_input_item = None
-
         new_item = ListItem(
             self.__scrollable_frame,
             title=title,
@@ -130,6 +136,31 @@ class ListFrame(tk.Frame):
         self.__item_count += 1
 
         return new_item
+
+    def edit_list_item(self, item: ListItem, cmd: Callable):
+        """
+        Edit an existing list item
+        :param item: The list item to edit
+        :param cmd: The function to bind to the Return Key press when finished editing
+        :return:
+        """
+
+        if not self.__current_input_item:
+            self.__current_input_item = ListInputItem(
+                self.__scrollable_frame
+            )
+
+            item_texts = item.get_list_item_text()
+            self.__current_input_item.title.insert(0, item_texts[0])
+            self.__current_input_item.description.insert(0, item_texts[1])
+            self.__current_input_item.deadline.insert(0, item_texts[2])
+
+            self.__current_input_item.set_return_command(cmd=cmd)
+
+            self.__current_input_item.grid(
+                column=0,
+                row=item.grid_info()["row"],
+            )
 
     def scroll_to_list_end(self):
         """
