@@ -120,7 +120,6 @@ class TODOListDatabase:
             cursor = self.__connection.cursor()
             cursor.execute(self.__SQL_UPDATE, (new_item[0], new_item[1], new_item[2], old_item[0]))
         except sqlite3.IntegrityError as e:
-            print(e)
             return False
         else:
             self.__connection.commit()

@@ -85,7 +85,7 @@ class ListInputItem(ThreeColWidget):
         :return: The strings inputted for title, description, and deadline
         """
 
-        return self.title.get(), self.description.get(), self.deadline.get()
+        return self.title.get().strip(), self.description.get().strip(), self.deadline.get().strip()
 
     """
     PRIVATE METHODS

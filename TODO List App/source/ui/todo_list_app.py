@@ -13,6 +13,7 @@ import tkinter as tk
 # PROJECT IMPORTS
 from source.ui.frames.list_header_frame import ListHeaderFrame
 from source.ui.frames.list_frame import ListFrame
+from source.ui.frames.user_error_feedback_frame import UserErrorFeedbackFrame
 from source.ui.frames.add_edit_remove_frame import AddEditRemoveFrame
 
 from source.database.todo_list_database import TODOListDatabase
@@ -49,6 +50,7 @@ class TODOListApp(tk.Frame):
         self.grid_rowconfigure(0, weight=0)
         self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
+        self.grid_rowconfigure(3, weight=1)
 
         # PUBLIC VARIABLES
         self.parent = parent  # the parent container
@@ -56,6 +58,7 @@ class TODOListApp(tk.Frame):
         # PRIVATE VARIABLES
         self.__list_header = None
         self.__list_frame = None
+        self.__user_error_feedback_frame = None
         self.__add_edit_remove = None
 
         self.__todo_list_database = TODOListDatabase()
@@ -81,6 +84,11 @@ class TODOListApp(tk.Frame):
 
         # LIST
         self.__list_frame = ListFrame(
+            self,
+        )
+
+        # ERROR FEEDBACK
+        self.__user_error_feedback_frame = UserErrorFeedbackFrame(
             self,
         )
 
@@ -116,10 +124,17 @@ class TODOListApp(tk.Frame):
             sticky="NESW",
         )
 
+        # USER ERROR
+        self.__user_error_feedback_frame.grid(
+            column=0,
+            row=2,
+            sticky="EW",
+        )
+
         # ADD AND REMOVE
         self.__add_edit_remove.grid(
             column=0,
-            row=2,
+            row=3,
             sticky="ES",
         )
 
@@ -144,7 +159,9 @@ class TODOListApp(tk.Frame):
         input_item = self.__list_frame.get_inputted_text()
 
         # add item to UI and database
-        if self.__todo_list_database.create_item(input_item):
+        if self.__todo_list_database.create_item(input_item) and input_item[0]:
+            self.__user_error_feedback_frame.clear_error_text()
+
             list_item = self.__list_frame.create_new_list_item(
                 title=input_item[0],
                 description=input_item[1],
@@ -155,9 +172,15 @@ class TODOListApp(tk.Frame):
             self.parent.update_idletasks()
             self.__list_frame.scroll_to_list_end()
 
-        self.__add_edit_remove.set_add_btn_state(state="normal")
-        self.__add_edit_remove.set_edit_btn_state(state="normal")
-        self.__list_frame.destroy_current_input_item()
+            self.__add_edit_remove.set_add_btn_state(state="normal")
+            self.__add_edit_remove.set_edit_btn_state(state="normal")
+            self.__list_frame.destroy_current_input_item()
+
+        elif not input_item[0]:
+            self.__user_error_feedback_frame.set_error_text(text="*A Title is required to submit a new item")
+
+        else:
+            self.__user_error_feedback_frame.set_error_text(text="*An item with that Title already exists")
 
     def __load_items(self, items: list):
 
@@ -198,20 +221,30 @@ class TODOListApp(tk.Frame):
         input_item = self.__list_frame.get_inputted_text()
         old_item_data = self.__selected_list_item.get_list_item_text()
 
-        if self.__todo_list_database.update_item(old_item=old_item_data, new_item=input_item):
+        if self.__todo_list_database.update_item(old_item=old_item_data, new_item=input_item) and input_item[0]:
+            self.__user_error_feedback_frame.clear_error_text()
+
             self.__selected_list_item.set_list_item_text(
                 title=input_item[0],
                 description=input_item[1],
                 deadline=input_item[2]
             )
 
-        self.__add_edit_remove.set_add_btn_state(state="normal")
-        self.__add_edit_remove.set_edit_btn_state(state="normal")
-        self.__list_frame.destroy_current_input_item()
+            self.__add_edit_remove.set_add_btn_state(state="normal")
+            self.__add_edit_remove.set_edit_btn_state(state="normal")
+            self.__list_frame.destroy_current_input_item()
+
+        elif not input_item[0]:
+            self.__user_error_feedback_frame.set_error_text(text="*A Title is required to submit a new item")
+
+        else:
+            self.__user_error_feedback_frame.set_error_text(text="*An item with that Title already exists")
 
     def __delete_list_item(self):
 
         if self.__list_frame.input_item_is_active():
+            self.__user_error_feedback_frame.clear_error_text()
+
             self.__add_edit_remove.set_add_btn_state(state="normal")
             self.__add_edit_remove.set_edit_btn_state(state="normal")
             self.__list_frame.destroy_current_input_item()
