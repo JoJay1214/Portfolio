@@ -40,6 +40,10 @@ class TODOListDatabase:
         VALUES(?,?,?)
     """
 
+    __SQL_SELECT = f"""
+        SELECT * FROM {__TABLE_NAME}
+    """
+
     __SQL_UPDATE = f"""
         UPDATE {__TABLE_NAME}
         SET title = ? ,
@@ -48,14 +52,22 @@ class TODOListDatabase:
         WHERE title = ?
     """
 
+    __SQL_DELETE = f"""
+        DELETE FROM {__TABLE_NAME} 
+        WHERE title=?
+    """
+
     """
     CONSTRUCTOR
     """
 
     def __init__(self):
+        """
+        Handles the management of a SQL Database that store the to-do list information
+        """
 
         # PRIVATE VARIABLES
-        self.__connection = None
+        self.__connection = None  # the connection to the SQL database
 
     """
     DESTRUCTOR
@@ -63,7 +75,7 @@ class TODOListDatabase:
 
     def __del__(self):
 
-        self.close_connection()
+        self.close_connection()  # close database connection upon object destruction
 
     """
     PUBLIC METHODS
@@ -93,6 +105,7 @@ class TODOListDatabase:
         try:
             cursor.execute(self.__SQL_INSERT, item)
         except sqlite3.IntegrityError as e:
+            print(e)
             return False
         else:
             self.__connection.commit()
@@ -105,7 +118,7 @@ class TODOListDatabase:
         """
 
         cursor = self.__connection.cursor()
-        cursor.execute(f"SELECT * FROM {self.__TABLE_NAME}")
+        cursor.execute(self.__SQL_SELECT)
 
         return cursor.fetchall()
 
@@ -116,10 +129,12 @@ class TODOListDatabase:
         :param new_item: The new data
         """
 
+        cursor = self.__connection.cursor()
+
         try:
-            cursor = self.__connection.cursor()
             cursor.execute(self.__SQL_UPDATE, (new_item[0], new_item[1], new_item[2], old_item[0]))
         except sqlite3.IntegrityError as e:
+            print(e)
             return False
         else:
             self.__connection.commit()
@@ -131,9 +146,8 @@ class TODOListDatabase:
         :param title: The string of text to match with the row to delete
         """
 
-        sql = f"DELETE FROM {self.__TABLE_NAME} WHERE title=?"
         cursor = self.__connection.cursor()
-        cursor.execute(sql, (title,))
+        cursor.execute(self.__SQL_DELETE, (title,))
         self.__connection.commit()
 
     def close_connection(self):
