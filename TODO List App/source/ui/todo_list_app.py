@@ -159,7 +159,7 @@ class TODOListApp(tk.Frame):
         input_item = self.__list_frame.get_inputted_text()
 
         # add item to UI and database
-        if self.__todo_list_database.create_item(input_item) and input_item[0]:
+        if input_item[0] and self.__todo_list_database.create_item(input_item):
             self.__user_error_feedback_frame.clear_error_text()
 
             list_item = self.__list_frame.create_new_list_item(
@@ -221,7 +221,7 @@ class TODOListApp(tk.Frame):
         input_item = self.__list_frame.get_inputted_text()
         old_item_data = self.__selected_list_item.get_list_item_text()
 
-        if self.__todo_list_database.update_item(old_item=old_item_data, new_item=input_item) and input_item[0]:
+        if input_item[0] and self.__todo_list_database.update_item(old_item=old_item_data, new_item=input_item):
             self.__user_error_feedback_frame.clear_error_text()
 
             self.__selected_list_item.set_list_item_text(
