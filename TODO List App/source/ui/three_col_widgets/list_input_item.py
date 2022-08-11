@@ -26,8 +26,8 @@ class ListInputItem(ThreeColWidget):
     CONSTANTS
     """
 
-    __FONT = ("Arial", 16, "normal")
-    __BOARDER_COLOR = "#AAAAAA"
+    __FONT = ("Arial", 16, "normal")  # font of the text in the Entry widgets
+    __BORDER_COLOR = "#AAAAAA"        # color of the border of the frame
 
     """
     CONSTRUCTOR
@@ -47,7 +47,7 @@ class ListInputItem(ThreeColWidget):
 
         # CONFIG TK FRAME
         self.config(
-            highlightbackground=self.__BOARDER_COLOR,
+            highlightbackground=self.__BORDER_COLOR,
         )
 
         # CONFIG SELF
@@ -82,7 +82,8 @@ class ListInputItem(ThreeColWidget):
     def get_inputted_text(self) -> tuple:
         """
         Get the strings inputted into the list input items' entries
-        :return: The strings inputted for title, description, and deadline
+        :return: The strings inputted for title, description, and deadline--stripped
+        of any spaces at the beginnings and ends
         """
 
         return self.title.get().strip(), self.description.get().strip(), self.deadline.get().strip()

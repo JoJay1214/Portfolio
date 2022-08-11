@@ -20,8 +20,9 @@ class TODOListDatabase:
     CONSTANTS
     """
 
-    __TABLE_NAME = "items"
+    __TABLE_NAME = "items"  # SQL database table name
 
+    # SQL create table if it doesn't exist
     __SQL_CREATE_TODOLIST_TABLE = f"""
         CREATE TABLE IF NOT EXISTS {__TABLE_NAME} (
             id integer PRIMARY KEY,
@@ -31,6 +32,7 @@ class TODOListDatabase:
         );
     """
 
+    # insert list item into table
     __SQL_INSERT = f"""
         INSERT INTO {__TABLE_NAME}(
             title,
@@ -40,10 +42,12 @@ class TODOListDatabase:
         VALUES(?,?,?)
     """
 
+    # select all list items from table
     __SQL_SELECT = f"""
         SELECT * FROM {__TABLE_NAME}
     """
 
+    # update list item in table at a given title
     __SQL_UPDATE = f"""
         UPDATE {__TABLE_NAME}
         SET title = ? ,
@@ -52,6 +56,7 @@ class TODOListDatabase:
         WHERE title = ?
     """
 
+    # delete list item from table at a given title
     __SQL_DELETE = f"""
         DELETE FROM {__TABLE_NAME} 
         WHERE title=?

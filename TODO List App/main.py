@@ -17,9 +17,9 @@ from source.ui.todo_list_app import TODOListApp
 CONSTANTS
 """
 
-__WIN_BG_COL = "#BBBBBB"
-__WIN_START_POS = (100, 50)
-__WIN_PAD = 20
+__WIN_BG_COL = "#BBBBBB"     # window background color
+__WIN_START_POS = (100, 50)  # window starting position
+__WIN_PAD = 20               # window padding
 
 """
 MAIN

@@ -20,13 +20,13 @@ class ThreeColWidget(tk.Frame):
     CONSTANTS
     """
 
-    TITLE_WIDTH = 15
-    DESCRIPTION_WIDTH = 40
-    DEADLINE_WIDTH = 15
+    TITLE_WIDTH = 15               # width of the title column
+    DESCRIPTION_WIDTH = 40         # width of the description column
+    DEADLINE_WIDTH = 15            # width of the deadline column
 
-    DESCRIPTION_PADX = 10
+    DESCRIPTION_PADX = 10          # padding around the middle column
 
-    __HEADER_BOARDER_THICKNESS = 1
+    __HEADER_BORDER_THICKNESS = 1  # the thickness of the border around the frame
 
     """
     CONSTRUCTOR
@@ -44,7 +44,7 @@ class ThreeColWidget(tk.Frame):
         tk.Frame.__init__(self, parent, *args, **kwargs)
 
         self.config(
-            highlightthickness=self.__HEADER_BOARDER_THICKNESS,
+            highlightthickness=self.__HEADER_BORDER_THICKNESS,
         )
 
         self.grid_columnconfigure(0, weight=1)
@@ -56,6 +56,6 @@ class ThreeColWidget(tk.Frame):
         # PUBLIC VARIABLES
         self.parent = parent  # the parent container
 
-        self.title = None
-        self.description = None
-        self.deadline = None
+        self.title = None        # title column
+        self.description = None  # description column
+        self.deadline = None     # deadline column

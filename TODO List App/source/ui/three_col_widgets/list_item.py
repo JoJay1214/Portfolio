@@ -26,13 +26,13 @@ class ListItem(ThreeColWidget):
     CONSTANTS
     """
 
-    __FONT = ("Arial", 16, "normal")
-    __BOARDER_COLOR = "#AAAAAA"
-    __BG_COLOR = "#FFFFFF"
-    __TEXT_COLOR = "#000000"
+    __FONT = ("Arial", 16, "normal")    # text label font
 
-    __HIGHLIGHT_BG_COLOR = "#0505FF"
-    __HIGHLIGHT_TEXT_COLOR = "#FFFFFF"
+    __BORDER_COLOR = "#AAAAAA"          # color of the border around the frame
+    __BG_COLOR = "#FFFFFF"              # color of the item background when not selected
+    __TEXT_COLOR = "#000000"            # color of item text when not selected
+    __HIGHLIGHT_BG_COLOR = "#0505FF"    # color of item background when selected
+    __HIGHLIGHT_TEXT_COLOR = "#FFFFFF"  # color of item text when selected
 
     """
     CONSTRUCTOR
@@ -55,7 +55,7 @@ class ListItem(ThreeColWidget):
 
         # CONFIG TK FRAME
         self.config(
-            highlightbackground=self.__BOARDER_COLOR,
+            highlightbackground=self.__BORDER_COLOR,
         )
 
         # CONFIG SELF
@@ -159,27 +159,27 @@ class ListItem(ThreeColWidget):
         self.title = tk.Label(
             self,
             text=title,
-            width=self.TITLE_WIDTH,
-            font=self.__FONT,
             anchor="w",
+            font=self.__FONT,
+            width=self.TITLE_WIDTH,
         )
 
         # DESCRIPTION
         self.description = tk.Label(
             self,
             text=description,
-            width=self.DESCRIPTION_WIDTH,
-            font=self.__FONT,
             anchor="w",
+            font=self.__FONT,
+            width=self.DESCRIPTION_WIDTH,
         )
 
         # DEADLINE
         self.deadline = tk.Label(
             self,
             text=deadline,
-            width=self.DEADLINE_WIDTH,
-            font=self.__FONT,
             anchor="w",
+            font=self.__FONT,
+            width=self.DEADLINE_WIDTH,
         )
 
     def __place_widgets(self):
