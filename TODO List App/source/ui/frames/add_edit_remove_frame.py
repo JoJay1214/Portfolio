@@ -21,9 +21,9 @@ class AddEditRemoveFrame(tk.Frame):
     CONSTANTS
     """
 
-    __FONT = ("Arial", 18, "bold")
-    __FRAME_BG_COL = "#BBBBBB"
-    __PAD = 5
+    __FONT = ("Arial", 18, "bold")  # font used for the buttons' text
+    __FRAME_BG_COL = "#BBBBBB"      # background color of the frame
+    __PAD = 5                       # padding around buttons
 
     """
     CONSTRUCTOR
@@ -54,9 +54,9 @@ class AddEditRemoveFrame(tk.Frame):
         self.parent = parent  # the parent container
 
         # PRIVATE VARIABLES
-        self.__add_button = None
-        self.__edit_button = None
-        self.__remove_button = None
+        self.__add_button = None     # button used to add new items to the to-do list
+        self.__edit_button = None    # button used for editing items on the to-do list
+        self.__remove_button = None  # button used for removing items from the to-do list
 
         # CONFIG SELF
         self.__create_widgets()

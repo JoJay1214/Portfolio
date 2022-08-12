@@ -3,7 +3,7 @@ TODO List App
 file:   list_header_frame.py
 author: Joshua Jacobs
 date:   7/21/2022
-brief:  three_col_widget that holds the header used with the to-do list
+brief:  Three Column Widget that holds the header used with the to-do list
 
 """
 
@@ -16,16 +16,16 @@ from source.ui.three_col_widgets.three_col_widget import ThreeColWidget
 
 class ListHeaderFrame(ThreeColWidget):
     """
-    three_col_widget that holds the header used with the to-do list
+    Three Column Widget that holds the header used with the to-do list
     """
 
     """
     CONSTANTS
     """
 
-    __FONT = ("Arial", 15, "bold")
-    __FRAME_BG_COLOR = "#000000"
-    __BOARDER_COLOR = "#555555"
+    __FONT = ("Arial", 15, "bold")  # font used for header text
+    __FRAME_BG_COLOR = "#000000"    # background color of the frame holding the widgets
+    __BORDER_COLOR = "#555555"      # frame border color
 
     """
     CONSTRUCTOR
@@ -33,7 +33,7 @@ class ListHeaderFrame(ThreeColWidget):
 
     def __init__(self, parent: tk.Frame, *args, **kwargs):
         """
-        three_col_widget that holds the header used with the to-do list
+        Three Column Widget that holds the header used with the to-do list
         :param parent: The parent container
         :param args: Argument List
         :param kwargs: Keyword Argument List
@@ -45,7 +45,7 @@ class ListHeaderFrame(ThreeColWidget):
         # CONFIG TK FRAME
         self.config(
             bg=self.__FRAME_BG_COLOR,
-            highlightbackground=self.__BOARDER_COLOR,
+            highlightbackground=self.__BORDER_COLOR,
         )
 
         # CONFIG SELF

@@ -20,10 +20,10 @@ class UserErrorFeedbackFrame(tk.Frame):
     CONSTANTS
     """
 
-    __FONT = ("Arial", 16, "italic")
-    __FONT_COLOR = "#FF0000"
-    __FRAME_BG_COL = "#BBBBBB"
-    __PAD = 5
+    __FONT = ("Arial", 16, "italic")  # font used for error display text
+    __FONT_COLOR = "#FF0000"          # color of error text font
+    __FRAME_BG_COL = "#BBBBBB"        # background color
+    __PAD = 5                         # widget outer padding
 
     """
     CONSTRUCTOR
@@ -52,7 +52,7 @@ class UserErrorFeedbackFrame(tk.Frame):
         self.parent = parent  # the parent container
 
         # PRIVATE VARIABLES
-        self.__error_text_label = None
+        self.__error_text_label = None  # label that displays error text
 
         # CONFIG SELF
         self.__create_widgets()
