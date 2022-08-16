@@ -25,7 +25,7 @@ class ListFrame(tk.Frame):
     CONSTANTS
     """
 
-    __CANVAS_HEIGHT = 250
+    __CANVAS_HEIGHT = 250  # the height of the list canvas that holds the scrollable frame
 
     """
     CONSTRUCTOR
@@ -50,17 +50,16 @@ class ListFrame(tk.Frame):
         self.parent = parent  # the parent container
 
         # PRIVATE VARIABLES
-        self.__list_canvas = None
-        self.__scrollbar = None
-        self.__scrollable_frame = None
+        self.__list_canvas = None         # canvas to hold scrollable frame
+        self.__scrollbar = None           # scrollbar to scroll list of items
+        self.__scrollable_frame = None    # holds the three column list items
 
-        self.__current_input_item = None
+        self.__current_input_item = None  # the currently active three column input widget
 
-        self.__item_count = 0
+        self.__item_count = 0             # the amount of items in the list
 
         # CONFIG SELF
         self.__create_widgets()
-
         self.__setup_scrollable_frame()
         self.__place_widgets()
 
@@ -68,13 +67,7 @@ class ListFrame(tk.Frame):
     PUBLIC METHODS
     """
 
-    def input_item_is_active(self) -> bool:
-        """
-        Check to see if there is an active input item
-        :return: The current input item
-        """
-
-        return self.__current_input_item
+    # INPUT ITEM
 
     def create_new_input_item(self, cmd: Callable):
         """
@@ -95,6 +88,25 @@ class ListFrame(tk.Frame):
                 sticky="EW",
             )
 
+    def input_item_is_active(self) -> bool:
+        """
+        Check to see if there is an active input item
+        :return: The current input item
+        """
+
+        return self.__current_input_item
+
+    def get_inputted_text(self) -> tuple:
+        """
+        Get the inputted texts from the list input item
+        :return: The inputted text strings
+        """
+
+        if self.__current_input_item:
+            return self.__current_input_item.get_inputted_text()
+        else:
+            return None, None, None
+
     def destroy_current_input_item(self):
         """
         If there is currently an Input Item in the List Frame, destroy it
@@ -105,13 +117,7 @@ class ListFrame(tk.Frame):
             self.__current_input_item.destroy()
             self.__current_input_item = None
 
-    def get_inputted_text(self) -> tuple:
-        """
-        Get the inputted texts from the list input item
-        :return: The inputted text strings
-        """
-
-        return self.__current_input_item.get_inputted_text()
+    # LIST ITEM
 
     def create_new_list_item(self, title: str, description: str, deadline: str) -> ListItem:
         """
@@ -150,6 +156,7 @@ class ListFrame(tk.Frame):
                 self.__scrollable_frame
             )
 
+            # fill input item with the text from the list item
             item_texts = item.get_list_item_text()
             self.__current_input_item.title.insert(0, item_texts[0])
             self.__current_input_item.description.insert(0, item_texts[1])
@@ -157,10 +164,13 @@ class ListFrame(tk.Frame):
 
             self.__current_input_item.set_return_command(cmd=cmd)
 
+            # create input item in same location in the list as the list item
             self.__current_input_item.grid(
                 column=0,
                 row=item.grid_info()["row"],
             )
+
+    # LIST
 
     def scroll_to_list_end(self):
         """
