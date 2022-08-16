@@ -28,7 +28,7 @@ class TODOListApp(tk.Frame):
     CONSTANTS
     """
 
-    __DB_FILEPATH = "db/TODOListDatabase.db"
+    __DB_FILEPATH = "db/TODOListDatabase.db"  # filepath to the database file
 
     """
     CONSTRUCTOR
@@ -56,15 +56,14 @@ class TODOListApp(tk.Frame):
         self.parent = parent  # the parent container
 
         # PRIVATE VARIABLES
-        self.__list_header = None
-        self.__list_frame = None
-        self.__user_error_feedback_frame = None
-        self.__add_edit_remove = None
+        self.__list_header = None                       # heads the list of to-do items
+        self.__list_frame = None                        # displays the list of to-do items
+        self.__user_error_feedback_frame = None         # displays error text for the user when necessary
+        self.__add_edit_remove = None                   # buttons for adding, editing, and removing list items
 
-        self.__todo_list_database = TODOListDatabase()
-        self.__todo_list_database.create_connection(self.__DB_FILEPATH)
+        self.__todo_list_database = TODOListDatabase()  # manages the to-do list database
 
-        self.__selected_list_item = None
+        self.__selected_list_item = None                # current selected item in the list
 
         # CONFIG SELF
         self.__create_widgets()
@@ -72,6 +71,7 @@ class TODOListApp(tk.Frame):
         self.__place_widgets()
 
         # LOAD DATABASE
+        self.__todo_list_database.create_connection(self.__DB_FILEPATH)
         list_items = self.__todo_list_database.get_all_items()
         self.__load_items(list_items)
 
@@ -135,15 +135,26 @@ class TODOListApp(tk.Frame):
         self.__add_edit_remove.grid(
             column=0,
             row=3,
-            sticky="ES",
+            sticky="E",
         )
+
+    def __load_items(self, items: list):
+
+        # load the list of items into the list frame ui
+        for item in items:
+            list_item = self.__list_frame.create_new_list_item(
+                title=item[1],
+                description=item[2],
+                deadline=item[3]
+            )
+            list_item.bind_on_click_command(cmd=self.__select_list_item)
 
     def __add_list_input_item(self):
 
+        # if there is not already a 3-col input widget
+        # create a new one, add it to the list, and scroll to it
         if not self.__list_frame.input_item_is_active():
-            if self.__selected_list_item:
-                self.__selected_list_item.deselect_list_item()
-                self.__selected_list_item = None
+            self.__deselect_list_item()
 
             self.__add_edit_remove.set_add_btn_state(state="disabled")
             self.__add_edit_remove.set_edit_btn_state(state="disabled")
@@ -155,13 +166,13 @@ class TODOListApp(tk.Frame):
 
     def __add_list_item(self, _=None):
 
-        # get item
+        # get input item texts
         input_item = self.__list_frame.get_inputted_text()
 
-        # add item to UI and database
+        # if title has text and title is not already in the database
         if input_item[0] and self.__todo_list_database.create_item(input_item):
-            self.__user_error_feedback_frame.clear_error_text()
 
+            # add item to UI and database, then reset ui to original state
             list_item = self.__list_frame.create_new_list_item(
                 title=input_item[0],
                 description=input_item[1],
@@ -172,45 +183,50 @@ class TODOListApp(tk.Frame):
             self.parent.update_idletasks()
             self.__list_frame.scroll_to_list_end()
 
-            self.__add_edit_remove.set_add_btn_state(state="normal")
-            self.__add_edit_remove.set_edit_btn_state(state="normal")
-            self.__list_frame.destroy_current_input_item()
+            self.__reset_ui()
 
         elif not input_item[0]:
+
+            # flash user error text explaining title needs to be input to be submitted
             self.__user_error_feedback_frame.set_error_text(text="*A Title is required to submit a new item")
 
         else:
+
+            # flash user error text explaining title key already exists in the database
             self.__user_error_feedback_frame.set_error_text(text="*An item with that Title already exists")
-
-    def __load_items(self, items: list):
-
-        for item in items:
-            list_item = self.__list_frame.create_new_list_item(
-                title=item[1],
-                description=item[2],
-                deadline=item[3]
-            )
-            list_item.bind_on_click_command(cmd=self.__select_list_item)
 
     def __select_list_item(self, event):
 
         if not self.__list_frame.input_item_is_active():
-            if self.__selected_list_item:
-                self.__selected_list_item.deselect_list_item()
+
+            # deselect the old list item, if there is one
+            self.__deselect_list_item()
 
             event_widget = event.widget
 
+            # accommodate for whether the frame or the label was clicked from the List Item
             if event_widget.winfo_class() == "Frame":
                 caller = event_widget
             else:
                 caller = event_widget.master
 
+            # select and highlight the newly clicked list item
             caller.select_list_item()
             self.__selected_list_item = caller
+
+    def __deselect_list_item(self, _=None):
+
+        if self.__selected_list_item:
+
+            # if there's a selected list item, deselect it
+            self.__selected_list_item.deselect_list_item()
+            self.__selected_list_item = None
 
     def __edit_list_item(self):
 
         if self.__selected_list_item:
+
+            # if there's a selected list item, edit it
             self.__add_edit_remove.set_add_btn_state(state="disabled")
             self.__add_edit_remove.set_edit_btn_state(state="disabled")
 
@@ -221,41 +237,57 @@ class TODOListApp(tk.Frame):
         input_item = self.__list_frame.get_inputted_text()
         old_item_data = self.__selected_list_item.get_list_item_text()
 
+        # if a title is filled in and the title does not already exist in the database
         if input_item[0] and self.__todo_list_database.update_item(old_item=old_item_data, new_item=input_item):
-            self.__user_error_feedback_frame.clear_error_text()
 
+            # update the item in the database and ui
             self.__selected_list_item.set_list_item_text(
                 title=input_item[0],
                 description=input_item[1],
                 deadline=input_item[2]
             )
 
-            self.__add_edit_remove.set_add_btn_state(state="normal")
-            self.__add_edit_remove.set_edit_btn_state(state="normal")
-            self.__list_frame.destroy_current_input_item()
+            self.__reset_ui()
 
         elif not input_item[0]:
+
+            # flash user error text explaining title needs to be input to be submitted
             self.__user_error_feedback_frame.set_error_text(text="*A Title is required to submit a new item")
 
         else:
+
+            # flash user error text explaining title key already exists in the database
             self.__user_error_feedback_frame.set_error_text(text="*An item with that Title already exists")
 
     def __delete_list_item(self):
 
         if self.__list_frame.input_item_is_active():
-            self.__user_error_feedback_frame.clear_error_text()
 
-            self.__add_edit_remove.set_add_btn_state(state="normal")
-            self.__add_edit_remove.set_edit_btn_state(state="normal")
-            self.__list_frame.destroy_current_input_item()
+            # simply reset ui back to normal and remove 3-col input item
+            self.__reset_ui()
 
         else:
+
+            # there is no input item, currently
+            # check for a selected item in the list
             if self.__selected_list_item:
+
+                # get the title of the selected item
                 item_title = self.__selected_list_item.get_list_item_text()[0]
 
+                # delete the item by title in the database and clear the list for refilling
                 self.__todo_list_database.delete_item_by_title(item_title)
                 self.__list_frame.clear_list()
                 self.__selected_list_item = None
 
+                # repopulate the list in the ui with the remaining items in the database
                 list_items = self.__todo_list_database.get_all_items()
                 self.__load_items(list_items)
+
+    def __reset_ui(self):
+
+        # reset ui widgets back to their original states
+        self.__user_error_feedback_frame.clear_error_text()
+        self.__add_edit_remove.set_add_btn_state(state="normal")
+        self.__add_edit_remove.set_edit_btn_state(state="normal")
+        self.__list_frame.destroy_current_input_item()
