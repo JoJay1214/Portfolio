@@ -37,17 +37,23 @@ class WatermarkFontSettingsSection(tk.Frame):
         tk.Frame.__init__(self, parent, *args, **kwargs)
 
         self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(2, weight=1)
 
         # PUBLIC VARIABLES
         self.parent = parent  # the parent container
 
         # PRIVATE VARIABLES
-        self.__font_size_scale = None  # scale that controls watermark text font size
-        self.__alpha_scale = None      # scale that controls watermark text transparency
+        self.__font_size_scale = None      # scale that controls watermark text font size
+        self.__alpha_scale = None          # scale that controls watermark text transparency
+        self.__radiobutton_white = None    # radio button to pick the color white
+        self.__radiobutton_black = None    # radio button to pick the color black
 
         self.__section_title_label = None  # watermark font settings section title label
         self.__font_size_label = None      # font size label for scale
         self.__font_alpha_label = None     # font alpha label for scale
+        self.__text_color_label = None     # text color label for radio buttons
+
+        self.__current_color = tk.StringVar(value="255, 255, 255")
 
         # CONFIG SELF
         self.__create_widgets()
@@ -56,6 +62,9 @@ class WatermarkFontSettingsSection(tk.Frame):
     """
     PUBLIC METHODS
     """
+
+    def sel(self):
+        print("meow")
 
     def get_font_size_value(self):
         """
@@ -107,24 +116,31 @@ class WatermarkFontSettingsSection(tk.Frame):
             font=sett.SEC_TITLE_FONT,
         )
 
-        # FONT SIZE
-        self.__font_size_label = tk.Label(
+        # TEXT COLOR
+        self.__text_color_label = tk.Label(
             self,
-            text="Font Size:",
+            text="Color:",
             bg=sett.SUBSEC_BG_COLOR,
             font=sett.SEC_CONTENT_FONT,
         )
-        self.__font_size_scale = tk.Scale(
+        self.__radiobutton_white = tk.Radiobutton(
             self,
-            from_=sett.FONT_SIZE_MIN,
-            to=sett.FONT_SIZE_MAX,
-            orient=tk.HORIZONTAL,
+            text="White",
+            value="255, 255, 255",
+            variable=self.__current_color,
+            command=self.sel,
             bg=sett.SUBSEC_BG_COLOR,
             font=sett.SEC_CONTENT_FONT,
-            highlightbackground=sett.SUBSEC_BG_COLOR,
-            troughcolor=sett.TROUGH_COLOR,
         )
-        self.__font_size_scale.set(sett.FONT_SIZE_SCALE_DEFAULT)
+        self.__radiobutton_black = tk.Radiobutton(
+            self,
+            text="Black",
+            value="0, 0, 0",
+            variable=self.__current_color,
+            command=self.sel,
+            bg=sett.SUBSEC_BG_COLOR,
+            font=sett.SEC_CONTENT_FONT,
+        )
 
         # FONT ALPHA
         self.__font_alpha_label = tk.Label(
@@ -145,6 +161,25 @@ class WatermarkFontSettingsSection(tk.Frame):
         )
         self.__alpha_scale.set(sett.ALPHA_SCALE_DEFAULT)
 
+        # FONT SIZE
+        self.__font_size_label = tk.Label(
+            self,
+            text="Font Size:",
+            bg=sett.SUBSEC_BG_COLOR,
+            font=sett.SEC_CONTENT_FONT,
+        )
+        self.__font_size_scale = tk.Scale(
+            self,
+            from_=sett.FONT_SIZE_MIN,
+            to=sett.FONT_SIZE_MAX,
+            orient=tk.HORIZONTAL,
+            bg=sett.SUBSEC_BG_COLOR,
+            font=sett.SEC_CONTENT_FONT,
+            highlightbackground=sett.SUBSEC_BG_COLOR,
+            troughcolor=sett.TROUGH_COLOR,
+        )
+        self.__font_size_scale.set(sett.FONT_SIZE_SCALE_DEFAULT)
+
     def __place_widgets(self):
 
         # TITLE
@@ -157,18 +192,23 @@ class WatermarkFontSettingsSection(tk.Frame):
             pady=sett.SEC_TITLE_PAD_Y,
         )
 
-        # FONT SIZE
-        self.__font_size_label.grid(
+        # TEXT COLOR
+        self.__text_color_label.grid(
             column=0,
             row=1,
             sticky="SW",
             padx=(sett.SEC_CONTENT_OUTER_PAD_X, 0),
         )
-        self.__font_size_scale.grid(
+        self.__radiobutton_white.grid(
             column=1,
             row=1,
             sticky="EW",
-            padx=(sett.SEC_SCALE_PAD_LEFT, sett.SEC_CONTENT_OUTER_PAD_X),
+        )
+        self.__radiobutton_black.grid(
+            column=2,
+            row=1,
+            sticky="EW",
+            padx=(0, sett.SEC_CONTENT_OUTER_PAD_X),
         )
 
         # FONT ALPHA
@@ -181,6 +221,22 @@ class WatermarkFontSettingsSection(tk.Frame):
         self.__alpha_scale.grid(
             column=1,
             row=2,
+            columnspan=2,
+            sticky="EW",
+            padx=(sett.SEC_SCALE_PAD_LEFT, sett.SEC_CONTENT_OUTER_PAD_X),
+        )
+
+        # FONT SIZE
+        self.__font_size_label.grid(
+            column=0,
+            row=3,
+            sticky="SW",
+            padx=(sett.SEC_CONTENT_OUTER_PAD_X, 0),
+        )
+        self.__font_size_scale.grid(
+            column=1,
+            row=3,
+            columnspan=2,
             sticky="EW",
             padx=(sett.SEC_SCALE_PAD_LEFT, sett.SEC_CONTENT_OUTER_PAD_X),
         )
