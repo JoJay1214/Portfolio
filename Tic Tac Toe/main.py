@@ -15,8 +15,16 @@ import tkinter as tk
 # PROJECT IMPORTS
 from source.ui.tic_tac_toe_app import TicTacToeApplication
 
+"""
+CONSTANTS
+"""
+
 __WIN_START_POS = (350, 50)
 __WINDOW_PAD = 20
+
+"""
+MAIN
+"""
 
 
 def main():
@@ -40,9 +48,15 @@ def main():
     )
 
     root.mainloop()
+    
+    
+"""
+PRIVATE METHODDS
+"""
 
 
 def __config_root_window(root: tk.Tk):
+
     root.title("Tic Tac Toe")
     root.config(
         padx=__WINDOW_PAD,

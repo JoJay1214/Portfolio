@@ -19,7 +19,11 @@ class TicTacToe:
     """
 
     def __init__(self):
-        # game board with empty spaces
+        """
+        Tic Tac Toe game constructor
+        """
+        
+        # Private Variables
         self.__board = [
             [' ', ' ', ' '],
             [' ', ' ', ' '],
@@ -41,6 +45,7 @@ class TicTacToe:
         Get whether the game is still being played or has ended
         :return: The current status of the game
         """
+        
         return self.__is_playing
 
     def get_board(self) -> list:
@@ -48,6 +53,7 @@ class TicTacToe:
         Get the game board in its current state
         :return: The game's board in a 3x3 list
         """
+        
         return self.__board
 
     def get_current_player_marker(self) -> str:
@@ -55,6 +61,7 @@ class TicTacToe:
         Get the marker of the current player
         :return: The current player's marker
         """
+        
         return self.__markers[self.__current_player]
 
     def place_marker(self, player: str, row: int, col: int) -> bool:
@@ -65,6 +72,7 @@ class TicTacToe:
         :param col: Column on the board to place marker
         :return: bool True if the marker was placed, False otherwise
         """
+        
         if self.__board[row][col] == " ":
             self.__board[row][col] = player
             return True
@@ -75,6 +83,7 @@ class TicTacToe:
         """
         Swap the current player with the other player
         """
+        
         self.__current_player = not self.__current_player
 
     def check_for_winner(self, player: str) -> bool:
@@ -84,6 +93,7 @@ class TicTacToe:
         :param player: The player marker to be checked against the board
         :return: bool True if a player has won, False otherwise
         """
+        
         # if any of the winning triples contain the same marker, that player wins
         if \
                 player == self.__board[0][0] == self.__board[0][1] == self.__board[0][2] or \
@@ -106,6 +116,7 @@ class TicTacToe:
 
         :return: Returns bool False if there is at least one space left open, True otherwise
         """
+        
         # if any space on the board is empty, board is not filled completely
         for row in self.__board:
             if ' ' in row:

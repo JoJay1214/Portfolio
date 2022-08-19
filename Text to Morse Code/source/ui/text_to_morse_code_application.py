@@ -181,6 +181,13 @@ class TextToMorseCodeApplication(tk.Frame):
         self.__play_button_frame.set_play_button_text(text="Play")
 
     def __play_morse_code(self, interval: int):
+        """
+        Play a morse code sound given the morse code output and the current interval.
+        Ready the program for the next sound to be played and reset the player if there 
+        are no more sounds to be played.
+        :param interval: The current morse code sound to be played.
+        """
+        
         morse_code_text = self.__output_textbox_frame.get_output_text()  # get outputted Morse Code text
 
         # if there's morse code left to be played, keep playing

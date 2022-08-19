@@ -17,7 +17,15 @@ from source.ui.text_to_morse_code_application import TextToMorseCodeApplication
 
 import source.app_settings as sett
 
+"""
+CONSTANTS
+"""
+
 __WIN_START_POS = (60, 60)
+
+"""
+MAIN
+"""
 
 
 def main():
@@ -44,15 +52,23 @@ def main():
     root.mainloop()
 
 
+"""
+PRIVATE METHODS
+"""
+
+
 def __config_root_window(root: tk.Tk):
+
     root.title("Text to Morse Code")
     root.config(
         bg=sett.WINDOW_BG_COLOR,
         padx=sett.WINDOW_PADX,
         pady=sett.WINDOW_PADY,
     )
+    
     root.grid_columnconfigure(0, weight=1)
     root.grid_rowconfigure(0, weight=1)
+    
     root.geometry(f"+{__WIN_START_POS[0]}+{__WIN_START_POS[1]}")
 
 

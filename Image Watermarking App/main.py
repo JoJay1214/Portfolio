@@ -16,6 +16,10 @@ from source.ui.image_watermarking_application import ImageWatermarkingApplicatio
 
 import source.app_settings as sett
 
+"""
+MAIN
+"""
+
 
 def main():
     """
@@ -38,6 +42,11 @@ def main():
     )
 
     root.mainloop()
+    
+    
+"""
+PRIVATE METHODS
+"""
 
 
 def __config_root_window(root: tk.Tk):
