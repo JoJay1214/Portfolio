@@ -100,6 +100,7 @@ class ImageWatermarkingApplication(tk.Frame):
         # TEXT WATERMARK -> WATERMARK FONT SETTINGS
         self.__text_watermark_section.watermark_font_settings.set_font_size_scale_cmd(cmd=self.__update_canvas_images)
         self.__text_watermark_section.watermark_font_settings.set_alpha_scale_cmd(cmd=self.__update_canvas_images)
+        self.__text_watermark_section.watermark_font_settings.set_radiobutton_cmd(cmd=self.__update_canvas_images)
 
         # TEXT WATERMARK -> WATERMARK POSITIONING
         self.__text_watermark_section.watermark_positioning.set_x_pos_scale_cmd(cmd=self.__update_canvas_images)
@@ -166,12 +167,16 @@ class ImageWatermarkingApplication(tk.Frame):
             # get image resized
             resized_img = Watermark.resize_image(self.__orig_img, sett.CANVAS_WIDTH, sett.CANVAS_HEIGHT)
 
+            # get RBG and Alpha values
+            rgb = self.__text_watermark_section.watermark_font_settings.get_rgb_value()
+            alpha = self.__text_watermark_section.watermark_font_settings.get_alpha_value()
+
             # get image watermarked and resized
             wm_img = Watermark.watermark_image(
                 image=self.__orig_img,
                 watermark=self.__text_watermark_section.get_watermark_entry_text(),
                 font_size=self.__text_watermark_section.watermark_font_settings.get_font_size_value(),
-                color=(255, 255, 255, self.__text_watermark_section.watermark_font_settings.get_alpha_value()),
+                color=(rgb[0], rgb[1], rgb[2], alpha),
                 pos=(self.__text_watermark_section.watermark_positioning.get_x_pos_value(),
                      self.__text_watermark_section.watermark_positioning.get_y_pos_value()),
             )
@@ -196,13 +201,17 @@ class ImageWatermarkingApplication(tk.Frame):
             if filepath:
                 self.__update_canvas_images()  # update canvas to reflect any final changes to watermark text
 
+                # get RBG and Alpha values
+                rgb = self.__text_watermark_section.watermark_font_settings.get_rgb_value()
+                alpha = self.__text_watermark_section.watermark_font_settings.get_alpha_value()
+
                 # save a watermarked copy of the image to the filepath gotten from the save filedialog
                 Watermark.save_image(
                     Watermark.watermark_image(
                         image=self.__orig_img,
                         watermark=self.__text_watermark_section.get_watermark_entry_text(),
                         font_size=self.__text_watermark_section.watermark_font_settings.get_font_size_value(),
-                        color=(255, 255, 255, self.__text_watermark_section.watermark_font_settings.get_alpha_value()),
+                        color=(rgb[0], rgb[1], rgb[2], alpha),
                         pos=(self.__text_watermark_section.watermark_positioning.get_x_pos_value(),
                              self.__text_watermark_section.watermark_positioning.get_y_pos_value()),
                     ),

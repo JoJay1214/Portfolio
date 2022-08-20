@@ -63,9 +63,6 @@ class WatermarkFontSettingsSection(tk.Frame):
     PUBLIC METHODS
     """
 
-    def sel(self):
-        print("meow")
-
     def get_font_size_value(self):
         """
         Get the value stored in the font size scale
@@ -81,6 +78,17 @@ class WatermarkFontSettingsSection(tk.Frame):
         """
 
         return self.__alpha_scale.get()
+
+    def get_rgb_value(self):
+        """
+        Get the currently selected color from the radio buttons
+        :return: A tuple holding the RGB color value
+        """
+
+        color_text = (self.__current_color.get()).split(", ")
+        color = [int(value) for value in color_text]
+
+        return tuple(color)
 
     def set_font_size_scale_cmd(self, cmd: Callable):
         """
@@ -99,6 +107,20 @@ class WatermarkFontSettingsSection(tk.Frame):
         """
 
         self.__alpha_scale.config(
+            command=cmd,
+        )
+
+    def set_radiobutton_cmd(self, cmd: Callable):
+        """
+        Set the command for when the radio buttons are interacted with
+        :param cmd: The function to call when the radio buttons are interacted with
+        """
+
+        self.__radiobutton_white.config(
+            command=cmd,
+        )
+
+        self.__radiobutton_black.config(
             command=cmd,
         )
 
@@ -128,7 +150,6 @@ class WatermarkFontSettingsSection(tk.Frame):
             text="White",
             value="255, 255, 255",
             variable=self.__current_color,
-            command=self.sel,
             bg=sett.SUBSEC_BG_COLOR,
             font=sett.SEC_CONTENT_FONT,
         )
@@ -137,7 +158,6 @@ class WatermarkFontSettingsSection(tk.Frame):
             text="Black",
             value="0, 0, 0",
             variable=self.__current_color,
-            command=self.sel,
             bg=sett.SUBSEC_BG_COLOR,
             font=sett.SEC_CONTENT_FONT,
         )
