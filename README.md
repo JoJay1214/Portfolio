@@ -4,6 +4,8 @@
 
 ## Project List
 
+##### (*PLEASE NOTE* I am still working on filling this out to better describe each project.)
+
 ### Image Watermarking App
 
 #### This is a desktop application used for watermarking an image with text.
