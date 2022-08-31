@@ -1,6 +1,6 @@
 # Joshua Jacobs' Portfolio
 
-#### This is a compilation of my work that I would like to show off. Each is a Python program I put a lot of hard work into that is meant to demonstrate my skills as a Programmer. Although I put a lot of effort into the logic and organization of all the projects, I would like to note that I consider the TODO List App and the Image Watermarking App to be my finest work.
+#### This is a compilation of the work that I have done that I would like to showcase. Each is a Python program I put a lot of hard work into that is meant to demonstrate my skills as a Programmer. Although I put a lot of effort into the logic and organization of all the projects, I would like to note that I consider the TODO List App and the Image Watermarking App to be my finest work.
 
 ## Project List
 
