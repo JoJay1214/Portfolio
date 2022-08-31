@@ -4,18 +4,18 @@
 
 ## Project List
 
-### TODO List App
-
-#### TKinter based desktop application
-
 ### Image Watermarking App
 
-#### TKinter based desktop application
+#### This is a desktop application used for watermarking an image with text.
+
+### TODO List App
+
+#### This is a desktop application used for organizing a list of tasks that need to be done.
 
 ### Text to Morse Code App
 
-#### TKinter based desktop application
+#### This is a desktop application that translates text to morse code and plays it.
 
 ### Tic Tac Toe App
 
-#### TKinter based desktop application
+#### This is a desktop application of the classic Tic Tac Toe game.
