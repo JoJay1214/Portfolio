@@ -12,7 +12,7 @@
 
 ### TODO List App
 
-#### This is a desktop application used for organizing a list of tasks that need to be done.
+#### My TODO List application is a tool that allows the user to manage a detailed to-do list. Each task requires a title, but optionally can contain a description and deadline. The user can add a new task, as well as select any task in their list and edit or delete a task. The list contents are managed using SQLite and a database, while the GUI is built using TKinter. Although there are a couple very minor bugs I am still working out, I consider this to be my best written and most well structured program.
 
 ### Text to Morse Code App
 
