@@ -8,7 +8,7 @@
 
 ### Image Watermarking App
 
-#### This is a desktop application used for watermarking an image with text.
+#### My Image Watermarking application allows a user to browse for and open an image to be displayed, as both the original and with a text watermark. The features include the ability for the user to type in their own text for the watermark, as well as adjust the font size, font color (black/white), and position of the text used for the watermark. Finally, the user has the ability to save a copy of their watermarked image. The project uses the Python Imaging Library to do all the image manipulation; and the GUI is built up using TKinter. Although I consider the project to be presentable and well written, I will be doing a bit more work on the private interface to better compartmentalize and organize the different GUI components.
 
 ### TODO List App
 
