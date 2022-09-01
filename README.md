@@ -16,8 +16,8 @@
 
 ### Text to Morse Code App
 
-#### This is a desktop application that translates text to morse code and plays it.
+#### My Text to Morse Code application is a simple little gadget that allows the user to input text and it will output the text translated into Morse Code. As well, it will even let the user play their inputted message and the program will output the Dits and Dahs of the Morse Code. The GUI is built using TKinter, while the sounds are played simply using the WinSound library.
 
 ### Tic Tac Toe App
 
-#### This is a desktop application of the classic Tic Tac Toe game.
+#### My Tic Tac Toe application is a fun little desktop app meant for two players. It's a very simple design with the X or O marker being randomly selected at the beginning of each match. After getting three in a row, the game announces a winner and resets in three seconds--ready for a new match. The GUI is built using TKinter, and other than the game logic, there is nothing more to it.
